@@ -1,4 +1,3 @@
-F3
-==
+# F3
 
-Fum From Faces (F3)
+Fun From Faces (F3)
