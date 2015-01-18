@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2014 Luiz Carlos Vieira (http://www.luiz.vieira.nom.br)
+ * Copyright (C) 2015 Luiz Carlos Vieira (http://www.luiz.vieira.nom.br)
  *
- * This file is part of Fun-From-Face (f3).
+ * This file is part of Fun from Faces (f3).
  *
  * f3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,11 +45,6 @@ namespace f3
 		 * Class destructor.
 		 */
 		virtual ~MainWindow();
-
-    private slots:
-        void onExitActionTriggered();
-
-        void on_m_pExitAction_triggered();
 
     private:
 

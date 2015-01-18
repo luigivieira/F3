@@ -1,7 +1,7 @@
 #
-# Copyright (C) 2014 Luiz Carlos Vieira (http://www.luiz.vieira.nom.br)
+# Copyright (C) 2015 Luiz Carlos Vieira (http://www.luiz.vieira.nom.br)
 #
-# This file is part of Fun-From-Face (f3).
+# This file is part of Fun from Faces (f3).
 #
 # f3 is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,8 +36,8 @@ HEADERS += mainwindow.h
 FORMS += mainwindow.ui
 
 win32 {
-	INCLUDEPATH += C:\opencv-2.4.9\opencv\build\include
-	LIBS += -LC:\opencv-2.4.9\opencv\build\x86\vc12\lib
+	INCLUDEPATH += C:\opencv-2.4.10\build\include
+	LIBS += -LC:\opencv-2.4.10\build\x86\vc12\lib
 } else:unix {
 	INCLUDEPATH += /usr/local/include
 	LIBS += -L/usr/local/lib
@@ -58,17 +58,17 @@ CONFIG(debug, debug|release) {
 	LIBS += -lcored
 
 	win32 {
-		LIBS += -lopencv_core249d \
-				-lopencv_imgproc249d \
-				-lopencv_highgui249d \
-				-lopencv_ml249d \
-				-lopencv_video249d \
-				-lopencv_features2d249d \
-				-lopencv_calib3d249d \
-				-lopencv_objdetect249d \
-				-lopencv_contrib249d \
-				-lopencv_legacy249d \
-				-lopencv_flann249d
+		LIBS += -lopencv_core2410d \
+				-lopencv_imgproc2410d \
+				-lopencv_highgui2410d \
+				-lopencv_ml2410d \
+				-lopencv_video2410d \
+				-lopencv_features2d2410d \
+				-lopencv_calib3d2410d \
+				-lopencv_objdetect2410d \
+				-lopencv_contrib2410d \
+				-lopencv_legacy2410d \
+				-lopencv_flann2410d
 	} else:unix {
 		LIBS += -lopencv_core \
 				-lopencv_imgproc \
@@ -96,17 +96,17 @@ CONFIG(debug, debug|release) {
 	LIBS += -lcore
 
 	win32 {
-		LIBS += -lopencv_core249 \
-				-lopencv_imgproc249 \
-				-lopencv_highgui249 \
-				-lopencv_ml249 \
-				-lopencv_video249 \
-				-lopencv_features2d249 \
-				-lopencv_calib3d249 \
-				-lopencv_objdetect249 \
-				-lopencv_contrib249 \
-				-lopencv_legacy249 \
-				-lopencv_flann249
+		LIBS += -lopencv_core2410 \
+				-lopencv_imgproc2410 \
+				-lopencv_highgui2410 \
+				-lopencv_ml2410 \
+				-lopencv_video2410 \
+				-lopencv_features2d2410 \
+				-lopencv_calib3d2410 \
+				-lopencv_objdetect2410 \
+				-lopencv_contrib2410 \
+				-lopencv_legacy2410 \
+				-lopencv_flann2410
 	} else:unix {
 		LIBS += -lopencv_core \
 				-lopencv_imgproc \

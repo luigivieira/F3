@@ -14,54 +14,15 @@
    <string>Face Annotation Tool</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset>
     <normaloff>:/resources/fat.png</normaloff>:/resources/fat.png</iconset>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedKingdom"/>
   </property>
   <widget class="QWidget" name="m_pCentralWidget"/>
-  <widget class="QMenuBar" name="m_pMenuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>600</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="m_pFileMenu">
-    <property name="locale">
-     <locale language="English" country="UnitedKingdom"/>
-    </property>
-    <property name="title">
-     <string>&amp;File</string>
-    </property>
-    <addaction name="m_pExitAction"/>
-   </widget>
-   <addaction name="m_pFileMenu"/>
-  </widget>
-  <widget class="QToolBar" name="m_pToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QStatusBar" name="m_pStatusBar"/>
-  <action name="m_pExitAction">
-   <property name="text">
-    <string>&amp;Exit</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+F4</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
