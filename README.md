@@ -1,6 +1,5 @@
-# F3
+# Fun from Faces (f3)
 
-Fun From Faces (F3)
 
 # Development Tools
 
