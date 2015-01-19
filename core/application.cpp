@@ -66,7 +66,7 @@ f3::F3Application::F3Application(int argc, char* argv[]):
 	if(!m_oLogFile.is_open())
 	{
 		QString sError = QString("Error opening log file: %1").arg(sLogFile);
-		throw exception(qPrintable(sError));
+		throw runtime_error(qPrintable(sError));
 	}
 
 	qInstallMessageHandler(&f3::F3Application::handleLogOutput);
