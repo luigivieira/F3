@@ -18,11 +18,11 @@
  */
 #include "application.h"
 #include <typeinfo>
-#include <QtCore\QtGlobal>
-#include <QtCore\QDateTime>
-#include <QtCore\QFileInfo>
-#include <QtCore\QDebug>
-#include <QtWidgets\QMessageBox>
+#include <QtGlobal>
+#include <QDateTime>
+#include <QFileInfo>
+#include <QDebug>
+#include <QMessageBox>
 #include <iostream>
 
 // Initiate the singleton instance with null
