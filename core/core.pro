@@ -48,7 +48,13 @@ win32 {
 CONFIG(debug, debug|release) {
 
 	TARGET = cored
-	DESTDIR = ../debug
+    
+    win32{
+        DESTDIR = ../debug
+    } else:unix {
+        DESTDIR = /usr/local/lib
+    }
+    
 	OBJECTS_DIR = ../debug/tmp
 	MOC_DIR = ../debug/tmp
 	RCC_DIR = ../debug/tmp
@@ -81,7 +87,13 @@ CONFIG(debug, debug|release) {
 } else {
 
 	TARGET = core
-	DESTDIR = ../release
+
+    win32{
+        DESTDIR = ../release
+    } else:unix {
+        DESTDIR = /usr/local/lib
+    }
+
 	OBJECTS_DIR = ../release/tmp
 	MOC_DIR = ../release/tmp
 	RCC_DIR = ../release/tmp
