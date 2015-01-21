@@ -23,6 +23,7 @@ f3::MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 	ui.setupUi(this);
 	setWindowIcon(QIcon(":/resources/fat.png"));
+	menuBar()->setNativeMenuBar(false);
 }
 
 // +-----------------------------------------------------------
