@@ -21,6 +21,8 @@ QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+DEFINES += CORE_LIBRARY
+
 win32 {
 	TEMPLATE = vclib
 	QMAKE_LFLAGS += /INCREMENTAL:NO
@@ -28,11 +30,12 @@ win32 {
 	TEMPLATE = lib
 }
 
-CONFIG += staticlib
+CONFIG += lib
 
 SOURCES += application.cpp
 
-HEADERS += application.h
+HEADERS += core_global.h \
+           application.h
 
 win32 {
 	INCLUDEPATH += C:\opencv-2.4.10\build\include
@@ -45,11 +48,11 @@ win32 {
 CONFIG(debug, debug|release) {
 
 	TARGET = cored
-	DESTDIR = ./debug
-	OBJECTS_DIR = ./debug/tmp
-	MOC_DIR = ./debug/tmp
-	RCC_DIR = ./debug/tmp
-	UI_DIR = ./debug/tmp
+	DESTDIR = ../debug
+	OBJECTS_DIR = ../debug/tmp
+	MOC_DIR = ../debug/tmp
+	RCC_DIR = ../debug/tmp
+	UI_DIR = ../debug/tmp
 
 	win32.LIBS += -lopencv_core2410d \
 				  -lopencv_imgproc2410d \
@@ -78,11 +81,11 @@ CONFIG(debug, debug|release) {
 } else {
 
 	TARGET = core
-	DESTDIR = ./release
-	OBJECTS_DIR = ./release/tmp
-	MOC_DIR = ./release/tmp
-	RCC_DIR = ./release/tmp
-	UI_DIR = ./release/tmp
+	DESTDIR = ../release
+	OBJECTS_DIR = ../release/tmp
+	MOC_DIR = ../release/tmp
+	RCC_DIR = ../release/tmp
+	UI_DIR = ../release/tmp
 
 	win32.LIBS += -lopencv_core2410 \
 				  -lopencv_imgproc2410 \

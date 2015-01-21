@@ -29,3 +29,39 @@ f3::MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 f3::MainWindow::~MainWindow()
 {
 }
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_action_Exit_triggered()
+{
+	close();
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_action_Open_triggered()
+{
+
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_action_New_triggered()
+{
+
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_action_Save_triggered()
+{
+
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionS_ave_As_triggered()
+{
+
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_action_About_triggered()
+{
+
+}

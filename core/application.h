@@ -23,6 +23,8 @@
 #include <QObject>
 #include <fstream>
 
+#include "core_global.h"
+
 using namespace std;
 
 namespace f3
@@ -33,7 +35,7 @@ namespace f3
      * @author Luiz C. Vieira
      * @version 2.0
 	 */
-	class F3Application: public QApplication
+	class CORE_EXPORT F3Application: public QApplication
 	{
 	private:
 		/** File stream used to log application messages. */
@@ -69,12 +71,12 @@ namespace f3
 		 */
         F3Application(int argc, char* argv[]);
 
-		/**
-		 * Class destructor.
-		 */
-		virtual ~F3Application();
-
 	private:
+		/**
+		 * Close the log file.
+		 */
+		void closeLog();
+
 		/**
 		 * Log and exception message handler for application events.
  		 * @param oType QtMsgType instance with the type of the log event.

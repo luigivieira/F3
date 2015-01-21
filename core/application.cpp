@@ -47,7 +47,7 @@ int f3::F3Application::run()
 		int iRet = m_soInstance->exec();
 		qDebug() << sAppName.c_str() << "ended.";
 
-		delete m_soInstance;
+		m_soInstance->closeLog();
 		return iRet;
 	}
 	else
@@ -73,7 +73,7 @@ f3::F3Application::F3Application(int argc, char* argv[]):
 }
 
 // +-----------------------------------------------------------
-f3::F3Application::~F3Application()
+void f3::F3Application::closeLog()
 {
 	m_oLogFile.flush();
 	m_oLogFile.close();

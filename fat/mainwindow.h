@@ -46,6 +46,37 @@ namespace f3
 		 */
 		virtual ~MainWindow();
 
+    private slots:
+        /**
+         * Trigger of the File Exit action.
+         */
+        void on_action_Exit_triggered();
+
+        /**
+         * Trigger of the File Open action.
+         */
+        void on_action_Open_triggered();
+
+        /**
+         * Trigger of the File New action.
+         */
+        void on_action_New_triggered();
+
+        /**
+         * Trigger of the File Save action.
+         */
+        void on_action_Save_triggered();
+
+        /**
+         * Trigger of the File Save As action.
+         */
+        void on_actionS_ave_As_triggered();
+
+        /**
+         * Trigger of the Help About action.
+         */
+        void on_action_About_triggered();
+
     private:
 
 	private:

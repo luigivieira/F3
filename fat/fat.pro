@@ -43,18 +43,19 @@ win32 {
 	LIBS += -L/usr/local/lib
 }
 
+DEPENDS += ../core
 INCLUDEPATH += ../core
 
 CONFIG(debug, debug|release) {
 
 	TARGET = fatd
-	DESTDIR = ./debug
-	OBJECTS_DIR = ./debug/tmp
-	MOC_DIR = ./debug/tmp
-	RCC_DIR = ./debug/tmp
-	UI_DIR = ./debug/tmp
+	DESTDIR = ../debug
+	OBJECTS_DIR = ../debug/tmp
+	MOC_DIR = ../debug/tmp
+	RCC_DIR = ../debug/tmp
+	UI_DIR = ../debug/tmp
 
-	LIBS += -L$$PWD/../core/debug
+	LIBS += -L../debug
 	LIBS += -lcored
 
 	win32 {
@@ -86,13 +87,13 @@ CONFIG(debug, debug|release) {
 } else {
 
 	TARGET = fat
-	DESTDIR = ./release
-	OBJECTS_DIR = ./release/tmp
-	MOC_DIR = ./release/tmp
-	RCC_DIR = ./release/tmp
-	UI_DIR = ./release/tmp
+	DESTDIR = ../release
+	OBJECTS_DIR = ../release/tmp
+	MOC_DIR = ../release/tmp
+	RCC_DIR = ../release/tmp
+	UI_DIR = ../release/tmp
 
-	LIBS += -L$$PWD/../core/release
+	LIBS += -L../release
 	LIBS += -lcore
 
 	win32 {
