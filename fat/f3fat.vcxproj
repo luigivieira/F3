@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2C4B4687-395E-3DB4-AA1A-655229B5C690}</ProjectGuid>
-    <RootNamespace>fat</RootNamespace>
+    <ProjectGuid>{B26CC895-3C91-3DFD-8973-714E2F6C16AB}</ProjectGuid>
+    <RootNamespace>f3fat</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -23,7 +23,7 @@
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
     <IntermediateDirectory>..\release\tmp\</IntermediateDirectory>
-    <PrimaryOutput>fat</PrimaryOutput>
+    <PrimaryOutput>f3fat</PrimaryOutput>
   </PropertyGroup>
   <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;" Label="Configuration">
     <PlatformToolSet>v110</PlatformToolSet>
@@ -32,7 +32,7 @@
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
     <IntermediateDirectory>..\debug\tmp\</IntermediateDirectory>
-    <PrimaryOutput>fatd</PrimaryOutput>
+    <PrimaryOutput>f3fatd</PrimaryOutput>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -46,12 +46,12 @@
   <PropertyGroup>
     <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\</OutDir>
     <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\</IntDir>
-    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">fat</TargetName>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">f3fat</TargetName>
     <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</IgnoreImportLibrary>
     <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">false</LinkIncremental>
     <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\</OutDir>
     <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\</IntDir>
-    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">fatd</TargetName>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">f3fatd</TargetName>
     <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</IgnoreImportLibrary>
     <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">false</LinkIncremental>
   </PropertyGroup>
@@ -75,14 +75,14 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\qtmain.lib;shell32.lib;core.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_core2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_imgproc2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_highgui2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_ml2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_video2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_features2d2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_calib3d2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_objdetect2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_contrib2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_legacy2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_flann2410.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgets.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Gui.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\qtmain.lib;shell32.lib;f3core.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_core2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_imgproc2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_highgui2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_ml2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_video2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_features2d2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_calib3d2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_objdetect2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_contrib2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_legacy2410.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_flann2410.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgets.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Gui.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib;C:\opencv-2.4.10\build\x86\vc12\lib;..\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
       <LinkIncremental>false</LinkIncremental>
-      <OutputFile>$(OutDir)\fat.exe</OutputFile>
+      <OutputFile>$(OutDir)\f3fat.exe</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -115,14 +115,14 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\qtmaind.lib;shell32.lib;..\debug\cored.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_core2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_imgproc2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_highgui2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_ml2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_video2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_features2d2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_calib3d2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_objdetect2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_contrib2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_legacy2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_flann2410d.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgetsd.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Guid.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\qtmaind.lib;shell32.lib;..\debug\f3cored.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_core2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_imgproc2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_highgui2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_ml2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_video2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_features2d2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_calib3d2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_objdetect2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_contrib2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_legacy2410d.lib;C:\opencv-2.4.10\build\x86\vc12\lib\opencv_flann2410d.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgetsd.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Guid.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib;C:\opencv-2.4.10\build\x86\vc12\lib;..\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
       <LinkIncremental>false</LinkIncremental>
-      <OutputFile>$(OutDir)\fatd.exe</OutputFile>
+      <OutputFile>$(OutDir)\f3fatd.exe</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>

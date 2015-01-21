@@ -45,10 +45,11 @@ win32 {
 
 DEPENDS += ../core
 INCLUDEPATH += ../core
+QMAKE_RPATHDIR += $ORIGIN
 
 CONFIG(debug, debug|release) {
 
-	TARGET = fatd
+	TARGET = f3fatd
 	DESTDIR = ../debug
 	OBJECTS_DIR = ../debug/tmp
 	MOC_DIR = ../debug/tmp
@@ -56,7 +57,7 @@ CONFIG(debug, debug|release) {
 	UI_DIR = ../debug/tmp
 
 	LIBS += -L../debug
-	LIBS += -lcored
+	LIBS += -lf3cored
 
 	win32 {
 		LIBS += -lopencv_core2410d \
@@ -86,7 +87,7 @@ CONFIG(debug, debug|release) {
 
 } else {
 
-	TARGET = fat
+	TARGET = f3fat
 	DESTDIR = ../release
 	OBJECTS_DIR = ../release/tmp
 	MOC_DIR = ../release/tmp
@@ -94,7 +95,7 @@ CONFIG(debug, debug|release) {
 	UI_DIR = ../release/tmp
 
 	LIBS += -L../release
-	LIBS += -lcore
+	LIBS += -lf3core
 
 	win32 {
 		LIBS += -lopencv_core2410 \
