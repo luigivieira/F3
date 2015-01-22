@@ -21,7 +21,7 @@
 
 #include "core_global.h"
 
-#include <opencv2\core\core.hpp>
+#include <opencv2/core/core.hpp>
 
 #include <vector>
 #include <string>
@@ -47,16 +47,16 @@ namespace f3
 
 		/**
 		 * Returns the number of face samples in the dataset.
+		 * @return Integer with the number of face samples in this dataset.
 		 */
-		unsigned int count() const;
+		int count() const;
 
 		/**
 		 * Loads (unserializes) the instance from the given text file in the YAML format
 		 * (YAML Ain't Markup Language - http://en.wikipedia.org/wiki/YAML).
-		 * This method throws the system_error exception indicating an error code
-		 * (http://en.cppreference.com/w/cpp/header/system_error) in case something wrong happens:
-		 *   - errc::io_error: if the file can not be opened or read
-		 *   - errc::no_protocol_option: if there is an error in the expected file format
+		 * This method throws exceptions indicating different errors:
+		 *   - invalid_argument: if the given file does not exist or if it can not be opened or read
+		 *   - runtime_error: if there is an error in the expected file format
 		 * @param sFileName Char pointer with the name of the file to read the data from.
 		 */
 		void loadFromFile(const char* sFileName);
@@ -64,12 +64,11 @@ namespace f3
 		/**
 		 * Gets the face image data (OpenCV Matrix) for the given index. The index must be in
 		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * If the given index is out of this range, the method throws the system_error exception
-		 * indicating the error code errc::invalid_argument (http://en.cppreference.com/w/cpp/header/system_error).
-		 * @param uiIndex Unsigned integer with the index of the image file to load.
+		 * If the given index is out of this range, the method throws the invalid_argument exception.
+		 * @param iIndex Integer with the index of the image file to load.
 		 * @return OpenCV Matrix (cv::Mat) with the image data loaded from the file at the given index.
 		 */
-		cv::Mat getImage(const unsigned int uiIndex) const;
+		cv::Mat getImage(const int iIndex) const;
 
 	private:
 

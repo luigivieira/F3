@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "FaceDataset.h"
+#include "facedataset.h"
 
+#include <stdexcept>
 #include <QDebug>
-
-#include <opencv2\highgui\highgui.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 using namespace std;
 using namespace cv;
@@ -36,7 +36,7 @@ f3::FaceDataset::~FaceDataset()
 }
 
 // +-----------------------------------------------------------
-unsigned int f3::FaceDataset::count() const
+int f3::FaceDataset::count() const
 {
 	return m_vFaceImages.size();
 }
@@ -48,14 +48,14 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     if(!oFS.isOpened())
     {
         qWarning() << "Error opening file " << sFileName << " for reading";
-        throw system_error(make_error_code(errc::io_error), string(sFileName));
+        throw invalid_argument(string(sFileName));
     }
 
     FileNode oNode = oFS["FeaturesSymmetry"];
     if(oNode.type() != FileNode::SEQ)
     {
         qWarning() << "Structural error (field FeaturesSymmetry) in the structure of file " << sFileName;
-		throw system_error(make_error_code(errc::no_protocol_option), string("FeaturesSymmetry"));
+		throw runtime_error(string("FeaturesSymmetry"));
     }
 
     vector<int> vSymmetry;
@@ -66,7 +66,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     if(oNode.type() != FileNode::SEQ)
     {
         qWarning() << "Structural error (field FeaturesConnectivity) in the structure of file " << sFileName;
-        throw system_error(make_error_code(errc::no_protocol_option), string("FeaturesConnectivity"));
+        throw runtime_error(string("FeaturesConnectivity"));
     }
 
     vector<Vec2i> vConnectivity;
@@ -77,7 +77,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     if(oNode.type() != FileNode::SEQ)
     {
         qWarning() << "Structural error (field SampleImages) in the structure of file " << sFileName;
-        throw system_error(make_error_code(errc::no_protocol_option), string("SampleImages"));
+        throw runtime_error(string("SampleImages"));
     }
 
     vector<string> vImages;
@@ -88,10 +88,10 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     if(oNode.type() != FileNode::SEQ)
     {
         qWarning() << "Structural error (field FeaturePoints) in the structure of file " << sFileName;
-        throw system_error(make_error_code(errc::no_protocol_option), string("FeaturePoints"));
+        throw runtime_error(string("FeaturePoints"));
     }
 
-    vector<vector<Point2f>> vPoints;
+    vector< vector<Point2f> > vPoints;
     int i = 0;
     for(FileNodeIterator it = oNode.begin(); it != oNode.end(); ++it, i++)
     {
@@ -100,7 +100,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
         if(oSubNode.type() != FileNode::SEQ)
         {
             qWarning() << "Structural error (field FeaturePoints subnode) in the structure of file " << sFileName;
-            throw system_error(make_error_code(errc::no_protocol_option), string("FeaturePoints (subnode)"));
+            throw runtime_error(string("FeaturePoints (subnode)"));
         }
 
         vector<Point2f> vMarks;
@@ -114,7 +114,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
             if(it2 == oSubNode.end())
             {
                 qWarning() << "Structural error (field FeaturePoints/number of points) in the structure of file " << sFileName;
-                throw system_error(make_error_code(errc::no_protocol_option), string("FeaturePoints (number of points)"));
+                throw runtime_error(string("FeaturePoints (number of points)"));
             }
             y = *it2;
 
@@ -135,10 +135,10 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
 }
 
 // +-----------------------------------------------------------
-Mat f3::FaceDataset::getImage(const unsigned int uiIndex) const
+Mat f3::FaceDataset::getImage(const int iIndex) const
 {
-    if(uiIndex < 0 || uiIndex >= count())
-		throw system_error(make_error_code(errc::invalid_argument), string("out of bounds"));
+    if(iIndex < 0 || iIndex >= count())
+		throw invalid_argument(string("index out of bounds"));
 
-    return imread(m_vFaceImages[uiIndex]);
+    return imread(m_vFaceImages[iIndex]);
 }
