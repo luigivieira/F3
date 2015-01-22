@@ -137,10 +137,21 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="childwindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="childwindow.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">childwindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore childwindow.h -o ..\release\tmp\moc_childwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC childwindow.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\moc_childwindow.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">childwindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore childwindow.h -o ..\debug\tmp\moc_childwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC childwindow.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\moc_childwindow.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
     <CustomBuild Include="mainwindow.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\release\tmp\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
@@ -153,6 +164,12 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\debug\tmp\moc_childwindow.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\release\tmp\moc_childwindow.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\debug\tmp\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
@@ -165,6 +182,12 @@
     <ClCompile Include="..\release\tmp\qrc_resources.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
+    <ClInclude Include="..\debug\tmp\ui_childwindow.h">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\release\tmp\ui_childwindow.h">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\debug\tmp\ui_mainwindow.h">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClInclude>
@@ -173,6 +196,17 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="childwindow.ui">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">childwindow.ui;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe childwindow.ui -o ..\release\tmp\ui_childwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">UIC childwindow.ui</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\ui_childwindow.h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">childwindow.ui;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe childwindow.ui -o ..\debug\tmp\ui_childwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">UIC childwindow.ui</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\ui_childwindow.h;%(Outputs)</Outputs>
+    </CustomBuild>
     <CustomBuild Include="mainwindow.ui">
       <FileType>Document</FileType>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mainwindow.ui;%(AdditionalInputs)</AdditionalInputs>

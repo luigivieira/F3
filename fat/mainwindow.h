@@ -25,6 +25,11 @@
 
 #include "ui_mainwindow.h"
 
+namespace Ui
+{
+    class MainWindow;
+}
+
 namespace f3
 {
     /**

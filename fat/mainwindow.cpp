@@ -17,6 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "mainwindow.h"
+#include "childwindow.h"
 
 // +-----------------------------------------------------------
 f3::MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
@@ -51,7 +52,10 @@ void f3::MainWindow::on_action_Open_triggered()
 // +-----------------------------------------------------------
 void f3::MainWindow::on_action_New_triggered()
 {
-
+	ChildWindow* pChild = new ChildWindow();
+	m_pMdiArea->addSubWindow(pChild);
+    pChild->show();
+	pChild->adjustSize();
 }
 
 // +-----------------------------------------------------------
