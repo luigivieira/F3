@@ -26,6 +26,8 @@
 #include <iostream>
 #include <stdexcept>
 
+using namespace std;
+
 // Initiate the singleton instance with null
 f3::F3Application* f3::F3Application::m_soInstance = NULL;
 

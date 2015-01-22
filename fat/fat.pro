@@ -37,7 +37,7 @@ FORMS += mainwindow.ui
 
 win32 {
 	INCLUDEPATH += C:\opencv-2.4.10\build\include
-	LIBS += -LC:\opencv-2.4.10\build\x86\vc12\lib
+	LIBS += -LC:\opencv-2.4.10\build\x86\vc11\lib
 } else:unix {
 	INCLUDEPATH += /usr/local/include
 	LIBS += -L/usr/local/lib

@@ -21,6 +21,8 @@
 
 #include <QMainWindow>
 #include <QMenu>
+#include <QMdiArea>
+
 #include "ui_mainwindow.h"
 
 namespace f3
@@ -77,11 +79,12 @@ namespace f3
          */
         void on_action_About_triggered();
 
-    private:
-
 	private:
 		/** Instance of the ui for GUI element access. */
 		Ui::MainWindow ui;
+
+		/** The area where MDI children windows are placed. */
+		QMdiArea *m_pMdiArea;
 	};
 }
 

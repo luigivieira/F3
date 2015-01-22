@@ -75,8 +75,8 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgets.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Gui.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\opencv-2.4.10\build\x86\vc12\lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_core2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_imgproc2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_highgui2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_ml2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_video2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_features2d2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_calib3d2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_objdetect2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_contrib2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_legacy2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_flann2410.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgets.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Gui.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\opencv-2.4.10\build\x86\vc11\lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
@@ -115,8 +115,8 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgetsd.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Guid.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\opencv-2.4.10\build\x86\vc12\lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_core2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_imgproc2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_highgui2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_ml2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_video2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_features2d2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_calib3d2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_objdetect2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_contrib2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_legacy2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_flann2410d.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgetsd.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Guid.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\opencv-2.4.10\build\x86\vc11\lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
@@ -138,10 +138,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="facedataset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />
     <ClInclude Include="core_global.h" />
+    <ClInclude Include="facedataset.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

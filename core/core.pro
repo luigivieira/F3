@@ -32,14 +32,16 @@ win32 {
 
 CONFIG += lib
 
-SOURCES += application.cpp
+SOURCES += application.cpp \
+           facedataset.cpp
 
 HEADERS += core_global.h \
-           application.h
+           application.h \
+           facedataset.h
 
 win32 {
 	INCLUDEPATH += C:\opencv-2.4.10\build\include
-	LIBS += -LC:\opencv-2.4.10\build\x86\vc12\lib
+	LIBS += -LC:\opencv-2.4.10\build\x86\vc11\lib
 } else:unix {
 	INCLUDEPATH += /usr/local/include
 	LIBS += -L/usr/local/lib
@@ -54,29 +56,31 @@ CONFIG(debug, debug|release) {
 	RCC_DIR = ../debug/tmp
 	UI_DIR = ../debug/tmp
 
-	win32.LIBS += -lopencv_core2410d \
-				  -lopencv_imgproc2410d \
-				  -lopencv_highgui2410d \
-				  -lopencv_ml2410d \
-				  -lopencv_video2410d \
-				  -lopencv_features2d2410d \
-				  -lopencv_calib3d2410d \
-				  -lopencv_objdetect2410d \
-				  -lopencv_contrib2410d \
-				  -lopencv_legacy2410d \
-				  -lopencv_flann2410d
-
-	unix.LIBS += -lopencv_core \
-				 -lopencv_imgproc \
-				 -lopencv_highgui \
-				 -lopencv_ml \
-				 -lopencv_video \
-				 -lopencv_features2d \
-				 -lopencv_calib3d \
-				 -lopencv_objdetect \
-				 -lopencv_contrib \
-				 -lopencv_legacy \
-				 -lopencv_flann
+    win32 {
+        LIBS += -lopencv_core2410d \
+                -lopencv_imgproc2410d \
+				-lopencv_highgui2410d \
+				-lopencv_ml2410d \
+				-lopencv_video2410d \
+				-lopencv_features2d2410d \
+				-lopencv_calib3d2410d \
+				-lopencv_objdetect2410d \
+				-lopencv_contrib2410d \
+				-lopencv_legacy2410d \
+				-lopencv_flann2410d
+    } else:unix {
+        LIBS += -lopencv_core \
+				-lopencv_imgproc \
+				-lopencv_highgui \
+				-lopencv_ml \
+				-lopencv_video \
+				-lopencv_features2d \
+				-lopencv_calib3d \
+				-lopencv_objdetect \
+				-lopencv_contrib \
+				-lopencv_legacy \
+				-lopencv_flann
+    }
 
 } else {
 
@@ -87,27 +91,29 @@ CONFIG(debug, debug|release) {
 	RCC_DIR = ../release/tmp
 	UI_DIR = ../release/tmp
 
-	win32.LIBS += -lopencv_core2410 \
-				  -lopencv_imgproc2410 \
-				  -lopencv_highgui2410 \
-				  -lopencv_ml2410 \
-				  -lopencv_video2410 \
-				  -lopencv_features2d2410 \
-				  -lopencv_calib3d2410 \
-				  -lopencv_objdetect2410 \
-				  -lopencv_contrib2410 \
-				  -lopencv_legacy2410 \
-				  -lopencv_flann2410
-
-	unix.LIBS += -lopencv_core \
-				 -lopencv_imgproc \
-				 -lopencv_highgui \
-				 -lopencv_ml \
-				 -lopencv_video \
-				 -lopencv_features2d \
-				 -lopencv_calib3d \
-				 -lopencv_objdetect \
-				 -lopencv_contrib \
-				 -lopencv_legacy \
-				 -lopencv_flann
+    win32 {
+        LIBS += -lopencv_core2410 \
+				-lopencv_imgproc2410 \
+				-lopencv_highgui2410 \
+				-lopencv_ml2410 \
+				-lopencv_video2410 \
+				-lopencv_features2d2410 \
+				-lopencv_calib3d2410 \
+				-lopencv_objdetect2410 \
+				-lopencv_contrib2410 \
+				-lopencv_legacy2410 \
+				-lopencv_flann2410
+    } else:unix {
+        LIBS += -lopencv_core \
+				-lopencv_imgproc \
+				-lopencv_highgui \
+				-lopencv_ml \
+				-lopencv_video \
+				-lopencv_features2d \
+				-lopencv_calib3d \
+				-lopencv_objdetect \
+				-lopencv_contrib \
+				-lopencv_legacy \
+				-lopencv_flann    
+    }
 }

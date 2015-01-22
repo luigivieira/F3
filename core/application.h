@@ -25,21 +25,17 @@
 
 #include "core_global.h"
 
-using namespace std;
-
 namespace f3
 {
 	/**
 	 * Custom Qt application class, mainly used to intercept message notifications in the fff project applications.
 	 * Made into a singleton in version 2.0.
-     * @author Luiz C. Vieira
-     * @version 2.0
 	 */
 	class CORE_EXPORT F3Application: public QApplication
 	{
 	private:
 		/** File stream used to log application messages. */
-		ofstream m_oLogFile;
+		std::ofstream m_oLogFile;
 
 		/** Instance for the singleton. */
 		static F3Application* m_soInstance;

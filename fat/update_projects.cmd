@@ -33,5 +33,4 @@
 
 :; qmake -o Makefile fat.pro; exit
 @echo off
-set QMAKESPEC=win32-msvc2012
-qmake fat.pro
+qmake -spec win32-msvc2012 -tp vc

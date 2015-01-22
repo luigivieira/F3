@@ -33,5 +33,4 @@
 
 :; qmake -o Makefile core.pro; exit
 @echo off
-set QMAKESPEC=win32-msvc2012
-qmake core.pro
+qmake -spec win32-msvc2012 -tp vc

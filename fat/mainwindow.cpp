@@ -24,6 +24,11 @@ f3::MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	ui.setupUi(this);
 	setWindowIcon(QIcon(":/resources/fat.png"));
 	menuBar()->setNativeMenuBar(false);
+
+	m_pMdiArea = new QMdiArea(this);
+	m_pMdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_pMdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	setCentralWidget(m_pMdiArea);
 }
 
 // +-----------------------------------------------------------
