@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 #ifndef FACEDATASET_H
 #define FACEDATASET_H
 
@@ -61,6 +62,20 @@ namespace f3
 		 */
 		void loadFromFile(const char* sFileName);
 
+        /**
+         * Saves (serializes) the instance to the given file in the YAML format
+		 * (YAML Ain't Markup Language - http://en.wikipedia.org/wiki/YAML).
+		 * This method throws exceptions indicating different errors:
+		 *   - invalid_argument: if the given file can not be created or opened to write
+         * @param sFileName Char pointer with the name of the file to write the data to.
+         */
+        void saveToFile(const char* sFileName) const;
+
+        /**
+         * @brief Clear the training data.
+         */
+        void clear();
+
 		/**
 		 * Gets the face image data (OpenCV Matrix) for the given index. The index must be in
 		 * the range [0, count - 1], where count is the number of face images in the dataset.
@@ -70,12 +85,34 @@ namespace f3
 		 */
 		cv::Mat getImage(const int iIndex) const;
 
-	private:
+        /**
+         * Adds the given samples to training set.
+         * @param vSamples Vector of strings with the paths of the sample files.
+         * @param vFeatures Vector of cv::Point2f vectors with the feature points for each sample file.
+         */
+        void addSamples(std::vector<std::string> vSamples, std::vector< std::vector<cv::Point2f> > vFeatures);
 
-		/**
-		 * Stores the name of the face image files.
-		 */
+        /**
+         * Gets the name and landmarks' coordinates from the given sample index.
+         * @param iIndex Integer with the index (0-based) of the sample to get.
+         * @param sName Reference to a string to receive the sample file name.
+         * @param vLandmarks Reference to a vector of OpenCV Point2f to receive the sample landmarks.
+         * @return True if data was correctly obtained, false in case of error.
+         */
+        bool getSample(const int iIndex, std::string &sName, std::vector<cv::Point2f> &vLandmarks);
+
+	private:
+		/** Names of the face image files. */
 		std::vector<std::string> m_vFaceImages;
+
+        /** Information about the symmetry of facial features. */
+        std::vector<int> m_vFeatureSymmetry;
+
+        /** Information about the connectivity between the facial features. */
+        std::vector<cv::Vec2i> m_vFeatureConnectivity;
+
+        /** 2D coordinates of the facial features in each image sample. */
+        std::vector< std::vector<cv::Point2f> > m_vFeaturePoints;
 	};
 
 }

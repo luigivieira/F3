@@ -30,13 +30,16 @@ win32 {
 
 SOURCES += main.cpp \
            mainwindow.cpp \
-           childwindow.cpp
-
+           childwindow.cpp \
+           aboutwindow.cpp
+           
 HEADERS += mainwindow.h \
-           childwindow.h
+           childwindow.h \
+           aboutwindow.h
 
 FORMS += mainwindow.ui \
-         childwindow.ui
+         childwindow.ui \
+         aboutwindow.ui
 
 win32 {
 	INCLUDEPATH += C:\opencv-2.4.10\build\include

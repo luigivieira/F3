@@ -16,62 +16,127 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "aboutwindow.h"
 #include "childwindow.h"
+#include "utils.h"
+
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+#include <vector>
+
+#include <QApplication>
+#include <QImage>
+#include <QFileDialog>
+#include <QDesktopServices>
+
+using namespace cv;
+using namespace std;
 
 // +-----------------------------------------------------------
-f3::MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+f3::MainWindow::MainWindow(QWidget *pParent) :
+    QMainWindow(pParent),
+    ui(new Ui::MainWindow)
 {
-	ui.setupUi(this);
-	setWindowIcon(QIcon(":/resources/fat.png"));
-	menuBar()->setNativeMenuBar(false);
+    ui->setupUi(this);
+    setWindowState(Qt::WindowMaximized);
+    m_pAbout = NULL;
 
-	m_pMdiArea = new QMdiArea(this);
-	m_pMdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    m_pMdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	setCentralWidget(m_pMdiArea);
+    setWindowIcon(QIcon(":/icons/fat"));
 }
 
 // +-----------------------------------------------------------
 f3::MainWindow::~MainWindow()
 {
+    if(!m_pAbout)
+        delete m_pAbout;
+    delete ui;
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_action_Exit_triggered()
+void f3::MainWindow::on_actionNew_triggered()
 {
-	close();
+    ChildWindow *pChild = new ChildWindow(this);
+
+	QString sDocPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
+	pChild->setWindowTitle("");
+	pChild->setWindowFilePath(QString(tr("%1novo banco de faces anotadas.afd")).arg(sDocPath));
+	pChild->setWindowModified(true);
+	pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
+
+	ui->tabWidget->addTab(pChild, pChild->windowIcon(), pChild->windowTitle());
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_action_Open_triggered()
+void f3::MainWindow::on_actionOpen_triggered()
 {
+	QString sDocPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
 
+    QString sFile = QFileDialog::getOpenFileName(this, tr("Abrir banco de faces anotadas..."), sDocPath, tr("Arquivos de Banco de Faces Anotadas (*.afd);; Todos os arquivos (*.*)"));
+    if(sFile.length())
+	{
+		sFile = QDir::toNativeSeparators(sFile);
+		int iPage = getFilePageIndex(sFile);
+		if(iPage != -1)
+		{
+			ui->tabWidget->setCurrentIndex(iPage);
+			showStatusMessage(QString(tr("O arquivo [%1] já está aberto no editor")).arg(Utils::shortenPath(sFile)));
+		}
+		else
+		{
+			ChildWindow *pChild = new ChildWindow(this);
+
+			QString sDocPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
+			pChild->setWindowTitle("");
+			pChild->setWindowFilePath(sFile);
+			pChild->setWindowModified(false);
+			pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
+
+			int iPage = ui->tabWidget->addTab(pChild, pChild->windowIcon(), pChild->windowTitle());
+			ui->tabWidget->setTabToolTip(iPage, sFile);
+		}
+	}
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_action_New_triggered()
+void f3::MainWindow::on_actionExit_triggered()
 {
-	ChildWindow* pChild = new ChildWindow();
-	m_pMdiArea->addSubWindow(pChild);
-    pChild->show();
-	pChild->adjustSize();
+    QApplication::exit(0);
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_action_Save_triggered()
+void f3::MainWindow::on_actionProject_triggered()
 {
-
+	QDesktopServices::openUrl(QUrl("https://github.com/luigivieira/F3"));
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_actionS_ave_As_triggered()
+void f3::MainWindow::on_actionAbout_triggered()
 {
-
+	(new AboutWindow(this))->show();
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_action_About_triggered()
+void f3::MainWindow::showStatusMessage(const QString &sMsg, int iTimeout)
 {
+	ui->statusBar->showMessage(sMsg, iTimeout);
+}
 
+// +-----------------------------------------------------------
+int f3::MainWindow::getFilePageIndex(const QString &sFile)
+{
+	int iRet = -1;
+	for(int iPage = 0; iPage < ui->tabWidget->count(); iPage++)
+	{
+		ChildWindow* pChild = (ChildWindow*) ui->tabWidget->widget(iPage);
+		if(pChild->windowFilePath() == sFile)
+		{
+			iRet = iPage;
+			break;
+		}
+	}
+	return iRet;
 }

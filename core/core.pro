@@ -33,11 +33,13 @@ win32 {
 CONFIG += lib
 
 SOURCES += application.cpp \
-           facedataset.cpp
+           facedataset.cpp \
+           utils.cpp
 
 HEADERS += core_global.h \
            application.h \
-           facedataset.h
+           facedataset.h \
+           utils.h
 
 win32 {
 	INCLUDEPATH += C:\opencv-2.4.10\build\include

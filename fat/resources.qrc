@@ -1,5 +1,11 @@
 <RCC>
-    <qresource prefix="/">
-        <file>Resources/fat.png</file>
+    <qresource prefix="/icons">
+        <file alias="fat">resources/icons/fat.png</file>
+        <file alias="new">resources/icons/new.png</file>
+        <file alias="open">resources/icons/open.png</file>
+        <file alias="save">resources/icons/save.png</file>
+        <file alias="saveas">resources/icons/saveas.png</file>
+        <file alias="help">resources/icons/help.png</file>
+        <file alias="face-dataset">resources/icons/face-dataset.png</file>
     </qresource>
 </RCC>

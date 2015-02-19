@@ -6,93 +6,224 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>845</width>
+    <height>448</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Face Annotation Tool</string>
+   <string>Ferramenta de Anotação de Faces</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>:/resources/fat.png</normaloff>:/resources/fat.png</iconset>
+  <property name="autoFillBackground">
+   <bool>false</bool>
   </property>
-  <property name="locale">
-   <locale language="English" country="UnitedKingdom"/>
-  </property>
-  <widget class="QWidget" name="m_pCentralWidget"/>
-  <widget class="QMenuBar" name="m_pMenuBar">
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Triangular</enum>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideNone</enum>
+      </property>
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <property name="tabBarAutoHide">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>845</width>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_File">
+   <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>&amp;File</string>
+     <string>&amp;Arquivo</string>
     </property>
-    <addaction name="action_New"/>
+    <addaction name="actionNew"/>
     <addaction name="separator"/>
-    <addaction name="action_Open"/>
-    <addaction name="action_Save"/>
-    <addaction name="actionS_ave_As"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSaveAs"/>
     <addaction name="separator"/>
-    <addaction name="action_Exit"/>
+    <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menu_Help">
+   <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>&amp;Help</string>
+     <string>A&amp;juda</string>
     </property>
-    <addaction name="action_About"/>
+    <addaction name="actionProject"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
    </widget>
-   <addaction name="menu_File"/>
-   <addaction name="menu_Help"/>
+   <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="m_pStatusBar"/>
-  <action name="action_Open">
+  <widget class="QToolBar" name="fileToolBar">
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew"/>
+   <addaction name="separator"/>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="helpToolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionProject"/>
+  </widget>
+  <action name="actionExit">
    <property name="text">
-    <string>&amp;Open...</string>
+    <string>Sai&amp;r</string>
+   </property>
+   <property name="toolTip">
+    <string>Encerra o programa</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>&amp;Sobre...</string>
+   </property>
+   <property name="toolTip">
+    <string>Exibe informações sobre este programa de computador</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/open</normaloff>:/icons/open</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Abrir...</string>
+   </property>
+   <property name="toolTip">
+    <string>Carrega um banco de faces anotadas de um arquivo existente no disco</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+O</string>
+    <string>Ctrl+A</string>
    </property>
   </action>
-  <action name="action_New">
+  <action name="actionNew">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/new</normaloff>:/icons/new</iconset>
+   </property>
    <property name="text">
-    <string>&amp;New</string>
+    <string>&amp;Novo</string>
+   </property>
+   <property name="toolTip">
+    <string>Cria um novo banco de faces anotadas</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="action_Save">
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/save</normaloff>:/icons/save</iconset>
+   </property>
    <property name="text">
-    <string>&amp;Save</string>
+    <string>&amp;Salvar</string>
+   </property>
+   <property name="toolTip">
+    <string>Grava as alterações no banco de faces anotadas selecionado para o arquivo existente no disco</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionS_ave_As">
+  <action name="actionSaveAs">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/saveas</normaloff>:/icons/saveas</iconset>
+   </property>
    <property name="text">
-    <string>S&amp;ave As...</string>
+    <string>Salvar &amp;como...</string>
+   </property>
+   <property name="toolTip">
+    <string>Grava as alterações no banco de faces anotadas selecionado para um novo arquivo em disco</string>
    </property>
   </action>
-  <action name="action_Exit">
+  <action name="actionProject">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/help</normaloff>:/icons/help</iconset>
+   </property>
    <property name="text">
-    <string>&amp;Exit</string>
+    <string>&amp;Documentação do projeto</string>
+   </property>
+   <property name="toolTip">
+    <string>Exibe a página do projeto no Github</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Q</string>
-   </property>
-  </action>
-  <action name="action_About">
-   <property name="text">
-    <string>&amp;About...</string>
+    <string>F1</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

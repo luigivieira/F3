@@ -17,42 +17,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CHILDWINDOW_H
-#define CHILDWINDOW_H
+#include "aboutwindow.h"
+#include "ui_aboutwindow.h"
 
-#include "ui_childwindow.h"
-
-#include <QtGui>
-#include <QWidget>
-#include <QMdiSubWindow>
-#include <QSize>
-#include <QScrollArea>
-
-namespace Ui
+// +-----------------------------------------------------------
+f3::AboutWindow::AboutWindow(QWidget *pParent) : QDialog(pParent), ui(new Ui::AboutWindow)
 {
-    class ChildWindow;
+    ui->setupUi(this);
+	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	setFixedSize(width(), height());
 }
 
-namespace f3
+// +-----------------------------------------------------------
+f3::AboutWindow::~AboutWindow()
 {
-	/**
-	 * MDI-child window class used to display and edit the face annotation datasets.
-	 */
-	class ChildWindow : public QScrollArea
-	{
-		Q_OBJECT
-
-	public:
-		/**
-		 * Class constructor.
-		 * @param pParent Instance of the widget that will be the parent of this window.
-		 */
-		explicit ChildWindow(QWidget* pParent = 0);
-
-	private:
-		/** Instance of the ui for GUI element access. */
-		Ui::ChildWindow *ui;
-	};
+    delete ui;
 }
-
-#endif // CHILDWINDOW_H

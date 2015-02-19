@@ -127,12 +127,62 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
         vPoints.push_back(vMarks);
     }
 
-    //clear();
-    //m_vFeatureSymmetry = vSymmetry;
-    //m_vFeatureConnectivity = vConnectivity;
+    clear();
+    m_vFeatureSymmetry = vSymmetry;
+    m_vFeatureConnectivity = vConnectivity;
     m_vFaceImages = vImages;
-    //m_vFeaturePoints = vPoints;
+    m_vFeaturePoints = vPoints;
 }
+
+// +-----------------------------------------------------------
+void f3::FaceDataset::saveToFile(const char* sFileName) const
+{
+    FileStorage oFS(sFileName, FileStorage::WRITE);
+    if(!oFS.isOpened())
+    {
+        qWarning() << "Error creating file " << sFileName;
+        throw invalid_argument(string(sFileName));
+    }
+
+    oFS << "FeaturesSymmetry" << "[:";
+    for(unsigned int i = 0; i < m_vFeatureSymmetry.size(); i++)
+        oFS << m_vFeatureSymmetry[i];
+    oFS << "]";
+
+    oFS << "FeaturesConnectivity" << "[:";
+    for(unsigned int i = 0; i < m_vFeatureConnectivity.size(); i++)
+        oFS << m_vFeatureConnectivity[i];
+    oFS << "]";
+
+    oFS << "SampleImages" << "[";
+    for(unsigned int i = 0; i < m_vFaceImages.size(); i++)
+        oFS << m_vFaceImages[i];
+    oFS << "]";
+
+    oFS << "FeaturePoints" << "[";
+    for(unsigned int i = 0; i < m_vFeaturePoints.size(); i++)
+    {
+        oFS << "[:";
+        for(unsigned int j = 0; j < m_vFeaturePoints[i].size(); j++)
+        {
+            Point2f oPoint = m_vFeaturePoints[i][j];
+            oFS << oPoint.x;
+            oFS << oPoint.y;
+        }
+        oFS << "]";
+    }
+    oFS << "]";
+}
+
+// +-----------------------------------------------------------
+void f3::FaceDataset::clear()
+{
+    m_vFeatureSymmetry.clear();
+    m_vFeatureConnectivity.clear();
+    m_vFaceImages.clear();
+    m_vFeaturePoints.clear();
+}
+
 
 // +-----------------------------------------------------------
 Mat f3::FaceDataset::getImage(const int iIndex) const
@@ -141,4 +191,23 @@ Mat f3::FaceDataset::getImage(const int iIndex) const
 		throw invalid_argument(string("index out of bounds"));
 
     return imread(m_vFaceImages[iIndex]);
+}
+
+// +-----------------------------------------------------------
+void f3::FaceDataset::addSamples(vector<string> vSamples, vector< vector<Point2f> > vFeatures)
+{
+    m_vFaceImages.insert(m_vFaceImages.end(), vSamples.begin(), vSamples.end());
+    m_vFeaturePoints.insert(m_vFeaturePoints.end(), vFeatures.begin(), vFeatures.end());
+}
+
+// +-----------------------------------------------------------
+bool f3::FaceDataset::getSample(const int iIndex, string &sName, vector<Point2f> &vLandmarks)
+{
+    if(iIndex < 0 || iIndex >= (int) m_vFaceImages.size())
+        return false;
+
+    sName = m_vFaceImages[iIndex];
+    vLandmarks = m_vFeaturePoints[iIndex];
+
+    return true;
 }

@@ -21,10 +21,9 @@
 
 // +-----------------------------------------------------------
 f3::ChildWindow::ChildWindow(QWidget* pParent) :
-    QScrollArea(pParent)
+    QScrollArea(pParent),
+	ui(new Ui::ChildWindow)
 {
-    ui.setupUi(this);
+    ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
 }
-
-// +-----------------------------------------------------------

@@ -16,81 +16,91 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMenu>
-#include <QMdiArea>
+#include "aboutwindow.h"
 
-#include "ui_mainwindow.h"
-
-namespace Ui
-{
+namespace Ui {
     class MainWindow;
 }
 
 namespace f3
 {
     /**
-     * Main application window.
-     * @author Luiz C. Vieira
-     * @version 1.0
+     * Main GUI window class.
      */
-	class MainWindow : public QMainWindow
-	{
-		Q_OBJECT
+    class MainWindow : public QMainWindow
+    {
+        Q_OBJECT
 
-	public:
-		/**
- 		 * Class constructor.
-		 * @param pParent QWidget with the window parent.
-		 */
-		explicit MainWindow(QWidget* pParent = 0);
+    public:
+        /**
+         * Class constructor.
+         * @param pParent QWidget with the window parent.
+         */
+        explicit MainWindow(QWidget *pParent = 0);
+
+        /**
+         * Class destructor.
+         */
+        virtual ~MainWindow();
 
 		/**
-		 * Class destructor.
+		 * Displays a text message in the main window status bar.
+		 * @param sMsg QString with the message to be displayed.
+		 * @param iTimeout Integer with the number of miliseconds
+		 * by which the message will be displayed. The default is 5000
+		 * (i.e. 5 seconds).
 		 */
-		virtual ~MainWindow();
+		void showStatusMessage(const QString &sMsg, int iTimeout = 5000);
+
+	protected:
+
+		/**
+		 * Gets the page index of the file if already opened in the editor.
+		 * @param sFile QString with the complete file name (path + name) of the file to be searched.
+		 * @return Integer with the index (in range [0,...]) of the page where the file is opened
+		 * or -1 if the file is not already opened in the editor.
+		 */
+		int getFilePageIndex(const QString &sFile);
 
     private slots:
-        /**
-         * Trigger of the File Exit action.
-         */
-        void on_action_Exit_triggered();
+		/**
+		 * Slot for the menu New trigger event.
+		 */ 
+		void on_actionNew_triggered();
+
+		/**
+		 * Slot for the menu Open trigger event.
+		 */ 
+		void on_actionOpen_triggered();
 
         /**
-         * Trigger of the File Open action.
+         * Slot for the menu Exit trigger event.
          */
-        void on_action_Open_triggered();
+        void on_actionExit_triggered();
 
         /**
-         * Trigger of the File New action.
+         * Slot for the menu Project trigger event.
          */
-        void on_action_New_triggered();
+        void on_actionProject_triggered();
 
         /**
-         * Trigger of the File Save action.
+         * Slot for the menu About trigger event.
          */
-        void on_action_Save_triggered();
+        void on_actionAbout_triggered();
 
-        /**
-         * Trigger of the File Save As action.
-         */
-        void on_actionS_ave_As_triggered();
+    private:
+        /** Instance of the ui for GUI element access. */
+        Ui::MainWindow *ui;
 
-        /**
-         * Trigger of the Help About action.
-         */
-        void on_action_About_triggered();
+        /** Instance of the about dialog box. */
+        AboutWindow* m_pAbout;
+    };
 
-	private:
-		/** Instance of the ui for GUI element access. */
-		Ui::MainWindow ui;
-
-		/** The area where MDI children windows are placed. */
-		QMdiArea *m_pMdiArea;
-	};
 }
 
 #endif // MAINWINDOW_H
