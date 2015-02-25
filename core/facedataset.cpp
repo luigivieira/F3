@@ -19,7 +19,12 @@
 #include "facedataset.h"
 
 #include <stdexcept>
+
 #include <QDebug>
+#include <QFileInfo>
+#include <QApplication>
+#include <QPixmap>
+
 #include <opencv2/highgui/highgui.hpp>
 
 using namespace std;
@@ -36,7 +41,7 @@ f3::FaceDataset::~FaceDataset()
 }
 
 // +-----------------------------------------------------------
-int f3::FaceDataset::count() const
+int f3::FaceDataset::size() const
 {
 	return m_vFaceImages.size();
 }
@@ -47,15 +52,17 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     FileStorage oFS(sFileName, FileStorage::READ);
     if(!oFS.isOpened())
     {
-        qWarning() << "Error opening file " << sFileName << " for reading";
-        throw invalid_argument(string(sFileName));
+		QString sMsg = QString(QApplication::translate("FaceDataset", "Não foi possível abrir o arquivo [%1] para leitura")).arg(sFileName);
+        qWarning() << sMsg;
+		throw invalid_argument(sMsg.toStdString());
     }
 
     FileNode oNode = oFS["FeaturesSymmetry"];
     if(oNode.type() != FileNode::SEQ)
     {
-        qWarning() << "Structural error (field FeaturesSymmetry) in the structure of file " << sFileName;
-		throw runtime_error(string("FeaturesSymmetry"));
+		QString sMsg = QString(QApplication::translate("FaceDataset", "Há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturesSymmetry", sFileName);
+        qWarning() << sMsg;
+		throw runtime_error(sMsg.toStdString());
     }
 
     vector<int> vSymmetry;
@@ -65,8 +72,9 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     oNode = oFS["FeaturesConnectivity"];
     if(oNode.type() != FileNode::SEQ)
     {
-        qWarning() << "Structural error (field FeaturesConnectivity) in the structure of file " << sFileName;
-        throw runtime_error(string("FeaturesConnectivity"));
+		QString sMsg = QString(QApplication::translate("FaceDataset", "Há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturesConnectivity", sFileName);
+        qWarning() << sMsg;
+		throw runtime_error(sMsg.toStdString());
     }
 
     vector<Vec2i> vConnectivity;
@@ -76,8 +84,9 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     oNode = oFS["SampleImages"];
     if(oNode.type() != FileNode::SEQ)
     {
-        qWarning() << "Structural error (field SampleImages) in the structure of file " << sFileName;
-        throw runtime_error(string("SampleImages"));
+		QString sMsg = QString(QApplication::translate("FaceDataset", "Há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("SampleImages", sFileName);
+        qWarning() << sMsg;
+		throw runtime_error(sMsg.toStdString());
     }
 
     vector<string> vImages;
@@ -87,8 +96,9 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     oNode = oFS["FeaturePoints"];
     if(oNode.type() != FileNode::SEQ)
     {
-        qWarning() << "Structural error (field FeaturePoints) in the structure of file " << sFileName;
-        throw runtime_error(string("FeaturePoints"));
+		QString sMsg = QString(QApplication::translate("FaceDataset", "Há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints", sFileName);
+        qWarning() << sMsg;
+		throw runtime_error(sMsg.toStdString());
     }
 
     vector< vector<Point2f> > vPoints;
@@ -99,8 +109,9 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
 
         if(oSubNode.type() != FileNode::SEQ)
         {
-            qWarning() << "Structural error (field FeaturePoints subnode) in the structure of file " << sFileName;
-            throw runtime_error(string("FeaturePoints (subnode)"));
+			QString sMsg = QString(QApplication::translate("FaceDataset", "Há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints/subnode", sFileName);
+            qWarning() << sMsg;
+			throw runtime_error(sMsg.toStdString());
         }
 
         vector<Point2f> vMarks;
@@ -113,8 +124,9 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
             ++it2;
             if(it2 == oSubNode.end())
             {
-                qWarning() << "Structural error (field FeaturePoints/number of points) in the structure of file " << sFileName;
-                throw runtime_error(string("FeaturePoints (number of points)"));
+				QString sMsg = QString(QApplication::translate("FaceDataset", "Há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints/points", sFileName);
+                qWarning() << sMsg;
+				throw runtime_error(sMsg.toStdString());
             }
             y = *it2;
 
@@ -140,8 +152,9 @@ void f3::FaceDataset::saveToFile(const char* sFileName) const
     FileStorage oFS(sFileName, FileStorage::WRITE);
     if(!oFS.isOpened())
     {
-        qWarning() << "Error creating file " << sFileName;
-        throw invalid_argument(string(sFileName));
+		QString sMsg = QString(QApplication::translate("FaceDataset", "Não foi possível escrever no arquivo [%1]")).arg(sFileName);
+        qWarning() << sMsg;
+		throw invalid_argument(sMsg.toStdString());
     }
 
     oFS << "FeaturesSymmetry" << "[:";
@@ -177,23 +190,84 @@ void f3::FaceDataset::saveToFile(const char* sFileName) const
 // +-----------------------------------------------------------
 void f3::FaceDataset::clear()
 {
-    m_vFeatureSymmetry.clear();
-    m_vFeatureConnectivity.clear();
     m_vFaceImages.clear();
     m_vFeaturePoints.clear();
+	m_vEmotionLabels.clear();
+
+    m_vFeatureSymmetry.clear();
+    m_vFeatureConnectivity.clear();
 }
 
 
 // +-----------------------------------------------------------
-Mat f3::FaceDataset::getImage(const int iIndex) const
+Mat f3::FaceDataset::getImageMat(const int iIndex) const
 {
-    if(iIndex < 0 || iIndex >= count())
-		throw invalid_argument(string("index out of bounds"));
+    if(iIndex < 0 || iIndex >= size())
+	{
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O índice [%1] está fora do intervalo de imagens existentes")).arg(iIndex);
+		qWarning() << sMsg;
+		throw invalid_argument(sMsg.toStdString());
+	}
 
     return imread(m_vFaceImages[iIndex]);
 }
 
 // +-----------------------------------------------------------
+QImage f3::FaceDataset::getImage(const int iIndex) const
+{
+    if(iIndex < 0 || iIndex >= size())
+	{
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O índice [%1] está fora do intervalo de imagens existentes")).arg(iIndex);
+		qWarning() << sMsg;
+		throw invalid_argument(sMsg.toStdString());
+	}
+
+	QImage oImage;
+	oImage.load(QString().fromStdString(m_vFaceImages[iIndex]));
+    return oImage;
+}
+
+// +-----------------------------------------------------------
+QString f3::FaceDataset::getImageFile(const int iIndex) const
+{
+    if(iIndex < 0 || iIndex >= size())
+	{
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O índice [%1] está fora do intervalo de imagens existentes")).arg(iIndex);
+		qWarning() << sMsg;
+		throw invalid_argument(sMsg.toStdString());
+	}
+
+	return QString().fromStdString(m_vFaceImages[iIndex]);
+}
+
+// +-----------------------------------------------------------
+void f3::FaceDataset::addImage(const char *sFileName)
+{
+	QFileInfo oFile(sFileName);
+	if(!oFile.exists())
+    {
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O arquivo [%1] não pode ser adicionado porque ele não existe")).arg(sFileName);
+        qWarning() << sMsg;
+		throw invalid_argument(sMsg.toStdString());
+    }
+
+	if(find(m_vFaceImages.begin(), m_vFaceImages.end(), string(sFileName)) != m_vFaceImages.end())
+	{
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O arquivo [%1] já existe no banco de faces anotadas")).arg(sFileName);
+        qWarning() << sMsg;
+		throw runtime_error(sMsg.toStdString());
+	}
+
+	// All samples have 68 landmarks
+	vector<Point2f> vDefault;
+	vDefault.insert(vDefault.begin(), 68, Point2f(0, 0));
+	
+	m_vFaceImages.push_back(sFileName);
+	m_vFeaturePoints.push_back(vDefault);
+	m_vEmotionLabels.push_back(EmotionLabel::UNDEFINED);
+}
+
+/*// +-----------------------------------------------------------
 void f3::FaceDataset::addSamples(vector<string> vSamples, vector< vector<Point2f> > vFeatures)
 {
     m_vFaceImages.insert(m_vFaceImages.end(), vSamples.begin(), vSamples.end());
@@ -210,4 +284,4 @@ bool f3::FaceDataset::getSample(const int iIndex, string &sName, vector<Point2f>
     vLandmarks = m_vFeaturePoints[iIndex];
 
     return true;
-}
+}*/

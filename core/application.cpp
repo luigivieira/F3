@@ -67,7 +67,7 @@ f3::F3Application::F3Application(int argc, char* argv[]):
 	m_oLogFile.open(qPrintable(sLogFile), ios::app);
 	if(!m_oLogFile.is_open())
 	{
-		QString sError = QString("Error opening log file: %1").arg(sLogFile);
+		QString sError = QString("Error opening log file [%1] for writing").arg(sLogFile);
 		throw runtime_error(qPrintable(sError));
 	}
 

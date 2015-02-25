@@ -7,5 +7,12 @@
         <file alias="saveas">resources/icons/saveas.png</file>
         <file alias="help">resources/icons/help.png</file>
         <file alias="face-dataset">resources/icons/face-dataset.png</file>
+        <file alias="addimage">resources/icons/addimage.png</file>
+        <file alias="removeimage">resources/icons/removeimage.png</file>
+        <file alias="viewdetails">resources/icons/viewdetails.png</file>
+        <file alias="viewicons">resources/icons/viewicons.png</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file alias="noface">resources/images/noface.png</file>
     </qresource>
 </RCC>

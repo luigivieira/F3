@@ -21,12 +21,13 @@
 #define CHILDWINDOW_H
 
 #include "ui_childwindow.h"
+#include "facedataset.h"
+#include "facedatasetmodel.h"
 
 #include <QtGui>
 #include <QWidget>
-#include <QMdiSubWindow>
-#include <QSize>
 #include <QScrollArea>
+#include <QLabel>
 
 namespace Ui
 {
@@ -38,7 +39,7 @@ namespace f3
 	/**
 	 * MDI-child window class used to display and edit the face annotation datasets.
 	 */
-	class ChildWindow : public QScrollArea
+	class ChildWindow : public QWidget
 	{
 		Q_OBJECT
 
@@ -49,9 +50,31 @@ namespace f3
 		 */
 		explicit ChildWindow(QWidget* pParent = 0);
 
+		/**
+		 * Class destructor.
+		 */
+		virtual ~ChildWindow();
+
+		/**
+		 * Add the given images to the face annotation dataset.
+		 * @param lsFiles QStringList with the list of files (including paths) to be added.
+		 */
+		void addImages(const QStringList &lsFiles);
+
+		QAbstractListModel* getModel() const;
+
 	private:
 		/** Instance of the ui for GUI element access. */
 		Ui::ChildWindow *ui;
+
+		/** Index of the image currently being displayed. */
+		int m_iCurrentImage;
+
+		/** Instance of the face dataset control class used to handle the annotation operations. */
+		FaceDataset *m_pFaceDataset;
+
+		/** Instance of the model used to encapsulate the access of Qt view components such as QListView. */
+		FaceDatasetModel *m_pFaceDatasetModel;
 	};
 }
 

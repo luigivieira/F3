@@ -67,6 +67,12 @@ namespace f3
 		 */
 		int getFilePageIndex(const QString &sFile);
 
+		/**
+		 * Updates all the user interface components according to the current state of the application
+		 * (i.e. disables action buttons when there is no opened face annotation dataset, etc).
+		 */
+		void updateUI();
+
     private slots:
 		/**
 		 * Slot for the menu New trigger event.
@@ -93,12 +99,37 @@ namespace f3
          */
         void on_actionAbout_triggered();
 
+		/**
+		 * Slot for the tab (child window) closing request (by clicking in the close button).
+		 * @param iTabIndex Integer with the index of the tab requested to close.
+		 */
+		void on_tabCloseRequested(int iTabIndex);
+
+		/**
+		 * Slot for the tab (child window) change event (when a new tab is selected).
+		 * @param iTabIndex Integer with the index of the tab now selected.
+		 */
+		void on_tabChanged(int iTabIndex);
+
+		/**
+		 * Slot for the button Add Image trigger event.
+		 */
+		void on_actionAddImage_triggered();
+
+		void setImageListView(QString sType);
+
     private:
         /** Instance of the ui for GUI element access. */
         Ui::MainWindow *ui;
 
         /** Instance of the about dialog box. */
         AboutWindow* m_pAbout;
+
+		/** Standard path to read from/write to documents in the native OS. */
+		QString m_sDocumentsPath;
+
+		/** Instance of a dropdown button for the view mode of the image list. */
+		QMenu *m_pViewButton;
     };
 
 }

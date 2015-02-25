@@ -32,6 +32,8 @@
 #include <QImage>
 #include <QFileDialog>
 #include <QDesktopServices>
+#include <QAction>
+#include <QListView>
 
 using namespace cv;
 using namespace std;
@@ -46,6 +48,37 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
     m_pAbout = NULL;
 
     setWindowIcon(QIcon(":/icons/fat"));
+	ui->tabWidget->setAutoFillBackground(true);
+	ui->tabWidget->setBackgroundRole(QPalette::Midlight);
+
+	connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(on_tabCloseRequested(int)));
+	connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(on_tabChanged(int)));
+
+	m_sDocumentsPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
+
+	// Add the view dropdown button manually (because Qt designer does not allow it...)
+	m_pViewButton = new QMenu(ui->imagesToolbar);
+	ui->imagesToolbar->addSeparator();
+	ui->imagesToolbar->addAction(m_pViewButton->menuAction());
+
+	QAction *pViewDetails = new QAction(QIcon(":/icons/viewdetails"), tr("Detalhes"), this);
+	m_pViewButton->addAction(pViewDetails);
+	QAction *pViewIcons = new QAction(QIcon(":/icons/viewicons"), tr("Ícones"), this);
+	m_pViewButton->addAction(pViewIcons);
+
+	QSignalMapper *pMap = new QSignalMapper(ui->imagesToolbar);
+	connect(pViewDetails, SIGNAL(triggered()), pMap, SLOT(map()));
+	connect(pViewIcons, SIGNAL(triggered()), pMap, SLOT(map()));
+	pMap->setMapping(pViewDetails, QString("details"));
+	pMap->setMapping(pViewIcons, QString("icons"));
+
+	connect(pMap, SIGNAL(mapped(QString)), this, SLOT(setImageListView(QString)));
+
+	// Default view is icon mode
+	m_pViewButton->setIcon(QIcon(":/icons/viewicons"));
+	ui->listImages->setViewMode(QListView::IconMode);
+
+	updateUI();
 }
 
 // +-----------------------------------------------------------
@@ -53,6 +86,8 @@ f3::MainWindow::~MainWindow()
 {
     if(!m_pAbout)
         delete m_pAbout;
+	if(m_pViewButton)
+		delete m_pViewButton;
     delete ui;
 }
 
@@ -61,9 +96,8 @@ void f3::MainWindow::on_actionNew_triggered()
 {
     ChildWindow *pChild = new ChildWindow(this);
 
-	QString sDocPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
 	pChild->setWindowTitle("");
-	pChild->setWindowFilePath(QString(tr("%1novo banco de faces anotadas.afd")).arg(sDocPath));
+	pChild->setWindowFilePath(QString(tr("%1novo banco de faces anotadas.afd")).arg(m_sDocumentsPath));
 	pChild->setWindowModified(true);
 	pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
 
@@ -73,9 +107,7 @@ void f3::MainWindow::on_actionNew_triggered()
 // +-----------------------------------------------------------
 void f3::MainWindow::on_actionOpen_triggered()
 {
-	QString sDocPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
-
-    QString sFile = QFileDialog::getOpenFileName(this, tr("Abrir banco de faces anotadas..."), sDocPath, tr("Arquivos de Banco de Faces Anotadas (*.afd);; Todos os arquivos (*.*)"));
+    QString sFile = QFileDialog::getOpenFileName(this, tr("Abrir banco de faces anotadas..."), m_sDocumentsPath, tr("Arquivos de banco de faces anotadas (*.afd);; Todos os arquivos (*.*)"));
     if(sFile.length())
 	{
 		sFile = QDir::toNativeSeparators(sFile);
@@ -120,6 +152,35 @@ void f3::MainWindow::on_actionAbout_triggered()
 }
 
 // +-----------------------------------------------------------
+void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
+{
+	ChildWindow* pChild = (ChildWindow*) ui->tabWidget->widget(iTabIndex);
+	ui->tabWidget->removeTab(iTabIndex);
+	delete pChild;
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_tabChanged(int iTabIndex)
+{
+	updateUI();
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionAddImage_triggered()
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+		return;
+
+    QStringList lsFiles = QFileDialog::getOpenFileNames(this, tr("Selecionar imagens de faces..."), m_sDocumentsPath, tr("Arquivos comuns de imagens (*.bmp *.png *.jpg *.gif);; Todos os arquivos (*.*)"));
+	if(lsFiles.size())
+	{
+		pChild->addImages(lsFiles);
+		updateUI();
+	}
+}
+
+// +-----------------------------------------------------------
 void f3::MainWindow::showStatusMessage(const QString &sMsg, int iTimeout)
 {
 	ui->statusBar->showMessage(sMsg, iTimeout);
@@ -139,4 +200,42 @@ int f3::MainWindow::getFilePageIndex(const QString &sFile)
 		}
 	}
 	return iRet;
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::setImageListView(QString sType)
+{
+	if(sType == "details")
+	{
+		m_pViewButton->setIcon(QIcon(":/icons/viewdetails"));
+		ui->listImages->setViewMode(QListView::ListMode);
+	}
+	else if(sType == "icons")
+	{
+		m_pViewButton->setIcon(QIcon(":/icons/viewicons"));
+		ui->listImages->setViewMode(QListView::IconMode);
+	}
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::updateUI()
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	bool bFileOpened = pChild != NULL;
+	bool bFileChanged = bFileOpened ? pChild->isWindowModified() : false;
+
+	// Update action statuses
+	ui->actionSave->setEnabled(bFileChanged);
+	ui->actionAddImage->setEnabled(bFileOpened);
+	ui->actionRemoveImage->setEnabled(bFileOpened);
+
+	// Update button statuses
+	m_pViewButton->setEnabled(bFileOpened);
+
+	// Update display of thumbnails
+	if(pChild)
+	{
+		ui->listImages->setModel(NULL);
+		ui->listImages->setModel(pChild->getModel());
+	}
 }

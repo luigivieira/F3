@@ -96,6 +96,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="fileToolBar">
+   <property name="windowTitle">
+    <string>Arquivo</string>
+   </property>
    <property name="iconSize">
     <size>
      <width>48</width>
@@ -116,7 +119,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="helpToolBar">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Ajuda</string>
    </property>
    <property name="iconSize">
     <size>
@@ -131,6 +134,63 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionProject"/>
+  </widget>
+  <widget class="QDockWidget" name="dockActions">
+   <property name="windowTitle">
+    <string>Ações de edição</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="Content"/>
+  </widget>
+  <widget class="QDockWidget" name="dockImages">
+   <property name="windowTitle">
+    <string>Lista de imagens</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="Content_2">
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="leftMargin">
+      <number>6</number>
+     </property>
+     <property name="topMargin">
+      <number>6</number>
+     </property>
+     <property name="rightMargin">
+      <number>6</number>
+     </property>
+     <property name="bottomMargin">
+      <number>6</number>
+     </property>
+     <property name="horizontalSpacing">
+      <number>6</number>
+     </property>
+     <item row="1" column="0">
+      <widget class="QListView" name="listImages"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QToolBar" name="imagesToolbar">
+       <property name="windowTitle">
+        <string/>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="floatable">
+        <bool>false</bool>
+       </property>
+       <addaction name="actionAddImage"/>
+       <addaction name="actionRemoveImage"/>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="actionExit">
    <property name="text">
@@ -218,6 +278,36 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionAddImage">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/addimage</normaloff>:/icons/addimage</iconset>
+   </property>
+   <property name="text">
+    <string>Adicionar...</string>
+   </property>
+   <property name="toolTip">
+    <string>Adiciona nova(s) imagem(s) ao banco de faces anotadas atualmente selecionado</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Ins</string>
+   </property>
+  </action>
+  <action name="actionRemoveImage">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/removeimage</normaloff>:/icons/removeimage</iconset>
+   </property>
+   <property name="text">
+    <string>Remover</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove a(s) imagem(s) selecionada(s) do banco de faces anotadas atualmente selecionado</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Del</string>
    </property>
   </action>
  </widget>
