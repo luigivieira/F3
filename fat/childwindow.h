@@ -61,7 +61,20 @@ namespace f3
 		 */
 		void addImages(const QStringList &lsFiles);
 
+		/**
+		 * Gets the abstract list model used to display information about the contents of the
+		 * face annotation dataset handled by this window.
+		 * @return An instance of a QAbstractListModel that can be used with any subclass of QAbstractItemView
+		 * to display lists, icons or trees with the face annotation dataset contents.
+		 */
 		QAbstractListModel* getModel() const;
+
+		/**
+		 * Requests the window to display the face image of the given index (in range [0, count-1], where
+		 * count is the number of images in the face annotation dataset).
+		 * @param iIndex Integer with the index of the image to be displayed.
+		 */
+		void showImage(const int iIndex);
 
 	private:
 		/** Instance of the ui for GUI element access. */

@@ -76,21 +76,21 @@ bool f3::EmotionLabel::operator>=(const EmotionLabel &oOther) const
 QString f3::EmotionLabel::getName() const
 {
     if(*this == ANGER)
-        return qApp->translate("EmotionLabel", "anger");
+        return qApp->translate("EmotionLabel", "raiva");
     else if(*this == CONTEMPT)
-        return qApp->translate("EmotionLabel", "contempt");
+        return qApp->translate("EmotionLabel", "desprezo");
     else if(*this == DISGUST)
-        return qApp->translate("EmotionLabel", "disgust");
+        return qApp->translate("EmotionLabel", "nojo");
     else if(*this == FEAR)
-        return qApp->translate("EmotionLabel", "fear");
+        return qApp->translate("EmotionLabel", "medo");
     else if(*this == HAPPINESS)
-        return qApp->translate("EmotionLabel", "happiness");
+        return qApp->translate("EmotionLabel", "felicidade");
     else if(*this == SADNESS)
-        return qApp->translate("EmotionLabel", "sadness");
+        return qApp->translate("EmotionLabel", "tristeza");
     else if(*this == SURPRISE)
-        return qApp->translate("EmotionLabel", "surprise");
+        return qApp->translate("EmotionLabel", "surpresa");
     else
-        return qApp->translate("EmotionLabel", "undefined");
+        return qApp->translate("EmotionLabel", "indefinido");
 }
 
 // +-----------------------------------------------------------

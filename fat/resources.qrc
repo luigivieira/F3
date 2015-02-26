@@ -14,5 +14,7 @@
     </qresource>
     <qresource prefix="/images">
         <file alias="noface">resources/images/noface.png</file>
+        <file alias="brokenimage">resources/images/brokenimage.png</file>
+        <file alias="imagemissing">resources/images/imagemissing.png</file>
     </qresource>
 </RCC>

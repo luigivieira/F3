@@ -43,6 +43,7 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
     QMainWindow(pParent),
     ui(new Ui::MainWindow)
 {
+	// Setup the UI
     ui->setupUi(this);
     setWindowState(Qt::WindowMaximized);
     m_pAbout = NULL;
@@ -51,10 +52,9 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 	ui->tabWidget->setAutoFillBackground(true);
 	ui->tabWidget->setBackgroundRole(QPalette::Midlight);
 
+	// Setup the TAB changing events
 	connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(on_tabCloseRequested(int)));
 	connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(on_tabChanged(int)));
-
-	m_sDocumentsPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
 
 	// Add the view dropdown button manually (because Qt designer does not allow it...)
 	m_pViewButton = new QMenu(ui->imagesToolbar);
@@ -73,12 +73,20 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 	pMap->setMapping(pViewIcons, QString("icons"));
 
 	connect(pMap, SIGNAL(mapped(QString)), this, SLOT(setImageListView(QString)));
+	connect(m_pViewButton->menuAction(), SIGNAL(triggered()), this, SLOT(toggleImageListView()));
 
-	// Default view is icon mode
-	m_pViewButton->setIcon(QIcon(":/icons/viewicons"));
-	ui->listImages->setViewMode(QListView::IconMode);
+	m_pViewButton->setIcon(QIcon(":/icons/viewicons")); // By default display the image thumbnails
+	ui->treeImages->setVisible(false);
 
+	// Setup the list/tree item selection events
+	connect(ui->listImages, SIGNAL(clicked(const QModelIndex &)), this, SLOT(on_listImagesClicked(const QModelIndex &)));
+	connect(ui->treeImages, SIGNAL(clicked(const QModelIndex &)), this, SLOT(on_treeImagesClicked(const QModelIndex &)));
+
+	// Update the statuses of UI elements
 	updateUI();
+
+	// Initialize other variables
+	m_sDocumentsPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
 }
 
 // +-----------------------------------------------------------
@@ -208,13 +216,44 @@ void f3::MainWindow::setImageListView(QString sType)
 	if(sType == "details")
 	{
 		m_pViewButton->setIcon(QIcon(":/icons/viewdetails"));
-		ui->listImages->setViewMode(QListView::ListMode);
+		ui->listImages->setVisible(false);
+		ui->treeImages->setVisible(true);
 	}
 	else if(sType == "icons")
 	{
 		m_pViewButton->setIcon(QIcon(":/icons/viewicons"));
-		ui->listImages->setViewMode(QListView::IconMode);
+		ui->treeImages->setVisible(false);
+		ui->listImages->setVisible(true);
 	}
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::toggleImageListView()
+{
+	if(ui->treeImages->isVisible())
+		setImageListView("icons");
+	else
+		setImageListView("details");
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_listImagesClicked(const QModelIndex &oIndex)
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+		return;
+	
+	pChild->showImage(oIndex.row());
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_treeImagesClicked(const QModelIndex &oIndex)
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+		return;
+	
+	pChild->showImage(oIndex.row());
 }
 
 // +-----------------------------------------------------------
@@ -237,5 +276,7 @@ void f3::MainWindow::updateUI()
 	{
 		ui->listImages->setModel(NULL);
 		ui->listImages->setModel(pChild->getModel());
+		ui->treeImages->setModel(NULL);
+		ui->treeImages->setModel(pChild->getModel());
 	}
 }

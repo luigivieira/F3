@@ -82,7 +82,8 @@ namespace f3
 		/**
 		 * Gets the face image data (OpenCV Matrix) for the given index. The index must be in
 		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * If the given index is out of this range, the method throws the invalid_argument exception.
+		 * This method throws exceptions indicating different errors:
+		 *  - invalid_argument: if the given index is out of range
 		 * @param iIndex Integer with the index of the image file to load.
 		 * @return OpenCV Matrix (cv::Mat) with the image data loaded from the file at the given index.
 		 */
@@ -91,7 +92,9 @@ namespace f3
 		/**
 		 * Gets the face image (Qt Pixmap) for the given index. The index must be in
 		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * If the given index is out of this range, the method throws the invalid_argument exception.
+		 * This method throws exceptions indicating different errors:
+		 *  - invalid_argument: if the given index is out of range
+		 *  - runtime_error: if the image can not be loaded
 		 * @param iIndex Integer with the index of the image file to load.
 		 * @return QImage with the image data loaded from the file at the given index.
 		 */
@@ -106,7 +109,23 @@ namespace f3
 		 */
 		void addImage(const char *sFileName);
 
+		/**
+		 * Gets the name of the file for the image at the given index. The index must be in
+		 * the range [0, count - 1], where count is the number of face images in the dataset.
+		 * This method throws exceptions indicating different errors:
+		 *  - invalid_argument: if the given index is out of range
+		 * @param iIndex Integer with the index of the image file from which to get the file name.
+		 */
 		QString getImageFile(const int iIndex) const;
+
+		/**
+		 * Gets the emotion label of the sample at the given index. The index must be in
+		 * the range [0, count - 1], where count is the number of face images in the dataset.
+		 * This method throws exceptions indicating different errors:
+		 *  - invalid_argument: if the given index is out of range
+		 * @param iIndex Integer with the index of sample from which to get the emotion label.
+		 */
+		EmotionLabel getEmotionLabel(const int iIndex) const;
 
 	private:
 		/** Names of the face image files. */

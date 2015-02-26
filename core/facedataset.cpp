@@ -52,7 +52,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     FileStorage oFS(sFileName, FileStorage::READ);
     if(!oFS.isOpened())
     {
-		QString sMsg = QString(QApplication::translate("FaceDataset", "N„o foi possÌvel abrir o arquivo [%1] para leitura")).arg(sFileName);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "N√£o foi poss√≠vel abrir o arquivo [%1] para leitura")).arg(sFileName);
         qWarning() << sMsg;
 		throw invalid_argument(sMsg.toStdString());
     }
@@ -60,7 +60,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     FileNode oNode = oFS["FeaturesSymmetry"];
     if(oNode.type() != FileNode::SEQ)
     {
-		QString sMsg = QString(QApplication::translate("FaceDataset", "H· um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturesSymmetry", sFileName);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "H√° um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturesSymmetry", sFileName);
         qWarning() << sMsg;
 		throw runtime_error(sMsg.toStdString());
     }
@@ -72,7 +72,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     oNode = oFS["FeaturesConnectivity"];
     if(oNode.type() != FileNode::SEQ)
     {
-		QString sMsg = QString(QApplication::translate("FaceDataset", "H· um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturesConnectivity", sFileName);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "H√° um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturesConnectivity", sFileName);
         qWarning() << sMsg;
 		throw runtime_error(sMsg.toStdString());
     }
@@ -84,7 +84,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     oNode = oFS["SampleImages"];
     if(oNode.type() != FileNode::SEQ)
     {
-		QString sMsg = QString(QApplication::translate("FaceDataset", "H· um erro estrutural (campo [%1]) no arquivo [%2]")).arg("SampleImages", sFileName);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "H√° um erro estrutural (campo [%1]) no arquivo [%2]")).arg("SampleImages", sFileName);
         qWarning() << sMsg;
 		throw runtime_error(sMsg.toStdString());
     }
@@ -96,7 +96,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
     oNode = oFS["FeaturePoints"];
     if(oNode.type() != FileNode::SEQ)
     {
-		QString sMsg = QString(QApplication::translate("FaceDataset", "H· um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints", sFileName);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "H√° um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints", sFileName);
         qWarning() << sMsg;
 		throw runtime_error(sMsg.toStdString());
     }
@@ -109,7 +109,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
 
         if(oSubNode.type() != FileNode::SEQ)
         {
-			QString sMsg = QString(QApplication::translate("FaceDataset", "H· um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints/subnode", sFileName);
+			QString sMsg = QString(QApplication::translate("FaceDataset", "H√° um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints/subnode", sFileName);
             qWarning() << sMsg;
 			throw runtime_error(sMsg.toStdString());
         }
@@ -124,7 +124,7 @@ void f3::FaceDataset::loadFromFile(const char* sFileName)
             ++it2;
             if(it2 == oSubNode.end())
             {
-				QString sMsg = QString(QApplication::translate("FaceDataset", "H· um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints/points", sFileName);
+				QString sMsg = QString(QApplication::translate("FaceDataset", "H√° um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints/points", sFileName);
                 qWarning() << sMsg;
 				throw runtime_error(sMsg.toStdString());
             }
@@ -152,7 +152,7 @@ void f3::FaceDataset::saveToFile(const char* sFileName) const
     FileStorage oFS(sFileName, FileStorage::WRITE);
     if(!oFS.isOpened())
     {
-		QString sMsg = QString(QApplication::translate("FaceDataset", "N„o foi possÌvel escrever no arquivo [%1]")).arg(sFileName);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "N√£o foi poss√≠vel escrever no arquivo [%1]")).arg(sFileName);
         qWarning() << sMsg;
 		throw invalid_argument(sMsg.toStdString());
     }
@@ -204,7 +204,7 @@ Mat f3::FaceDataset::getImageMat(const int iIndex) const
 {
     if(iIndex < 0 || iIndex >= size())
 	{
-		QString sMsg = QString(QApplication::translate("FaceDataset", "O Ìndice [%1] est· fora do intervalo de imagens existentes")).arg(iIndex);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O √≠ndice [%1] est√° fora do intervalo de imagens existentes")).arg(iIndex);
 		qWarning() << sMsg;
 		throw invalid_argument(sMsg.toStdString());
 	}
@@ -217,13 +217,19 @@ QImage f3::FaceDataset::getImage(const int iIndex) const
 {
     if(iIndex < 0 || iIndex >= size())
 	{
-		QString sMsg = QString(QApplication::translate("FaceDataset", "O Ìndice [%1] est· fora do intervalo de imagens existentes")).arg(iIndex);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O √≠ndice [%1] est√° fora do intervalo de imagens existentes")).arg(iIndex);
 		qWarning() << sMsg;
 		throw invalid_argument(sMsg.toStdString());
 	}
 
 	QImage oImage;
-	oImage.load(QString().fromStdString(m_vFaceImages[iIndex]));
+	if(!oImage.load(QString().fromStdString(m_vFaceImages[iIndex])))
+	{
+		QString sMsg = QString(QApplication::translate("FaceDataset", "N√£o foi poss√≠vel abrir a imagem do arquivo [%1]")).arg(QString().fromStdString(m_vFaceImages[iIndex]));
+		qWarning() << sMsg;
+		throw runtime_error(sMsg.toStdString());
+	}
+
     return oImage;
 }
 
@@ -232,7 +238,7 @@ QString f3::FaceDataset::getImageFile(const int iIndex) const
 {
     if(iIndex < 0 || iIndex >= size())
 	{
-		QString sMsg = QString(QApplication::translate("FaceDataset", "O Ìndice [%1] est· fora do intervalo de imagens existentes")).arg(iIndex);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O √≠ndice [%1] est√° fora do intervalo de imagens existentes")).arg(iIndex);
 		qWarning() << sMsg;
 		throw invalid_argument(sMsg.toStdString());
 	}
@@ -246,14 +252,14 @@ void f3::FaceDataset::addImage(const char *sFileName)
 	QFileInfo oFile(sFileName);
 	if(!oFile.exists())
     {
-		QString sMsg = QString(QApplication::translate("FaceDataset", "O arquivo [%1] n„o pode ser adicionado porque ele n„o existe")).arg(sFileName);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O arquivo [%1] n√£o pode ser adicionado porque ele n√£o existe")).arg(sFileName);
         qWarning() << sMsg;
 		throw invalid_argument(sMsg.toStdString());
     }
 
 	if(find(m_vFaceImages.begin(), m_vFaceImages.end(), string(sFileName)) != m_vFaceImages.end())
 	{
-		QString sMsg = QString(QApplication::translate("FaceDataset", "O arquivo [%1] j· existe no banco de faces anotadas")).arg(sFileName);
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O arquivo [%1] j√° existe no banco de faces anotadas")).arg(sFileName);
         qWarning() << sMsg;
 		throw runtime_error(sMsg.toStdString());
 	}
@@ -265,6 +271,19 @@ void f3::FaceDataset::addImage(const char *sFileName)
 	m_vFaceImages.push_back(sFileName);
 	m_vFeaturePoints.push_back(vDefault);
 	m_vEmotionLabels.push_back(EmotionLabel::UNDEFINED);
+}
+
+// +-----------------------------------------------------------
+f3::EmotionLabel f3::FaceDataset::getEmotionLabel(const int iIndex) const
+{
+    if(iIndex < 0 || iIndex >= size())
+	{
+		QString sMsg = QString(QApplication::translate("FaceDataset", "O √≠ndice [%1] est√° fora do intervalo de imagens existentes")).arg(iIndex);
+		qWarning() << sMsg;
+		throw invalid_argument(sMsg.toStdString());
+	}
+
+	return m_vEmotionLabels[iIndex];
 }
 
 /*// +-----------------------------------------------------------

@@ -118,6 +118,11 @@ namespace f3
 
 		void setImageListView(QString sType);
 
+		void toggleImageListView();
+
+		void on_listImagesClicked(const QModelIndex &oIndex);
+		void on_treeImagesClicked(const QModelIndex &oIndex);
+
     private:
         /** Instance of the ui for GUI element access. */
         Ui::MainWindow *ui;

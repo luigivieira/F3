@@ -94,3 +94,22 @@ QAbstractListModel* f3::ChildWindow::getModel() const
 {
 	return m_pFaceDatasetModel;
 }
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::showImage(const int iIndex)
+{
+	QImage oImage;
+	try
+	{
+		oImage = m_pFaceDataset->getImage(iIndex);
+	}
+	catch(...)
+	{
+		ui->image->setPixmap(QPixmap(":/images/brokenimage"));
+		ui->image->adjustSize();
+		return;
+	}
+
+	ui->image->setPixmap(QPixmap().fromImage(oImage));
+	ui->image->adjustSize();
+}

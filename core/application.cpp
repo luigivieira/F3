@@ -126,7 +126,7 @@ void f3::F3Application::handleLogOutput(QtMsgType oType, const QMessageLogContex
 
 		case QtFatalMsg:
 			QApplication::beep();
-			QMessageBox::critical(NULL, qApp->translate("Main", "Erro de ExecuÁ„o"), qApp->translate("Main", "Uma exceÁ„o grave ocorreu e a aplicaÁ„o precisar· ser encerrada. Por favor, verifique o arquivo de log para detalhes."), QMessageBox::Ok);
+			QMessageBox::critical(NULL, qApp->translate("Main", "Erro de Execu√ß√£o"), qApp->translate("Main", "Uma exce√ß√£o grave ocorreu e a aplica√ß√£o precisar√° ser encerrada. Por favor, verifique o arquivo de log para detalhes."), QMessageBox::Ok);
 
 			cerr       << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;
 			m_soInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;

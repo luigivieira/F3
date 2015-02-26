@@ -3,6 +3,7 @@
 
 #include <QFileInfo>
 #include <QApplication>
+#include <QDebug>
 
 // +-----------------------------------------------------------
 f3::FaceDatasetModel::FaceDatasetModel(FaceDataset *pFaceDataset, QObject *pParent):
@@ -27,27 +28,50 @@ int f3::FaceDatasetModel::rowCount(const QModelIndex &oParent) const
 // +-----------------------------------------------------------
 int f3::FaceDatasetModel::columnCount(const QModelIndex &) const
 {
-	return 1;
+	// There are two columns of data:
+	// [Image], [Emotion Label]
+	return 2;
 }
 
 // +-----------------------------------------------------------
 QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 {
 	QImage oImage;
-	QFileInfo oFile;
 
 	switch(iRole)
 	{
+		// Display data (the dataset contents)
 		case Qt::DisplayRole:
-			oFile = QFileInfo(m_pFaceDataset->getImageFile(oIndex.row()));
-			return oFile.baseName();
+			switch(oIndex.column())
+			{
+				case 0: // [Image]
+					return QFileInfo(m_pFaceDataset->getImageFile(oIndex.row())).baseName();
 
+				case 1: // [Emotion Label]
+					return m_pFaceDataset->getEmotionLabel(oIndex.row()).getName();
+
+				default:
+					return QVariant();
+			}
+
+		// Decoration data (the image thumbnails)
 		case Qt::DecorationRole:
-			oImage = m_pFaceDataset->getImage(oIndex.row());
-			// Scale the image to a thumbnail size
-			//oImage = oImage.scaled(800, 600).scaled(100, 100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-			oImage = oImage.scaled(50, 50);
-			return oImage;
+			if(oIndex.column() == 0)
+			{
+				try
+				{
+					oImage = m_pFaceDataset->getImage(oIndex.row());
+				}
+				catch(...)
+				{
+					oImage = QImage(":/images/imagemissing");
+				}
+				//oImage = oImage.scaled(800, 600).scaled(100, 100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+				oImage = oImage.scaled(50, 50);
+				return oImage;
+			}
+			else
+				return QVariant();
 
 		default:
 			return QVariant();
@@ -59,11 +83,26 @@ QVariant f3::FaceDatasetModel::headerData(int iSection, Qt::Orientation eOrienta
 {
 	switch(iRole)
 	{
+		// Display data (the dataset contents)
 		case Qt::DisplayRole:
-			return QApplication::translate("FaceDatasetModel", "Nome da Imagem");
+			switch(iSection)
+			{
+				case 0: // [Image]
+					return QApplication::translate("FaceDatasetModel", "Imagem");
+
+				case 1: // [Emotion Label]
+					return QApplication::translate("FaceDatasetModel", "Rótulo Emocional");
+
+				default:
+					return QVariant();
+			}
+			
 
 		case Qt::DecorationRole:
-			return QApplication::translate("FaceDatasetModel", "Miniatura");
+			if(iSection == 0)
+				return QApplication::translate("FaceDatasetModel", "Miniatura");
+			else
+				return QVariant();
 
 		default:
 			return QVariant();

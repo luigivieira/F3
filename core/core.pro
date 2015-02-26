@@ -34,11 +34,13 @@ CONFIG += lib
 
 SOURCES += application.cpp \
            facedataset.cpp \
+           emotionlabel.cpp \
            utils.cpp
 
 HEADERS += core_global.h \
            application.h \
            facedataset.h \
+           emotionlabel.h \
            utils.h
 
 win32 {

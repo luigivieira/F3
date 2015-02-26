@@ -168,9 +168,6 @@
      <property name="horizontalSpacing">
       <number>6</number>
      </property>
-     <item row="1" column="0">
-      <widget class="QListView" name="listImages"/>
-     </item>
      <item row="0" column="0">
       <widget class="QToolBar" name="imagesToolbar">
        <property name="windowTitle">
@@ -187,6 +184,23 @@
        </property>
        <addaction name="actionAddImage"/>
        <addaction name="actionRemoveImage"/>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QListView" name="listImages">
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+       <property name="viewMode">
+        <enum>QListView::IconMode</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QTreeView" name="treeImages">
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
       </widget>
      </item>
     </layout>
