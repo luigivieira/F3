@@ -110,6 +110,15 @@ namespace f3
 		void addImage(const char *sFileName);
 
 		/**
+		 * Removes an image from the face annotation dataset. All other data (landmarks, connections, etc)
+		 * are also removed.
+		 * This method throws exceptions indicating different errors:
+		 *  - invalid_argument: if the given index does not exist or if it is out of range.
+		 * @param iIndex Integer with the index of the image to remove.
+		 */
+		void removeImage(const int iIndex);
+
+		/**
 		 * Gets the name of the file for the image at the given index. The index must be in
 		 * the range [0, count - 1], where count is the number of face images in the dataset.
 		 * This method throws exceptions indicating different errors:

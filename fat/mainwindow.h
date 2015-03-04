@@ -71,7 +71,7 @@ namespace f3
 		 * Updates all the user interface components according to the current state of the application
 		 * (i.e. disables action buttons when there is no opened face annotation dataset, etc).
 		 */
-		void updateUI();
+		void updateUI(const bool bUpdateModel = false);
 
     private slots:
 		/**
@@ -83,6 +83,16 @@ namespace f3
 		 * Slot for the menu Open trigger event.
 		 */ 
 		void on_actionOpen_triggered();
+
+		/**
+		 * Slot for the menu Save trigger event.
+		 */ 
+		void on_actionSave_triggered();
+
+		/**
+		 * Slot for the menu Save As trigger event.
+		 */ 
+		void on_actionSaveAs_triggered();
 
         /**
          * Slot for the menu Exit trigger event.
@@ -116,12 +126,16 @@ namespace f3
 		 */
 		void on_actionAddImage_triggered();
 
+		/**
+		 * Slot for the button Add Image trigger event.
+		 */
+		void on_actionRemoveImage_triggered();
+
 		void setImageListView(QString sType);
 
 		void toggleImageListView();
 
-		void on_listImagesClicked(const QModelIndex &oIndex);
-		void on_treeImagesClicked(const QModelIndex &oIndex);
+		void on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex);
 
     private:
         /** Instance of the ui for GUI element access. */

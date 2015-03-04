@@ -188,16 +188,25 @@
      </item>
      <item row="1" column="0">
       <widget class="QListView" name="listImages">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::ExtendedSelection</enum>
        </property>
        <property name="viewMode">
         <enum>QListView::IconMode</enum>
        </property>
+       <property name="selectionRectVisible">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item row="2" column="0">
       <widget class="QTreeView" name="treeImages">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::ExtendedSelection</enum>
        </property>

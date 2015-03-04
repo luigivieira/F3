@@ -68,6 +68,13 @@ namespace f3
 
 		QVariant headerData(int iSection, Qt::Orientation eOrientation, int iRole = Qt::DisplayRole) const;
 
+		/**
+		 * Mark that a change in the a reset in the model so the views using it will be updated.
+		 */
+		void beginUpdate();
+
+		void endUpdate();
+
 	private:
 		/** Instance of the face annotation dataset for data access. */
 		FaceDataset *m_pFaceDataset;

@@ -274,6 +274,21 @@ void f3::FaceDataset::addImage(const char *sFileName)
 }
 
 // +-----------------------------------------------------------
+void f3::FaceDataset::removeImage(const int iIndex)
+{
+	if(iIndex < 0 || iIndex >= (int) m_vFaceImages.size())
+    {
+		QString sMsg = QString(QApplication::translate("FaceDataset", "A imagem não pode ser removida porque o índice [%1] é inválido")).arg(iIndex);
+        qWarning() << sMsg;
+		throw invalid_argument(sMsg.toStdString());
+    }
+
+	m_vFaceImages.erase(m_vFaceImages.begin() + iIndex);
+	m_vFeaturePoints.erase(m_vFeaturePoints.begin() + iIndex);
+	m_vEmotionLabels.erase(m_vEmotionLabels.begin() + iIndex);
+}
+
+// +-----------------------------------------------------------
 f3::EmotionLabel f3::FaceDataset::getEmotionLabel(const int iIndex) const
 {
     if(iIndex < 0 || iIndex >= size())

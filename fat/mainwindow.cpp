@@ -33,7 +33,7 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QAction>
-#include <QListView>
+#include <QMessageBox>
 
 using namespace cv;
 using namespace std;
@@ -78,10 +78,6 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 	m_pViewButton->setIcon(QIcon(":/icons/viewicons")); // By default display the image thumbnails
 	ui->treeImages->setVisible(false);
 
-	// Setup the list/tree item selection events
-	connect(ui->listImages, SIGNAL(clicked(const QModelIndex &)), this, SLOT(on_listImagesClicked(const QModelIndex &)));
-	connect(ui->treeImages, SIGNAL(clicked(const QModelIndex &)), this, SLOT(on_treeImagesClicked(const QModelIndex &)));
-
 	// Update the statuses of UI elements
 	updateUI();
 
@@ -104,12 +100,12 @@ void f3::MainWindow::on_actionNew_triggered()
 {
     ChildWindow *pChild = new ChildWindow(this);
 
-	pChild->setWindowTitle("");
 	pChild->setWindowFilePath(QString(tr("%1novo banco de faces anotadas.afd")).arg(m_sDocumentsPath));
 	pChild->setWindowModified(true);
 	pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
 
-	ui->tabWidget->addTab(pChild, pChild->windowIcon(), pChild->windowTitle());
+	int iIndex = ui->tabWidget->addTab(pChild, pChild->windowIcon(), "");
+	ui->tabWidget->setCurrentIndex(iIndex);
 }
 
 // +-----------------------------------------------------------
@@ -130,14 +126,46 @@ void f3::MainWindow::on_actionOpen_triggered()
 			ChildWindow *pChild = new ChildWindow(this);
 
 			QString sDocPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
-			pChild->setWindowTitle("");
 			pChild->setWindowFilePath(sFile);
 			pChild->setWindowModified(false);
 			pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
 
-			int iPage = ui->tabWidget->addTab(pChild, pChild->windowIcon(), pChild->windowTitle());
-			ui->tabWidget->setTabToolTip(iPage, sFile);
+			int iIndex = ui->tabWidget->addTab(pChild, pChild->windowIcon(), "");
+			ui->tabWidget->setCurrentIndex(iIndex);
 		}
+	}
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionSave_triggered()
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild || !pChild->isWindowModified())
+		return;
+
+	// Force the user to chose a file name if the dataset has not yet been saved
+	if(pChild->property("new").toBool())
+	{
+		on_actionSaveAs_triggered();
+		return;
+	}
+		
+	pChild->save();
+	updateUI();
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionSaveAs_triggered()
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+		return;
+
+	QString sFileName = QFileDialog::getSaveFileName(this, tr("Salvar banco de faces anotadas..."), windowFilePath(), tr("Arquivos de banco de faces anotadas (*.afd);; Todos os arquivos (*.*)"));
+    if(sFileName.length())
+	{
+		pChild->saveToFile(sFileName);
+		updateUI();
 	}
 }
 
@@ -170,7 +198,7 @@ void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
 // +-----------------------------------------------------------
 void f3::MainWindow::on_tabChanged(int iTabIndex)
 {
-	updateUI();
+	updateUI(true); // In case the current tab is changed, force the update of the view model
 }
 
 // +-----------------------------------------------------------
@@ -184,7 +212,34 @@ void f3::MainWindow::on_actionAddImage_triggered()
 	if(lsFiles.size())
 	{
 		pChild->addImages(lsFiles);
-		updateUI();
+		if(!pChild->getSelectionModel()->currentIndex().isValid())
+			pChild->getSelectionModel()->setCurrentIndex(pChild->getModel()->index(0, 0), QItemSelectionModel::Select);
+	}
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionRemoveImage_triggered()
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+		return;
+
+	QModelIndexList lsSelected = pChild->getSelectionModel()->selectedIndexes();
+	if(lsSelected.size() > 0)
+	{
+		QString sMsg;
+		if(lsSelected.size() == 1)
+			sMsg = tr("Você confirma a remoção da imagem selecionada?");
+		else
+			sMsg = tr("Você confirma a remoção das %1 imagens selecionadas?").arg(lsSelected.size());
+		if(QMessageBox::question(this, tr("Confirmação da remoção"), sMsg, QMessageBox::Yes|QMessageBox::No) == QMessageBox::Yes)
+		{
+			vector<int> vIndexes;
+			for(int i = 0; i < lsSelected.size(); i++)
+				vIndexes.push_back(lsSelected[i].row());
+			pChild->removeImages(vIndexes);
+			updateUI();
+		}
 	}
 }
 
@@ -218,12 +273,16 @@ void f3::MainWindow::setImageListView(QString sType)
 		m_pViewButton->setIcon(QIcon(":/icons/viewdetails"));
 		ui->listImages->setVisible(false);
 		ui->treeImages->setVisible(true);
+		disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		connect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
 	}
 	else if(sType == "icons")
 	{
 		m_pViewButton->setIcon(QIcon(":/icons/viewicons"));
 		ui->treeImages->setVisible(false);
 		ui->listImages->setVisible(true);
+		disconnect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		connect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
 	}
 }
 
@@ -237,46 +296,69 @@ void f3::MainWindow::toggleImageListView()
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_listImagesClicked(const QModelIndex &oIndex)
+void f3::MainWindow::on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex)
 {
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
 	if(!pChild)
 		return;
 	
-	pChild->showImage(oIndex.row());
+	if(oIndex.isValid())
+		pChild->showImage(oIndex.row());
+	else
+		pChild->showImage(-1);
+
+	updateUI();
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_treeImagesClicked(const QModelIndex &oIndex)
-{
-	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
-	if(!pChild)
-		return;
-	
-	pChild->showImage(oIndex.row());
-}
-
-// +-----------------------------------------------------------
-void f3::MainWindow::updateUI()
+void f3::MainWindow::updateUI(const bool bUpdateModel)
 {
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
 	bool bFileOpened = pChild != NULL;
-	bool bFileChanged = bFileOpened ? pChild->isWindowModified() : false;
 
-	// Update action statuses
+	// Update display of thumbnails and selection events if requested
+	if(bUpdateModel)
+	{
+		if(ui->listImages->selectionModel() || ui->treeImages->selectionModel())
+		{
+			disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+			disconnect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		}
+		ui->listImages->setModel(NULL);
+		ui->treeImages->setModel(NULL);
+
+		if(bFileOpened)
+		{
+			ui->listImages->setModel(pChild->getModel());
+			ui->listImages->setSelectionModel(pChild->getSelectionModel());
+			ui->treeImages->setModel(pChild->getModel());
+			ui->treeImages->setSelectionModel(pChild->getSelectionModel());
+
+			if(ui->listImages->isVisible())
+				connect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+			else
+				connect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		}
+	}
+
+	// Update actions and buttons statuses
+	bool bFileChanged = bFileOpened ? pChild->isWindowModified() : false;
+	bool bItemsSelected = bFileOpened && (pChild->getSelectionModel()->currentIndex().isValid() || pChild->getSelectionModel()->selectedIndexes().size() > 0);
 	ui->actionSave->setEnabled(bFileChanged);
 	ui->actionAddImage->setEnabled(bFileOpened);
-	ui->actionRemoveImage->setEnabled(bFileOpened);
-
-	// Update button statuses
+	ui->actionRemoveImage->setEnabled(bItemsSelected);
 	m_pViewButton->setEnabled(bFileOpened);
 
-	// Update display of thumbnails
-	if(pChild)
+	// Update the tab text and tooltip and the image in display (if needed)
+	if(bFileOpened)
 	{
-		ui->listImages->setModel(NULL);
-		ui->listImages->setModel(pChild->getModel());
-		ui->treeImages->setModel(NULL);
-		ui->treeImages->setModel(pChild->getModel());
+		QString sTitle = QFileInfo(pChild->windowFilePath()).baseName() + (pChild->isWindowModified() ? "*" : "");
+		ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), sTitle);
+		if(!pChild->property("new").toBool()) // Complete file path only if the file has been saved before
+			ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), pChild->windowFilePath());
+
+		QModelIndex oCurrent = pChild->getSelectionModel()->currentIndex();
+		if(!oCurrent.isValid())
+			pChild->showImage(-1);
 	}
 }

@@ -108,3 +108,15 @@ QVariant f3::FaceDatasetModel::headerData(int iSection, Qt::Orientation eOrienta
 			return QVariant();
 	}
 }
+
+// +-----------------------------------------------------------
+void f3::FaceDatasetModel::beginUpdate()
+{
+	beginResetModel();
+}
+
+// +-----------------------------------------------------------
+void f3::FaceDatasetModel::endUpdate()
+{
+	endResetModel();
+}
