@@ -224,7 +224,7 @@ void f3::MainWindow::on_actionRemoveImage_triggered()
 	if(!pChild)
 		return;
 
-	QModelIndexList lsSelected = pChild->getSelectionModel()->selectedIndexes();
+	QModelIndexList lsSelected = pChild->getSelectionModel()->selectedRows();
 	if(lsSelected.size() > 0)
 	{
 		QString sMsg;
