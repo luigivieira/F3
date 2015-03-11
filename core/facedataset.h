@@ -58,21 +58,20 @@ namespace f3
 		/**
 		 * Loads (unserializes) the instance from the given text file in the YAML format
 		 * (YAML Ain't Markup Language - http://en.wikipedia.org/wiki/YAML).
-		 * This method throws exceptions indicating different errors:
-		 *   - invalid_argument: if the given file does not exist or if it can not be opened or read
-		 *   - runtime_error: if there is an error in the expected file format
-		 * @param sFileName Char pointer with the name of the file to read the data from.
+		 * @param sFileName QString with the name of the file to read the data from.
+		 * @param sMsgError QString to receive the error message in case the method fails.
+		 * @return Boolean indicating if the loading was successful (true) of failed (false).
 		 */
-		void loadFromFile(const char* sFileName);
+		bool loadFromFile(const QString &sFileName, QString &sMsgError);
 
         /**
          * Saves (serializes) the instance to the given file in the YAML format
 		 * (YAML Ain't Markup Language - http://en.wikipedia.org/wiki/YAML).
-		 * This method throws exceptions indicating different errors:
-		 *   - invalid_argument: if the given file can not be created or opened to write
-         * @param sFileName Char pointer with the name of the file to write the data to.
+         * @param sFileName QString with the name of the file to write the data to.
+		 * @param sMsgError QString to receive the error message in case the method fails.
+		 * @return Boolean indicating if the saving was successful (true) of failed (false).
          */
-        void saveToFile(const char* sFileName) const;
+        bool saveToFile(const QString &sFileName, QString &sMsgError) const;
 
         /**
          * Clear the face annotation dataset.
@@ -80,65 +79,66 @@ namespace f3
         void clear();
 
 		/**
-		 * Gets the face image data (OpenCV Matrix) for the given index. The index must be in
-		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * This method throws exceptions indicating different errors:
-		 *  - invalid_argument: if the given index is out of range
+		 * Gets the face image for the given index. The index must be in the range [0, count - 1],
+		 * where count is the number of face images in the dataset.
 		 * @param iIndex Integer with the index of the image file to load.
-		 * @return OpenCV Matrix (cv::Mat) with the image data loaded from the file at the given index.
+		 * @param oImage QImage reference for receiving the image loaded.
+		 * @return Boolean indicating if the image file could be loaded (true) or not (false, in case
+		 * the given index is out of range or the image file could not be read).
 		 */
-		cv::Mat getImageMat(const int iIndex) const;
+		bool getImage(const int iIndex, QImage &oImage) const;
 
 		/**
-		 * Gets the face image (Qt Pixmap) for the given index. The index must be in
-		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * This method throws exceptions indicating different errors:
-		 *  - invalid_argument: if the given index is out of range
-		 *  - runtime_error: if the image can not be loaded
+		 * Gets the face image for the given index. The index must be in the range [0, count - 1],
+		 * where count is the number of face images in the dataset.
 		 * @param iIndex Integer with the index of the image file to load.
-		 * @return QImage with the image data loaded from the file at the given index.
+		 * @param oImage OpenCV's Mat reference for receiving the image loaded.
+		 * @return Boolean indicating if the image file could be loaded (true) or not (false, in case
+		 * the given index is out of range or the image file could not be read).
 		 */
-		QImage getImage(const int iIndex) const;
+		bool getImage(const int iIndex, cv::Mat &oImage) const;
 
 		/**
 		 * Adds a new image to the face annotation dataset. All other data (landmarks, connections, etc)
 		 * are created with default values.
-		 * This method throws exceptions indicating different errors:
-		 *  - invalid_argument: if the given file does not exist
-		 * @param sFileName Char pointer with the path and filename of the image file to be added to the dataset.
+		 * @param sFileName QString with the path and filename of the image file to be added to the dataset.
+		 * @return Boolean indicating if the image was added (true) or not (false, in case it already exists in
+		 * the dataset).
 		 */
-		void addImage(const char *sFileName);
+		bool addImage(const QString &sFileName);
 
 		/**
 		 * Removes an image from the face annotation dataset. All other data (landmarks, connections, etc)
 		 * are also removed.
-		 * This method throws exceptions indicating different errors:
-		 *  - invalid_argument: if the given index does not exist or if it is out of range.
 		 * @param iIndex Integer with the index of the image to remove.
+		 * @return Boolean indicating if the image was removed (true) or not (false, in case
+		 * the given index is out of range).
 		 */
-		void removeImage(const int iIndex);
+		bool removeImage(const int iIndex);
 
 		/**
 		 * Gets the name of the file for the image at the given index. The index must be in
 		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * This method throws exceptions indicating different errors:
-		 *  - invalid_argument: if the given index is out of range
 		 * @param iIndex Integer with the index of the image file from which to get the file name.
+		 * @param sFileName QString reference for receiving the image file name.
+		 * @return Boolean indicating if the image file name could be obtained (true) or not (false, in case
+		 * the given index is out of range).
 		 */
-		QString getImageFile(const int iIndex) const;
+		bool getImageFileName(const int iIndex, QString &sFileName) const;
 
 		/**
 		 * Gets the emotion label of the sample at the given index. The index must be in
 		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * This method throws exceptions indicating different errors:
-		 *  - invalid_argument: if the given index is out of range
 		 * @param iIndex Integer with the index of sample from which to get the emotion label.
+		 * @param eLabel EmotionLabel reference to receive the emotion label for the given image.
+		 * @return Boolean indicating if the method call was successful (true) or not (false, in case
+		 * the given index is out of range).
 		 */
-		EmotionLabel getEmotionLabel(const int iIndex) const;
+		bool getEmotionLabel(const int iIndex, EmotionLabel &eLabel) const;
 
 	private:
 		/** Names of the face image files. */
-		std::vector<std::string> m_vFaceImages;
+		std::vector<QString> m_vFaceImages;
 
         /** 2D coordinates of the facial features in each image sample. */
         std::vector< std::vector<cv::Point2f> > m_vFeaturePoints;

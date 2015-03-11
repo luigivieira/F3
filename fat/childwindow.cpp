@@ -148,11 +148,7 @@ void f3::ChildWindow::showImage(const int iIndex)
 	else
 	{
 		QImage oImage;
-		try
-		{
-			oImage = m_pFaceDataset->getImage(iIndex);
-		}
-		catch(...)
+		if(!m_pFaceDataset->getImage(iIndex, oImage))
 		{
 			ui->image->setPixmap(QPixmap(":/images/brokenimage"));
 			ui->image->adjustSize();
@@ -165,27 +161,36 @@ void f3::ChildWindow::showImage(const int iIndex)
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::save()
+bool f3::ChildWindow::save(QString &sMsgError)
 {
-	m_pFaceDataset->saveToFile(qPrintable(windowFilePath()));
+	if(!m_pFaceDataset->saveToFile(windowFilePath(), sMsgError))
+		return false;
+
 	setWindowModified(false);
 	setProperty("new", QVariant()); // No longer a new dataset
+	return true;
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::saveToFile(const QString &sFileName)
+bool f3::ChildWindow::saveToFile(const QString &sFileName, QString &sMsgError)
 {
-	m_pFaceDataset->saveToFile(qPrintable(sFileName));
+	if(!m_pFaceDataset->saveToFile(sFileName, sMsgError))
+		return false;
+
 	setWindowFilePath(sFileName);
 	setWindowModified(false);
 	setProperty("new", QVariant()); // No longer a new dataset
+	return true;
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::loadFromFile(const QString &sFileName)
+bool f3::ChildWindow::loadFromFile(const QString &sFileName, QString &sMsgError)
 {
-	m_pFaceDataset->loadFromFile(qPrintable(sFileName));
+	if(!m_pFaceDataset->loadFromFile(qPrintable(sFileName), sMsgError))
+		return false;
+
 	setWindowFilePath(sFileName);
 	setWindowModified(false);
 	setProperty("new", QVariant()); // No longer a new dataset
+	return true;
 }

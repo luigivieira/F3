@@ -119,19 +119,27 @@ void f3::MainWindow::on_actionOpen_triggered()
 		if(iPage != -1)
 		{
 			ui->tabWidget->setCurrentIndex(iPage);
-			showStatusMessage(QString(tr("O arquivo [%1] já está aberto no editor")).arg(Utils::shortenPath(sFile)));
+			showStatusMessage(QString(tr("O banco de faces anotadas [%1] já está aberto no editor")).arg(Utils::shortenPath(sFile)));
 		}
 		else
 		{
 			ChildWindow *pChild = new ChildWindow(this);
-
-			QString sDocPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
-			pChild->setWindowFilePath(sFile);
-			pChild->setWindowModified(false);
 			pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
+
+			QString sMsg;
+			if(!pChild->loadFromFile(sFile, sMsg))
+			{
+				delete pChild;
+				QMessageBox::warning(this, tr("Erro carregando banco de faces anotadas"), tr("Não foi possível abrir o banco de faces anotadas:\n%1").arg(sMsg), QMessageBox::Ok);
+				return;
+			}
 
 			int iIndex = ui->tabWidget->addTab(pChild, pChild->windowIcon(), "");
 			ui->tabWidget->setCurrentIndex(iIndex);
+
+			if(pChild->getModel()->rowCount() > 0)
+				pChild->getSelectionModel()->setCurrentIndex(pChild->getModel()->index(0, 0), QItemSelectionModel::Select);
+			updateUI();
 		}
 	}
 }
@@ -139,33 +147,57 @@ void f3::MainWindow::on_actionOpen_triggered()
 // +-----------------------------------------------------------
 void f3::MainWindow::on_actionSave_triggered()
 {
-	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
-	if(!pChild || !pChild->isWindowModified())
-		return;
-
-	// Force the user to chose a file name if the dataset has not yet been saved
-	if(pChild->property("new").toBool())
-	{
-		on_actionSaveAs_triggered();
-		return;
-	}
-		
-	pChild->save();
-	updateUI();
+	saveCurrentFile();
 }
 
 // +-----------------------------------------------------------
 void f3::MainWindow::on_actionSaveAs_triggered()
 {
-	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
-	if(!pChild)
-		return;
+	saveCurrentFile(true);
+}
 
-	QString sFileName = QFileDialog::getSaveFileName(this, tr("Salvar banco de faces anotadas..."), windowFilePath(), tr("Arquivos de banco de faces anotadas (*.afd);; Todos os arquivos (*.*)"));
-    if(sFileName.length())
+// +-----------------------------------------------------------
+bool f3::MainWindow::saveCurrentFile(bool bAskForFileName)
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild || !pChild->isWindowModified())
+		return false;
+
+	if(bAskForFileName)
 	{
-		pChild->saveToFile(sFileName);
-		updateUI();
+		QString sFileName = QFileDialog::getSaveFileName(this, tr("Salvar banco de faces anotadas..."), windowFilePath(), tr("Arquivos de banco de faces anotadas (*.afd);; Todos os arquivos (*.*)"));
+		if(sFileName.length())
+		{
+			QString sMsg;
+			if(!pChild->saveToFile(sFileName, sMsg))
+			{
+				QMessageBox::warning(this, tr("Erro gravando banco de faces anotadas"), tr("Não foi possível salvar o banco de faces anotadas:\n%1").arg(sMsg), QMessageBox::Ok);
+				return false;
+			}
+
+			updateUI();
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+	{
+		// Force the user to chose a file name if the dataset has not yet been saved
+		if(pChild->property("new").toBool())
+			return saveCurrentFile(true);
+		else
+		{
+			QString sMsg;
+			if(!pChild->save(sMsg))
+			{
+				QMessageBox::warning(this, tr("Erro gravando banco de faces anotadas"), tr("Não foi possível salvar o banco de faces anotadas:\n%1").arg(sMsg), QMessageBox::Ok);
+				return false;
+			}
+
+			updateUI();
+			return true;
+		}
 	}
 }
 
@@ -191,12 +223,25 @@ void f3::MainWindow::on_actionAbout_triggered()
 void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
 {
 	ChildWindow* pChild = (ChildWindow*) ui->tabWidget->widget(iTabIndex);
+
+	if(pChild->isWindowModified())
+	{
+		QString sMsg = tr("Existem alterações pendentes no banco de faces anotadas de nome [%1]. Deseja gravar antes de fechar?").arg(QFileInfo(pChild->windowFilePath()).baseName());
+		QMessageBox::StandardButton oResp = QMessageBox::question(this, tr("Alterações pendentes"), sMsg, QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
+
+		// Do not close the tab if the user has chosen "cancel" or if she has chosen "yes" but then
+		// cancelled the file save dialog
+		ui->tabWidget->setCurrentIndex(iTabIndex);
+		if(oResp == QMessageBox::Cancel || (oResp == QMessageBox::Yes && !saveCurrentFile()))
+			return;
+	}
+
 	ui->tabWidget->removeTab(iTabIndex);
 	delete pChild;
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_tabChanged(int iTabIndex)
+void f3::MainWindow::on_tabChanged(int /*iTabIndex*/)
 {
 	updateUI(true); // In case the current tab is changed, force the update of the view model
 }
@@ -296,7 +341,7 @@ void f3::MainWindow::toggleImageListView()
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex)
+void f3::MainWindow::on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &/*oPrevIndex*/)
 {
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
 	if(!pChild)

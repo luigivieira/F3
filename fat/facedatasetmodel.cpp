@@ -20,7 +20,7 @@ f3::FaceDatasetModel::~FaceDatasetModel(void)
 
 
 // +-----------------------------------------------------------
-int f3::FaceDatasetModel::rowCount(const QModelIndex &oParent) const
+int f3::FaceDatasetModel::rowCount(const QModelIndex &/*oParent*/) const
 {
 	return m_pFaceDataset->size();
 }
@@ -37,6 +37,8 @@ int f3::FaceDatasetModel::columnCount(const QModelIndex &) const
 QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 {
 	QImage oImage;
+	QString sFileName;
+	EmotionLabel eLabel;
 
 	switch(iRole)
 	{
@@ -45,10 +47,14 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 			switch(oIndex.column())
 			{
 				case 0: // [Image]
-					return QFileInfo(m_pFaceDataset->getImageFile(oIndex.row())).baseName();
+					if(!m_pFaceDataset->getImageFileName(oIndex.row(), sFileName))
+						return QVariant();
+					else
+						return QFileInfo(sFileName).baseName();
 
 				case 1: // [Emotion Label]
-					return m_pFaceDataset->getEmotionLabel(oIndex.row()).getName();
+					m_pFaceDataset->getEmotionLabel(oIndex.row(), eLabel);
+					return eLabel.getName(); // If previous line's call fails, the label will be Undefined anyway...
 
 				default:
 					return QVariant();
@@ -58,16 +64,11 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 		case Qt::DecorationRole:
 			if(oIndex.column() == 0)
 			{
-				try
-				{
-					oImage = m_pFaceDataset->getImage(oIndex.row());
-				}
-				catch(...)
-				{
+				if(!m_pFaceDataset->getImage(oIndex.row(), oImage))
 					oImage = QImage(":/images/imagemissing");
-				}
-				//oImage = oImage.scaled(800, 600).scaled(100, 100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-				oImage = oImage.scaled(50, 50);
+				else
+					//oImage = oImage.scaled(800, 600).scaled(100, 100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+					oImage = oImage.scaled(50, 50);
 				return oImage;
 			}
 			else
@@ -79,7 +80,7 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 }
 
 // +-----------------------------------------------------------
-QVariant f3::FaceDatasetModel::headerData(int iSection, Qt::Orientation eOrientation, int iRole) const
+QVariant f3::FaceDatasetModel::headerData(int iSection, Qt::Orientation /*eOrientation*/, int iRole) const
 {
 	switch(iRole)
 	{

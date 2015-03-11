@@ -41,6 +41,11 @@ namespace f3
 	public:
 
 		/**
+		 * Default constructor. Initializes the label as UNDEFINED.
+		 */
+		EmotionLabel();
+
+		/**
 		 * Copy constructor.
 		 * @param oOther Reference to the other EmotionLabel from which to copy the data.
 		 */

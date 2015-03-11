@@ -96,21 +96,21 @@ namespace f3
 		 * (stored in the windowFilePath property). The file is saved in the YAML format, as defined
 		 * in the FaceDataset class.
 		 */
-		void save();
+		bool save(QString &sMsgError);
 
 		/**
 		 * Saves the contents of the face annotation dataset in this window to the given file.
 		 * The file is saved in the YAML format, as defined in the FaceDataset class.
 		 * @param sFileName QString with the path and name of the file to save the dataset to.
 		 */
-		void saveToFile(const QString &sFileName);
+		bool saveToFile(const QString &sFileName, QString &sMsgError);
 
 		/**
 		 * Loads the contents of the face annotation dataset from the given file into this window.
 		 * The file must be in the YAML format, as defined in the FaceDataset class.
 		 * @param sFileName QString with the path and name of the file to load the dataset from.
 		 */
-		void loadFromFile(const QString &sFileName);
+		bool loadFromFile(const QString &sFileName, QString &sMsgError);
 
 	private:
 		/** Instance of the ui for GUI element access. */

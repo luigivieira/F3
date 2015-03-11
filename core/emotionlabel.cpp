@@ -18,6 +18,12 @@ const f3::EmotionLabel f3::EmotionLabel::SADNESS   = f3::EmotionLabel(6);
 const f3::EmotionLabel f3::EmotionLabel::SURPRISE  = f3::EmotionLabel(7);
 
 // +-----------------------------------------------------------
+f3::EmotionLabel::EmotionLabel()
+{
+    m_iLabel = -1;
+}
+
+// +-----------------------------------------------------------
 f3::EmotionLabel::EmotionLabel(const int iLabel)
 {
     m_iLabel = iLabel;

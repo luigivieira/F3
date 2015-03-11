@@ -60,6 +60,18 @@ namespace f3
 	protected:
 
 		/**
+		 * Helper method to request the saving of the current face annotation dataset opened
+		 * to the user.
+		 * @param bAskForFileName Boolean indicating if the UI should ask the user for a file
+		 * name. If the value is true, the user is requested to choose a file name, otherwise 
+		 * (the default) the current file name is used. If the file has not yet been saved,
+		 * a file name is requested despite the value on this parameter.
+		 * @return Boolean indicating if the save was performed or false if the user cancelled
+		 * the operation.
+		 */
+		bool saveCurrentFile(bool bAskForFileName=false);
+
+		/**
 		 * Gets the page index of the file if already opened in the editor.
 		 * @param sFile QString with the complete file name (path + name) of the file to be searched.
 		 * @return Integer with the index (in range [0,...]) of the page where the file is opened
