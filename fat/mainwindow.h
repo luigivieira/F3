@@ -48,15 +48,6 @@ namespace f3
          */
         virtual ~MainWindow();
 
-		/**
-		 * Displays a text message in the main window status bar.
-		 * @param sMsg QString with the message to be displayed.
-		 * @param iTimeout Integer with the number of miliseconds
-		 * by which the message will be displayed. The default is 5000
-		 * (i.e. 5 seconds).
-		 */
-		void showStatusMessage(const QString &sMsg, int iTimeout = 5000);
-
 	protected:
 
 		/**
@@ -84,6 +75,17 @@ namespace f3
 		 * (i.e. disables action buttons when there is no opened face annotation dataset, etc).
 		 */
 		void updateUI(const bool bUpdateModel = false);
+
+	public slots:
+
+		/**
+		 * Displays a text message in the main window status bar.
+		 * @param sMsg QString with the message to be displayed.
+		 * @param iTimeout Integer with the number of miliseconds
+		 * by which the message will be displayed. The default is 5000
+		 * (i.e. 5 seconds).
+		 */
+		void showStatusMessage(const QString &sMsg, const int iTimeout = 5000);
 
     private slots:
 		/**

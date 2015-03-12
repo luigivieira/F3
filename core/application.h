@@ -33,6 +33,7 @@ namespace f3
 	 */
 	class CORE_EXPORT F3Application: public QApplication
 	{
+		Q_OBJECT
 	private:
 		/** File stream used to log application messages. */
 		std::ofstream m_oLogFile;
@@ -53,11 +54,37 @@ namespace f3
 		static int run();
 
 		/**
+		 * Returns the static instance of the singleton, so the application
+		 * can be connected outside for one or more signals.
+		 */
+		static F3Application* instance();
+
+		/**
+		 * Displays a text message in the main window status bar.
+		 * @param sMsg QString with the message to be displayed.
+		 * @param iTimeout Integer with the number of miliseconds
+		 * by which the message will be displayed. The default is 5000
+		 * (i.e. 5 seconds).
+		 */
+		static void showStatusMessage(const QString &sMsg, const int iTimeout = 5000);
+
+		/**
 		 * Handles the notification of messages in the application event loop.
 		 * @param pReceiver Pointer to the QObject that shall receive the message.
 		 * @param pEvent Pointer to the QEvent with the message information.
 		 */
         bool notify(QObject* pReceiver, QEvent* pEvent);
+
+	signals:
+
+		/**
+		 * Signal indicating that a status message was requested to be displayed on the
+		 * application main window.
+		 * @param sMsg QString with the message to be displayed.
+		 * @param iTimeout Integer with the number of miliseconds
+		 * by which the message will be displayed.
+		 */
+		void statusMessageShown(const QString &sMsg, const int iTimeout);
 
 	protected:
 		/**

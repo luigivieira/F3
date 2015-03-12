@@ -20,6 +20,8 @@
 #include "mainwindow.h"
 #include "application.h"
 
+#include <QObject>
+
 using namespace f3;
 
 // +-----------------------------------------------------------
@@ -27,6 +29,11 @@ int main(int argc, char *argv[])
 {
 	F3Application::initiate(argc, argv);
 	MainWindow w;
+	
+	// Connect the application to the main window, so status messages sent to the application
+	// are displayed at the main window.
+	QObject::connect(F3Application::instance(), SIGNAL(statusMessageShown(const QString &, const int)), &w, SLOT(showStatusMessage(const QString &, const int)));
+
 	w.show();
 	return F3Application::run();
 }

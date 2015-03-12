@@ -57,6 +57,12 @@ int f3::F3Application::run()
 }
 
 // +-----------------------------------------------------------
+f3::F3Application* f3::F3Application::instance()
+{
+	return m_soInstance;
+}
+
+// +-----------------------------------------------------------
 f3::F3Application::F3Application(int argc, char* argv[]):
     QApplication(argc, argv)
 {
@@ -133,4 +139,13 @@ void f3::F3Application::handleLogOutput(QtMsgType oType, const QMessageLogContex
 			terminate();
 			exit(-2);
 	}
+}
+
+// +-----------------------------------------------------------
+void f3::F3Application::showStatusMessage(const QString &sMsg, const int iTimeout)
+{
+	if(m_soInstance != NULL)
+		m_soInstance->emit statusMessageShown(sMsg, iTimeout);
+	else
+		throw runtime_error("F3Application singleton not initialized");
 }

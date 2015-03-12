@@ -40,7 +40,6 @@ HEADERS += mainwindow.h \
            facedatasetmodel.h
 
 FORMS += mainwindow.ui \
-         childwindow.ui \
          aboutwindow.ui
 
 win32 {

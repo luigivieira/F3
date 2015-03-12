@@ -20,7 +20,7 @@
 #ifndef CHILDWINDOW_H
 #define CHILDWINDOW_H
 
-#include "ui_childwindow.h"
+//#include "ui_childwindow.h"
 #include "facedataset.h"
 #include "facedatasetmodel.h"
 
@@ -29,10 +29,10 @@
 #include <QScrollArea>
 #include <QLabel>
 
-namespace Ui
+/*namespace Ui
 {
     class ChildWindow;
-}
+}*/
 
 namespace f3
 {
@@ -41,7 +41,7 @@ namespace f3
 	 */
 	class ChildWindow : public QWidget
 	{
-		Q_OBJECT
+		//Q_OBJECT
 
 	public:
 		/**
@@ -112,12 +112,25 @@ namespace f3
 		 */
 		bool loadFromFile(const QString &sFileName, QString &sMsgError);
 
+		float getScaleFactor() const;
+
+		void setScaleFactor(const float fFactor);
+
+	protected:
+
+		void applyZoom();
+
+		bool eventFilter(QObject *pObject, QEvent *pEvent);
+
+		void wheelEvent(QWheelEvent *pEvent);
+
 	private:
 		/** Instance of the ui for GUI element access. */
-		Ui::ChildWindow *ui;
+		//Ui::ChildWindow *ui;
 
-		/** Index of the image currently being displayed. */
-		int m_iCurrentImage;
+		QScrollArea *m_pScrollArea;
+
+		QLabel *m_pImage;
 
 		/** Instance of the face dataset control class used to handle the annotation operations. */
 		FaceDataset *m_pFaceDataset;
@@ -127,6 +140,9 @@ namespace f3
 
 		/** Selection model used to represent the selection of items in Qt view components such as QListView. */
 		QItemSelectionModel *m_pFaceSelectionModel;
+
+		/** Factor used to scale the display image due to the zoom in and out options. */
+		float m_fScaleFactor;
 	};
 }
 

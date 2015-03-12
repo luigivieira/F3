@@ -289,7 +289,7 @@ void f3::MainWindow::on_actionRemoveImage_triggered()
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::showStatusMessage(const QString &sMsg, int iTimeout)
+void f3::MainWindow::showStatusMessage(const QString &sMsg, const int iTimeout)
 {
 	ui->statusBar->showMessage(sMsg, iTimeout);
 }
