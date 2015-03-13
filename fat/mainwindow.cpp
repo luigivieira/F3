@@ -61,9 +61,11 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 	ui->imagesToolbar->addSeparator();
 	ui->imagesToolbar->addAction(m_pViewButton->menuAction());
 
-	QAction *pViewDetails = new QAction(QIcon(":/icons/viewdetails"), tr("Detalhes"), this);
+	QAction *pViewDetails = new QAction(QIcon(":/icons/viewdetails"), tr("&Detalhes"), this);
+	pViewDetails->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
 	m_pViewButton->addAction(pViewDetails);
-	QAction *pViewIcons = new QAction(QIcon(":/icons/viewicons"), tr("Ícones"), this);
+	QAction *pViewIcons = new QAction(QIcon(":/icons/viewicons"), tr("&Ícones"), this);
+	pViewIcons->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_I));
 	m_pViewButton->addAction(pViewIcons);
 
 	QSignalMapper *pMap = new QSignalMapper(ui->imagesToolbar);
@@ -83,6 +85,17 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 
 	// Initialize other variables
 	m_sDocumentsPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
+
+	// Add the action shortcuts to the tooltips (in order to make it easier for the user to know they exist)
+	// P.S.: I wonder why doesn't Qt do that automatically... :)
+	QObjectList lsObjects = children();
+	QAction *pAction;
+	for(int i = 0; i < lsObjects.size(); i++)
+	{
+		pAction = qobject_cast<QAction*>(lsObjects.at(i));
+		if(pAction && !pAction->shortcut().isEmpty())
+			pAction->setToolTip(QString("%1 (%2)").arg(pAction->toolTip()).arg(pAction->shortcut().toString()));
+	}
 }
 
 // +-----------------------------------------------------------
@@ -389,7 +402,10 @@ void f3::MainWindow::updateUI(const bool bUpdateModel)
 	// Update actions and buttons statuses
 	bool bFileChanged = bFileOpened ? pChild->isWindowModified() : false;
 	bool bItemsSelected = bFileOpened && (pChild->getSelectionModel()->currentIndex().isValid() || pChild->getSelectionModel()->selectedIndexes().size() > 0);
+	bool bFileNotNew = bFileOpened && !pChild->property("new").toBool();
+
 	ui->actionSave->setEnabled(bFileChanged);
+	ui->actionSaveAs->setEnabled(bFileNotNew);
 	ui->actionAddImage->setEnabled(bFileOpened);
 	ui->actionRemoveImage->setEnabled(bItemsSelected);
 	m_pViewButton->setEnabled(bFileOpened);
@@ -399,7 +415,7 @@ void f3::MainWindow::updateUI(const bool bUpdateModel)
 	{
 		QString sTitle = QFileInfo(pChild->windowFilePath()).baseName() + (pChild->isWindowModified() ? "*" : "");
 		ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), sTitle);
-		if(!pChild->property("new").toBool()) // Complete file path only if the file has been saved before
+		if(bFileNotNew) // Complete file path only if the file has been saved before
 			ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), pChild->windowFilePath());
 
 		QModelIndex oCurrent = pChild->getSelectionModel()->currentIndex();

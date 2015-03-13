@@ -37,15 +37,14 @@ using namespace cv;
 
 // +-----------------------------------------------------------
 f3::ChildWindow::ChildWindow(QWidget* pParent) :
-    QWidget(pParent)/*,
-	ui(new Ui::ChildWindow)*/
+    QWidget(pParent)
 {
-    //ui->setupUi(this);
 	setAutoFillBackground(true);
 	setBackgroundRole(QPalette::Dark);
 	setAttribute(Qt::WA_DeleteOnClose);
 
 	QGridLayout *pLayout = new QGridLayout(this);
+	pLayout->setMargin(0);
 	setLayout(pLayout);
 
 	m_pScrollArea = new QScrollArea(this);
@@ -81,7 +80,6 @@ f3::ChildWindow::~ChildWindow()
 	delete m_pFaceSelectionModel;
 	delete m_pFaceDatasetModel;
 	delete m_pFaceDataset;
-	//delete ui;
 }
 
 // +-----------------------------------------------------------
@@ -228,16 +226,12 @@ float f3::ChildWindow::getScaleFactor() const
 void f3::ChildWindow::setScaleFactor(const float fFactor)
 {
 	if(fFactor > 0.333 && fFactor < 3.0) // Guarantee a zoom in range [33.3%, 300%]
+	{
 		m_fScaleFactor = fFactor;
-
-	// Limit the zoom (just for a sake of performance)
-	if(m_fScaleFactor < 0.209715f)
-		m_fScaleFactor = 0.209715f;
-	else if(m_fScaleFactor > 4.76837f)
-		m_fScaleFactor = 4.76837f;
-
-	// Apply the zoon to the current image
-	applyZoom();
+		
+		// Apply the zoon to the current image
+		applyZoom();
+	}
 }
 
 // +-----------------------------------------------------------

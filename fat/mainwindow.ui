@@ -101,8 +101,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>48</width>
-     <height>48</height>
+     <width>32</width>
+     <height>32</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -123,8 +123,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>48</width>
-     <height>48</height>
+     <width>32</width>
+     <height>32</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -154,19 +154,19 @@
    <widget class="QWidget" name="Content_2">
     <layout class="QGridLayout" name="gridLayout">
      <property name="leftMargin">
-      <number>6</number>
+      <number>0</number>
      </property>
      <property name="topMargin">
-      <number>6</number>
+      <number>0</number>
      </property>
      <property name="rightMargin">
-      <number>6</number>
+      <number>0</number>
      </property>
      <property name="bottomMargin">
-      <number>6</number>
+      <number>0</number>
      </property>
-     <property name="horizontalSpacing">
-      <number>6</number>
+     <property name="spacing">
+      <number>0</number>
      </property>
      <item row="0" column="0">
       <widget class="QToolBar" name="imagesToolbar">
@@ -227,6 +227,10 @@
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/information.png</normaloff>:/icons/resources/icons/information.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Sobre...</string>
    </property>
@@ -237,7 +241,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/open</normaloff>:/icons/open</iconset>
+     <normaloff>:/icons/resources/icons/open.png</normaloff>:/icons/resources/icons/open.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Abrir...</string>
@@ -252,7 +256,7 @@
   <action name="actionNew">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/new</normaloff>:/icons/new</iconset>
+     <normaloff>:/icons/resources/icons/new.png</normaloff>:/icons/resources/icons/new.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Novo</string>
@@ -267,7 +271,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/save</normaloff>:/icons/save</iconset>
+     <normaloff>:/icons/resources/icons/save.png</normaloff>:/icons/resources/icons/save.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Salvar</string>
@@ -282,7 +286,7 @@
   <action name="actionSaveAs">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/saveas</normaloff>:/icons/saveas</iconset>
+     <normaloff>:/icons/resources/icons/saveas.png</normaloff>:/icons/resources/icons/saveas.png</iconset>
    </property>
    <property name="text">
     <string>Salvar &amp;como...</string>
@@ -294,7 +298,7 @@
   <action name="actionProject">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/help</normaloff>:/icons/help</iconset>
+     <normaloff>:/icons/resources/icons/help.png</normaloff>:/icons/resources/icons/help.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Documentação do projeto</string>
@@ -309,7 +313,7 @@
   <action name="actionAddImage">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/addimage</normaloff>:/icons/addimage</iconset>
+     <normaloff>:/icons/resources/icons/add.png</normaloff>:/icons/resources/icons/add.png</iconset>
    </property>
    <property name="text">
     <string>Adicionar...</string>
@@ -324,7 +328,7 @@
   <action name="actionRemoveImage">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/removeimage</normaloff>:/icons/removeimage</iconset>
+     <normaloff>:/icons/resources/icons/delete.png</normaloff>:/icons/resources/icons/delete.png</iconset>
    </property>
    <property name="text">
     <string>Remover</string>

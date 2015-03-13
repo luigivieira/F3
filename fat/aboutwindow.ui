@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>462</width>
-    <height>222</height>
+    <height>302</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -34,11 +34,11 @@
      <x>10</x>
      <y>0</y>
      <width>441</width>
-     <height>191</height>
+     <height>271</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ferramenta de Anotação de Faces (fat) &lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;- parte do projeto Fun from Faces (f3)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Copyright (C) 2015 &lt;a href=&quot;http://www.luiz.vieira.nom.br/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Luiz Carlos Vieira&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Este programa é um software livre; você pode redistribuí-lo e/ou modificá-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 3 da Licença, ou (na sua opinião) qualquer versão.&lt;/p&gt;&lt;p&gt;Este programa é distribuído na esperança de que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.&lt;/p&gt;&lt;p&gt;Você deve ter recebido uma cópia da Licença Pública Geral GNU junto com este programa. Se não, veja &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ferramenta de Anotação de Faces (fat) - parte do projeto Fun from Faces (f3)&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Copyright (C) 2015 &lt;a href=&quot;http://www.luiz.vieira.nom.br/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Luiz Carlos Vieira&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;A maioria dos ícones no aplicativo são do pacote &amp;quot;&lt;a href=&quot;http://www.fatcow.com/free-icons&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Farm-Fresh Web Icons&lt;/span&gt;&lt;/a&gt;&amp;quot;, utilizados sob a licença &lt;a href=&quot;http://creativecommons.org/licenses/by/4.0/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Creative Commons (CC BY 4.0)&lt;/span&gt;&lt;/a&gt;. Alguns poucos são do pacote &amp;quot;&lt;a href=&quot;https://github.com/pasnox/oxygen-icons-png&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Oxygen Icons&lt;/span&gt;&lt;/a&gt;&amp;quot;, utilizados sob a licença &lt;a href=&quot;https://www.gnu.org/copyleft/lesser.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;GNU Lesser General Public License&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;LICENÇA&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Este programa é um software livre; você pode redistribuí-lo e/ou modificá-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 3 da Licença, ou (na sua opinião) qualquer versão.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Este programa é distribuído na esperança de que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Você deve ter recebido uma cópia da Licença Pública Geral GNU junto com este programa. Se não, veja &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -54,13 +54,13 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>190</y>
+     <y>270</y>
      <width>75</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Fechar</string>
+    <string>&amp;Fechar</string>
    </property>
    <property name="default">
     <bool>true</bool>

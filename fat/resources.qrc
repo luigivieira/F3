@@ -1,16 +1,25 @@
 <RCC>
     <qresource prefix="/icons">
         <file alias="fat">resources/icons/fat.png</file>
-        <file alias="new">resources/icons/new.png</file>
-        <file alias="open">resources/icons/open.png</file>
-        <file alias="save">resources/icons/save.png</file>
-        <file alias="saveas">resources/icons/saveas.png</file>
-        <file alias="help">resources/icons/help.png</file>
-        <file alias="face-dataset">resources/icons/face-dataset.png</file>
-        <file alias="addimage">resources/icons/addimage.png</file>
-        <file alias="removeimage">resources/icons/removeimage.png</file>
+        <file>resources/icons/new.png</file>
+        <file>resources/icons/open.png</file>
+        <file>resources/icons/save.png</file>
+        <file>resources/icons/saveas.png</file>
+        <file>resources/icons/help.png</file>
         <file alias="viewdetails">resources/icons/viewdetails.png</file>
         <file alias="viewicons">resources/icons/viewicons.png</file>
+        <file>resources/icons/add.png</file>
+        <file>resources/icons/database.png</file>
+        <file>resources/icons/delete.png</file>
+        <file>resources/icons/emotion-anger.png</file>
+        <file>resources/icons/emotion-contempt.png</file>
+        <file>resources/icons/emotion-disgust.png</file>
+        <file>resources/icons/emotion-fear.png</file>
+        <file>resources/icons/emotion-happiness.png</file>
+        <file>resources/icons/emotion-sadness.png</file>
+        <file>resources/icons/emotion-surprise.png</file>
+        <file>resources/icons/emotion-undefined.png</file>
+        <file>resources/icons/information.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="noface">resources/images/noface.png</file>
