@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>845</width>
-    <height>448</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -135,14 +135,272 @@
    </attribute>
    <addaction name="actionProject"/>
   </widget>
-  <widget class="QDockWidget" name="dockActions">
+  <widget class="QDockWidget" name="dockProperties">
    <property name="windowTitle">
-    <string>Ações de edição</string>
+    <string>Propriedades da Imagem</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="Content"/>
+   <widget class="QWidget" name="Content">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="leftMargin">
+      <number>3</number>
+     </property>
+     <property name="topMargin">
+      <number>3</number>
+     </property>
+     <property name="rightMargin">
+      <number>3</number>
+     </property>
+     <property name="bottomMargin">
+      <number>3</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMaximumSize</enum>
+       </property>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Caminho:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="textFileName">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupEmotions">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="title">
+        <string>Rótulo Emocional:</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="3" column="1">
+         <widget class="QRadioButton" name="radioAnger">
+          <property name="toolTip">
+           <string>Indica que a imagem da face contém uma expressão de raiva</string>
+          </property>
+          <property name="text">
+           <string>&amp;Raiva</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/icons/resources/icons/emotion-anger.png</normaloff>:/icons/resources/icons/emotion-anger.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+1</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QRadioButton" name="radioContempt">
+          <property name="toolTip">
+           <string>Indica que a imagem da face contém uma expressão de desprezo</string>
+          </property>
+          <property name="text">
+           <string>&amp;Desprezo</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/icons/resources/icons/emotion-contempt.png</normaloff>:/icons/resources/icons/emotion-contempt.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+2</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QRadioButton" name="radioUndefined">
+          <property name="toolTip">
+           <string>Indica que a imagem da face contém uma expressão indefinida</string>
+          </property>
+          <property name="text">
+           <string>&amp;Indefinido</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/icons/resources/icons/emotion-undefined.png</normaloff>:/icons/resources/icons/emotion-undefined.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QRadioButton" name="radioDisgust">
+          <property name="toolTip">
+           <string>Indica que a imagem da face contém uma expressão de nojo</string>
+          </property>
+          <property name="text">
+           <string>&amp;Nojo</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/icons/resources/icons/emotion-disgust.png</normaloff>:/icons/resources/icons/emotion-disgust.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+3</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QRadioButton" name="radioFear">
+          <property name="toolTip">
+           <string>Indica que a imagem da face contém uma expressão de medo</string>
+          </property>
+          <property name="text">
+           <string>&amp;Medo</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/icons/resources/icons/emotion-fear.png</normaloff>:/icons/resources/icons/emotion-fear.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+4</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QRadioButton" name="radioHappiness">
+          <property name="toolTip">
+           <string>Indica que a imagem da face contém uma expressão de felicidade</string>
+          </property>
+          <property name="text">
+           <string>&amp;Felicidade</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/icons/resources/icons/emotion-happiness.png</normaloff>:/icons/resources/icons/emotion-happiness.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+5</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QRadioButton" name="radioSadness">
+          <property name="toolTip">
+           <string>Indica que a imagem da face contém uma expressão de tristeza</string>
+          </property>
+          <property name="text">
+           <string>&amp;Tristeza</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/icons/resources/icons/emotion-sadness.png</normaloff>:/icons/resources/icons/emotion-sadness.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+6</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
+         <widget class="QRadioButton" name="radioSurprise">
+          <property name="toolTip">
+           <string>Indica que a imagem da face contém uma expressão de surpresa</string>
+          </property>
+          <property name="text">
+           <string>&amp;Surpresa</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/icons/resources/icons/emotion-surprise.png</normaloff>:/icons/resources/icons/emotion-surprise.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+7</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="dockImages">
    <property name="windowTitle">
@@ -154,19 +412,22 @@
    <widget class="QWidget" name="Content_2">
     <layout class="QGridLayout" name="gridLayout">
      <property name="leftMargin">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="topMargin">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="rightMargin">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="bottomMargin">
-      <number>0</number>
+      <number>3</number>
      </property>
-     <property name="spacing">
-      <number>0</number>
+     <property name="horizontalSpacing">
+      <number>3</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>6</number>
      </property>
      <item row="0" column="0">
       <widget class="QToolBar" name="imagesToolbar">
@@ -175,8 +436,8 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>16</width>
-         <height>16</height>
+         <width>24</width>
+         <height>24</height>
         </size>
        </property>
        <property name="floatable">

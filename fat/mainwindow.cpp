@@ -96,6 +96,15 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 		if(pAction && !pAction->shortcut().isEmpty())
 			pAction->setToolTip(QString("%1 (%2)").arg(pAction->toolTip()).arg(pAction->shortcut().toString()));
 	}
+
+	lsObjects = ui->groupEmotions->children();
+	QRadioButton *pRadio;
+	for(int i = 0; i < lsObjects.size(); i++)
+	{
+		pRadio = qobject_cast<QRadioButton*>(lsObjects.at(i));
+		if(pRadio && !pRadio->shortcut().isEmpty())
+			pRadio->setToolTip(QString("%1 (%2)").arg(pRadio->toolTip()).arg(pRadio->shortcut().toString()));
+	}
 }
 
 // +-----------------------------------------------------------
@@ -409,6 +418,7 @@ void f3::MainWindow::updateUI(const bool bUpdateModel)
 	ui->actionAddImage->setEnabled(bFileOpened);
 	ui->actionRemoveImage->setEnabled(bItemsSelected);
 	m_pViewButton->setEnabled(bFileOpened);
+	ui->groupEmotions->setEnabled(bItemsSelected);
 
 	// Update the tab text and tooltip and the image in display (if needed)
 	if(bFileOpened)
