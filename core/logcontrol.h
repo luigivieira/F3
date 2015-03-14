@@ -107,9 +107,9 @@ namespace f3
 		 * for inter-process communication. The data in the shared memory is
 		 * a QMap<String, int> (mapping the application name to the active log level)
 		 * that is streaming from/to the shared memory. So, this size was estimated
-		 * to allow storing at least 10 entries with app names of 60 digits.
+		 * to allow storing at least 50 entries with app names of 60 letters.
 		 */
-		static const int SHARED_MEMORY_SIZE = 1048576;
+		static const int SHARED_MEMORY_SIZE = 7168;
 	};
 };
 

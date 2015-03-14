@@ -29,43 +29,38 @@
 using namespace std;
 
 // Initiate the singleton instance with null
-f3::F3Application* f3::F3Application::m_soInstance = NULL;
+f3::F3Application* f3::F3Application::m_spInstance = NULL;
+
+// Initialize the application name
+const QString f3::F3Application::APP_NAME = "Face Annotation Tool";
 
 // +-----------------------------------------------------------
 void f3::F3Application::initiate(int argc, char* argv[])
 {
-	if(m_soInstance == NULL)
-		m_soInstance = new F3Application(argc, argv);
-}
-
-// +-----------------------------------------------------------
-int f3::F3Application::run()
-{
-	if(m_soInstance != NULL)
+	if(!m_spInstance)
 	{
-		string sAppName = qPrintable(QCoreApplication::applicationFilePath());
-		
-		qDebug() << sAppName.c_str() << "started.";
-		int iRet = m_soInstance->exec();
-		qDebug() << sAppName.c_str() << "ended.";
-
-		m_soInstance->closeLog();
-		return iRet;
+		m_spInstance = new F3Application(argc, argv);
+		m_spInstance->setup();
 	}
-	else
-		throw runtime_error("F3Application singleton not initialized");
 }
 
 // +-----------------------------------------------------------
-f3::F3Application* f3::F3Application::instance()
+void f3::F3Application::terminate()
 {
-	return m_soInstance;
+	if(m_spInstance)
+	{
+		m_spInstance->clean();
+		delete m_spInstance;
+		m_spInstance = NULL;
+	}
 }
 
 // +-----------------------------------------------------------
-f3::F3Application::F3Application(int argc, char* argv[]):
-    QApplication(argc, argv)
+void f3::F3Application::setup()
 {
+	if(!m_oLogControl.connect())
+		throw runtime_error("Error initiating the inter-process communication");
+
 	QString sLogFile = QCoreApplication::applicationFilePath();
 	sLogFile.replace(".exe", ""); // For windows
 	sLogFile += ".log";
@@ -78,13 +73,53 @@ f3::F3Application::F3Application(int argc, char* argv[]):
 	}
 
 	qInstallMessageHandler(&f3::F3Application::handleLogOutput);
+
+	// Default to only log fatal messages
+	m_eLogLevel = QtFatalMsg;
+	m_oLogControl.setLogLevel(APP_NAME, m_eLogLevel);
 }
 
 // +-----------------------------------------------------------
-void f3::F3Application::closeLog()
+void f3::F3Application::clean()
 {
 	m_oLogFile.flush();
 	m_oLogFile.close();
+	m_oLogControl.removeAppEntry("Face Annotation Tool");
+	m_oLogControl.disconnect();
+}
+
+// +-----------------------------------------------------------
+int f3::F3Application::run()
+{
+	if(m_spInstance)
+	{
+		string sAppName = qPrintable(QCoreApplication::applicationFilePath());
+		
+		qDebug() << sAppName.c_str() << "started.";
+		int iRet = m_spInstance->exec();
+		qDebug() << sAppName.c_str() << "ended.";
+		
+		return iRet;
+	}
+	else
+		throw runtime_error("F3Application singleton not initialized");
+}
+
+// +-----------------------------------------------------------
+f3::F3Application* f3::F3Application::instance()
+{
+	return m_spInstance;
+}
+
+// +-----------------------------------------------------------
+f3::F3Application::F3Application(int argc, char* argv[]):
+    QApplication(argc, argv)
+{
+}
+
+// +-----------------------------------------------------------
+f3::F3Application::~F3Application()
+{
 }
 
 // +-----------------------------------------------------------
@@ -109,25 +144,29 @@ bool f3::F3Application::notify(QObject* pReceiver, QEvent* pEvent)
 }
 
 // +-----------------------------------------------------------
-void f3::F3Application::handleLogOutput(QtMsgType oType, const QMessageLogContext& oContext, const QString& sMsg) {
+void f3::F3Application::handleLogOutput(QtMsgType eType, const QMessageLogContext& oContext, const QString& sMsg) {
+	// Do not log the message if the type is bigger then the maximum configured type
+	if(eType > instance()->m_eLogLevel)
+		return;
+
 	QString sNow = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
 	QString sSource = QFileInfo(QFile(oContext.file).fileName()).fileName();
 
-	switch (oType)
+	switch (eType)
 	{
 		case QtDebugMsg:
-			m_soInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") DEBUG: " << qPrintable(sMsg) << endl;
-			m_soInstance->m_oLogFile.flush();
+			m_spInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") DEBUG: " << qPrintable(sMsg) << endl;
+			m_spInstance->m_oLogFile.flush();
 			break;
 
 		case QtWarningMsg:
-			m_soInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") WARNING: " << qPrintable(sMsg) << endl;
-			m_soInstance->m_oLogFile.flush();
+			m_spInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") WARNING: " << qPrintable(sMsg) << endl;
+			m_spInstance->m_oLogFile.flush();
 			break;
 
 		case QtCriticalMsg:
-			m_soInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") CRITICAL: " << qPrintable(sMsg) << endl;
-			m_soInstance->m_oLogFile.flush();
+			m_spInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") CRITICAL: " << qPrintable(sMsg) << endl;
+			m_spInstance->m_oLogFile.flush();
 			break;
 
 		case QtFatalMsg:
@@ -135,7 +174,7 @@ void f3::F3Application::handleLogOutput(QtMsgType oType, const QMessageLogContex
 			QMessageBox::critical(NULL, qApp->translate("Main", "Erro de Execução"), qApp->translate("Main", "Uma exceção grave ocorreu e a aplicação precisará ser encerrada. Por favor, verifique o arquivo de log para detalhes."), QMessageBox::Ok);
 
 			cerr       << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;
-			m_soInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;
+			m_spInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;
 			terminate();
 			exit(-2);
 	}
@@ -144,8 +183,6 @@ void f3::F3Application::handleLogOutput(QtMsgType oType, const QMessageLogContex
 // +-----------------------------------------------------------
 void f3::F3Application::showStatusMessage(const QString &sMsg, const int iTimeout)
 {
-	if(m_soInstance != NULL)
-		m_soInstance->emit statusMessageShown(sMsg, iTimeout);
-	else
-		throw runtime_error("F3Application singleton not initialized");
+	if(m_spInstance)
+		m_spInstance->emit statusMessageShown(sMsg, iTimeout);
 }

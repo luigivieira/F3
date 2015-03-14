@@ -27,13 +27,28 @@ using namespace f3;
 // +-----------------------------------------------------------
 int main(int argc, char *argv[])
 {
-	F3Application::initiate(argc, argv);
-	MainWindow w;
+	// Initialize the application
+	try
+	{
+		F3Application::initiate(argc, argv);
+	}
+	catch(std::exception &e)
+	{
+		printf("It was not possible to initiate the application due to a critical error:\n");
+		printf(e.what());
+		return -1;
+	}
 	
-	// Connect the application to the main window, so status messages sent to the application
-	// are displayed at the main window.
-	QObject::connect(F3Application::instance(), SIGNAL(statusMessageShown(const QString &, const int)), &w, SLOT(showStatusMessage(const QString &, const int)));
+	// Create the main window (as a pointer because it must be deleted before the application to avoid double deletion)
+	MainWindow *pMainWindow = new MainWindow();
+	QObject::connect(F3Application::instance(), SIGNAL(statusMessageShown(const QString &, const int)), pMainWindow, SLOT(showStatusMessage(const QString &, const int)));
+	pMainWindow->show();
 
-	w.show();
-	return F3Application::run();
+	// Execute the application
+	int iRet = F3Application::run();
+
+	// Terminate the application and the program execution
+	delete pMainWindow;
+	F3Application::terminate();
+	return iRet;
 }

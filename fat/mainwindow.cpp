@@ -110,7 +110,7 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 // +-----------------------------------------------------------
 f3::MainWindow::~MainWindow()
 {
-    if(!m_pAbout)
+    if(m_pAbout)
         delete m_pAbout;
 	if(m_pViewButton)
 		delete m_pViewButton;

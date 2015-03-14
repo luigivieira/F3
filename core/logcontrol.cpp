@@ -95,7 +95,8 @@ bool f3::LogControl::setLogLevel(const QString &sAppName, const QtMsgType eLevel
 	// And save the map data to the shared memory
 	if(iLevel == 0 || iLevel != iNewLevel)
 	{
-		mApps[sAppName] = iNewLevel;	
+		mApps[sAppName] = iNewLevel;
+
 		QBuffer oNewBuffer;
 		oNewBuffer.open(QBuffer::ReadWrite);
 		QDataStream oNewStream(&oNewBuffer);

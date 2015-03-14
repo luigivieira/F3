@@ -21,9 +21,12 @@
 
 #include <QApplication>
 #include <QObject>
+#include <QTimer>
+
 #include <fstream>
 
 #include "core_global.h"
+#include "logcontrol.h"
 
 namespace f3
 {
@@ -39,13 +42,26 @@ namespace f3
 		std::ofstream m_oLogFile;
 
 		/** Instance for the singleton. */
-		static F3Application* m_soInstance;
+		static F3Application* m_spInstance;
+
+		/** Current maximum log level for the application. */
+		QtMsgType m_eLogLevel;
 
 	public:
 		/**
 		 * Initiates the singleton object.
+		 * This method throws a std::runtime_error exception if something bad
+		 * happens during initialization (i.e. if the log file can be opened/created or the
+		 * inter-process communication can not be established).
+		 * @param argc Integer with the number of parameters received from the command line.
+		 * @param argv String array with the list of parameters received from the command line.
 		 */
 		static void initiate(int argc, char* argv[]);
+
+		/**
+		 * Terminates the singleton object.
+		 */
+		static void terminate();
 
 		/**
 		 * Runs the application on the singleton instance (encapsulating the exec method for easy
@@ -94,19 +110,39 @@ namespace f3
 		 */
         F3Application(int argc, char* argv[]);
 
-	private:
-		/**
-		 * Close the log file.
+		/** 
+		 * Class destructor.
 		 */
-		void closeLog();
+		virtual ~F3Application();
+
+		/**
+		 * Configure the instance of the application.
+		 */
+		void setup();
+
+		/**
+		 * Clean the instance of the application.
+		 */
+		void clean();
 
 		/**
 		 * Log and exception message handler for application events.
- 		 * @param oType QtMsgType instance with the type of the log event.
+ 		 * @param eType QtMsgType enum value with the type of the log event.
 		 * @param oContext QMessageLogContext instance with information on where the event happened (function, line, etc)
 		 * @param sMsg QString instance with the event message.
 		 */
-		static void handleLogOutput(QtMsgType oType, const QMessageLogContext& oContext, const QString& sMsg);
+		static void handleLogOutput(QtMsgType eType, const QMessageLogContext& oContext, const QString& sMsg);
+
+	private:
+
+		/** Object used to allow the external update of the log level. */
+		LogControl m_oLogControl;
+
+		/** Timer used to pool changes in the log level using the log control class. */
+		QTimer m_oLogLevelUpdateTimer;
+
+		/** Name of the application, used for the log control via inter-process communication. */
+		static const QString APP_NAME;
 	};
 }
 
