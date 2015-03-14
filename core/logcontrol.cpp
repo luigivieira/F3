@@ -107,7 +107,7 @@ bool f3::LogControl::setLogLevel(const QString &sAppName, const QtMsgType eLevel
 		{
 			char *sDataTo = (char *) m_pSharedMemory->data();
 			const char *sDataFrom = oNewBuffer.data().data();
-			memset(sDataTo, NULL, SHARED_MEMORY_SIZE);
+			memset(sDataTo, '\0', SHARED_MEMORY_SIZE);
 			memcpy(sDataTo, sDataFrom, iSize);
 		}
 		else // Oops! Not enough space in the shared memory
@@ -183,7 +183,7 @@ bool f3::LogControl::removeAppEntry(const QString &sAppName)
 	{
 		char *sDataTo = (char *) m_pSharedMemory->data();
 		const char *sDataFrom = oNewBuffer.data().data();
-		memset(sDataTo, NULL, SHARED_MEMORY_SIZE);
+		memset(sDataTo, '\0', SHARED_MEMORY_SIZE);
 		memcpy(sDataTo, sDataFrom, iSize);
 	}
 	else // Oops! Not enough space in the shared memory
