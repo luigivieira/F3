@@ -140,6 +140,7 @@
     <ClCompile Include="application.cpp" />
     <ClCompile Include="emotionlabel.cpp" />
     <ClCompile Include="facedataset.cpp" />
+    <ClCompile Include="logcontrol.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="core_global.h" />
     <ClInclude Include="emotionlabel.h" />
     <ClInclude Include="facedataset.h" />
+    <ClInclude Include="logcontrol.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
