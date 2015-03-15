@@ -127,6 +127,12 @@ bool f3::F3Application::notify(QObject* pReceiver, QEvent* pEvent)
 {
     try
 	{
+		// Check if there is an update in the log level for this application
+		QtMsgType eLevel;
+		if(m_oLogControl.getLogLevel(APP_NAME, eLevel))
+			m_eLogLevel = eLevel;
+
+		// Retransmit the event notification
         return QApplication::notify(pReceiver, pEvent);
     }
     catch (std::exception &e)
@@ -145,7 +151,7 @@ bool f3::F3Application::notify(QObject* pReceiver, QEvent* pEvent)
 
 // +-----------------------------------------------------------
 void f3::F3Application::handleLogOutput(QtMsgType eType, const QMessageLogContext& oContext, const QString& sMsg) {
-	// Do not log the message if the type is bigger then the maximum configured type
+	// Do not log the message if its type is bigger then the maximum configured log level
 	if(eType > instance()->m_eLogLevel)
 		return;
 
@@ -173,7 +179,7 @@ void f3::F3Application::handleLogOutput(QtMsgType eType, const QMessageLogContex
 			QApplication::beep();
 			QMessageBox::critical(NULL, qApp->translate("Main", "Erro de Execução"), qApp->translate("Main", "Uma exceção grave ocorreu e a aplicação precisará ser encerrada. Por favor, verifique o arquivo de log para detalhes."), QMessageBox::Ok);
 
-			cerr       << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;
+			cerr << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;
 			m_spInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;
 			terminate();
 			exit(-2);

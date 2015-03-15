@@ -21,7 +21,6 @@
 
 #include <QApplication>
 #include <QObject>
-#include <QTimer>
 
 #include <fstream>
 
@@ -137,9 +136,6 @@ namespace f3
 
 		/** Object used to allow the external update of the log level. */
 		LogControl m_oLogControl;
-
-		/** Timer used to pool changes in the log level using the log control class. */
-		QTimer m_oLogLevelUpdateTimer;
 
 		/** Name of the application, used for the log control via inter-process communication. */
 		static const QString APP_NAME;
