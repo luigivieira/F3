@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="lol">resources/icons/lol.png</file>
+        <file>resources/icons/update.png</file>
+    </qresource>
+</RCC>
