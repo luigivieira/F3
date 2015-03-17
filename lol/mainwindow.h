@@ -20,8 +20,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include "aboutwindow.h"
+#include "logcontrol.h"
+
+#include <QMainWindow>
+#include <QTreeWidget>
 
 namespace Ui {
     class MainWindow;
@@ -52,9 +55,13 @@ namespace f3
 
 		/**
 		 * Updates all the user interface components according to the current state of the application
-		 * (i.e. disables action buttons when there is no opened face annotation dataset, etc).
 		 */
-		void updateUI(const bool bUpdateModel = false);
+		void updateUI();
+
+		/**
+		 * Captures the event of the window being showed.
+		 */
+		void showEvent(QShowEvent *oEvent);
 
 	public slots:
 
@@ -88,12 +95,21 @@ namespace f3
          */
         void on_actionAbout_triggered();
 
+		/**
+		 * Slot for the 
+		 */
+
+		void onEditLevel(QTreeWidgetItem *pItem, int iColumn);
+
     private:
         /** Instance of the ui for GUI element access. */
         Ui::MainWindow *ui;
 
         /** Instance of the about dialog box. */
         AboutWindow* m_pAbout;
+
+		/** Object used to access the log data via inter-process communication. */
+		LogControl m_oLogControl;
     };
 
 }

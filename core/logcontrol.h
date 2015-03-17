@@ -58,6 +58,12 @@ namespace f3
 		bool disconnect();
 
 		/**
+		 * Queries if the log control is connected.
+		 * @return Boolean indicating if the application is connected (true) or not (false) via log control.
+		 */
+		bool isConnected();
+
+		/**
 		 * Queries the current log level of the application with the given name.
 		 * @param sAppName QString with the application name to query.
 		 * @param eLevel Reference to a QtMsgType enumeration to receive the application current log level.

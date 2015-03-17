@@ -41,6 +41,12 @@ bool f3::LogControl::disconnect()
 }
 
 // +-----------------------------------------------------------
+bool f3::LogControl::isConnected()
+{
+	return m_pSharedMemory->isAttached();
+}
+
+// +-----------------------------------------------------------
 bool f3::LogControl::getLogLevel(const QString &sAppName, QtMsgType &eLevel)
 {
 	// Try to lock the shared memory

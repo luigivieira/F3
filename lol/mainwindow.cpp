@@ -20,13 +20,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "aboutwindow.h"
+#include "application.h"
 
 #include <QApplication>
-#include <QImage>
-#include <QFileDialog>
-#include <QDesktopServices>
 #include <QAction>
 #include <QMessageBox>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QComboBox>
+#include <QDateTime>
 
 using namespace std;
 
@@ -41,9 +43,6 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 
     setWindowIcon(QIcon(":/icons/lol"));
 
-	// Update the statuses of UI elements
-	updateUI();
-
 	// Add the action shortcuts to the tooltips (in order to make it easier for the user to know they exist)
 	// P.S.: I wonder why doesn't Qt do that automatically... :)
 	QObjectList lsObjects = children();
@@ -54,6 +53,9 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 		if(pAction && !pAction->shortcut().isEmpty())
 			pAction->setToolTip(QString("%1 (%2)").arg(pAction->toolTip()).arg(pAction->shortcut().toString()));
 	}
+
+	// Capture the edit request event on the tree widget
+	//connect(ui->treeData, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(onEditLevel(QTreeWidgetItem*, int)));
 }
 
 // +-----------------------------------------------------------
@@ -61,13 +63,14 @@ f3::MainWindow::~MainWindow()
 {
     if(m_pAbout)
         delete m_pAbout;
+	m_oLogControl.disconnect();
     delete ui;
 }
 
 // +-----------------------------------------------------------
 void f3::MainWindow::on_actionRefresh_triggered()
 {
-    
+    updateUI();
 }
 
 // +-----------------------------------------------------------
@@ -95,7 +98,100 @@ void f3::MainWindow::showStatusMessage(const QString &sMsg, const int iTimeout)
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::updateUI(const bool bUpdateModel)
+void f3::MainWindow::showEvent(QShowEvent *)
 {
+	updateUI();
+}
 
+// +-----------------------------------------------------------
+void f3::MainWindow::updateUI()
+{
+	// Conect to the log control, if not yet connected
+	if(!m_oLogControl.isConnected() && !m_oLogControl.connect())
+	{
+		QMessageBox::warning(this, tr("Erro de conexão"), tr("Não foi possível conectar ao sistema de níveis de log."), QMessageBox::Ok);
+		return;
+	}
+
+	// Query the current data (list of apps running and their log levels)
+	QMap<QString, QtMsgType> mData;
+	if(!m_oLogControl.getAppLogData(mData))
+	{
+		QMessageBox::warning(this, tr("Erro de atualização"), tr("Não foi possível atualizar a lista de aplicações em execução."), QMessageBox::Ok);
+		return;
+	}
+
+	// Update the tree view (using a combobox as the editor for the log level column)
+	QStringList lsNames;
+	lsNames.append(tr("Depuração (DEBUG)"));
+	lsNames.append(tr("Aviso (WARNING)"));
+	lsNames.append(tr("Crítico (CRITICAL)"));
+	lsNames.append(tr("Fatal (FATAL)"));
+
+	QList<QTreeWidgetItem*> lItems;
+	QList<QComboBox*> lSelectors;
+	
+	for(QMap<QString, QtMsgType>::iterator it = mData.begin(); it != mData.end(); ++it)
+	{
+		QComboBox *pSelector = new QComboBox();
+		pSelector->setAutoFillBackground(true);
+		pSelector->addItems(lsNames);
+		lSelectors.append(pSelector);
+
+		QStringList lRowData;
+		lRowData.append(it.key());
+		switch(it.value())
+		{
+			case QtDebugMsg:
+				lRowData.append(tr("Depuração (DEBUG)"));
+				pSelector->setCurrentIndex(0);
+				break;
+
+			case QtWarningMsg:
+				lRowData.append(tr("Aviso (WARNING)"));
+				pSelector->setCurrentIndex(1);
+				break;
+
+			case QtCriticalMsg:
+				lRowData.append(tr("Crítico (CRITICAL)"));
+				pSelector->setCurrentIndex(2);
+				break;
+
+			case QtFatalMsg:
+				lRowData.append(tr("Fatal (FATAL)"));
+				pSelector->setCurrentIndex(3);
+				break;
+
+			default:
+				lRowData.append(tr("Indefinido")); // Error
+		}
+
+		QTreeWidgetItem *pItem = new QTreeWidgetItem((QTreeWidget*)0, lRowData);
+		pItem->setFlags(pItem->flags() | Qt::ItemIsEditable);
+		lItems.append(pItem);
+	}
+
+	ui->treeData->clear();
+	ui->treeData->insertTopLevelItems(0, lItems);
+
+	int i;
+	QList<QTreeWidgetItem*>::iterator it;
+	for(i = 0, it = lItems.begin(); it != lItems.end(); ++it, i++)
+		ui->treeData->setItemWidget(*it, 1, lSelectors.at(i));
+
+	QString sNow = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+	QString sUpdate = tr("Última atualização: %1").arg(sNow);
+	if(lItems.size() == 0)
+		F3Application::showStatusMessage(tr("Não há nenhuma aplicação do projeto F3 em execução. %1").arg(sUpdate), 0);
+	else if(lItems.size() == 1)
+		F3Application::showStatusMessage(tr("Há apenas uma aplicação do projeto F3 em execução. %1").arg(sUpdate), 0);
+	else
+		F3Application::showStatusMessage(tr("Há [%1] aplicações do projeto F3 em execução. %1").arg(lItems.size()).arg(sUpdate), 0);
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::onEditLevel(QTreeWidgetItem *pItem, int iColumn)
+{
+	if(iColumn == 1) // Log Level
+		ui->treeData->editItem(pItem, iColumn);
 }
