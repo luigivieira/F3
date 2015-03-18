@@ -22,7 +22,7 @@
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <IntermediateDirectory>..\release\tmp\</IntermediateDirectory>
+    <IntermediateDirectory>..\release\tmp\core\</IntermediateDirectory>
     <PrimaryOutput>f3core</PrimaryOutput>
   </PropertyGroup>
   <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;" Label="Configuration">
@@ -31,7 +31,7 @@
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <IntermediateDirectory>..\debug\tmp\</IntermediateDirectory>
+    <IntermediateDirectory>..\debug\tmp\core\</IntermediateDirectory>
     <PrimaryOutput>f3cored</PrimaryOutput>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -45,25 +45,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\</OutDir>
-    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\</IntDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\core\</IntDir>
     <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">f3core</TargetName>
     <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</IgnoreImportLibrary>
     <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">false</LinkIncremental>
     <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\</OutDir>
-    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\</IntDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\core\</IntDir>
     <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">f3cored</TargetName>
     <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</IgnoreImportLibrary>
     <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\release\tmp&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\release\tmp\core&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>..\release\tmp\</AssemblerListingLocation>
+      <AssemblerListingLocation>..\release\tmp\core\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>None</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>..\release\tmp\</ObjectFileName>
+      <ObjectFileName>..\release\tmp\core\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
@@ -98,13 +98,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\debug\tmp&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\debug\tmp\core&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>..\debug\tmp\</AssemblerListingLocation>
+      <AssemblerListingLocation>..\debug\tmp\core\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>..\debug\tmp\</ObjectFileName>
+      <ObjectFileName>..\debug\tmp\core\</ObjectFileName>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
@@ -146,13 +146,13 @@
   <ItemGroup>
     <CustomBuild Include="application.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">application.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DCORE_LIBRARY -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/opencv-2.4.10/build/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore application.h -o ..\release\tmp\moc_application.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DCORE_LIBRARY -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/opencv-2.4.10/build/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore application.h -o ..\release\tmp\core\moc_application.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC application.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\moc_application.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\core\moc_application.cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">application.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DCORE_LIBRARY -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/opencv-2.4.10/build/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore application.h -o ..\debug\tmp\moc_application.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DCORE_LIBRARY -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/opencv-2.4.10/build/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore application.h -o ..\debug\tmp\core\moc_application.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC application.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\moc_application.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\core\moc_application.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="core_global.h" />
     <ClInclude Include="emotionlabel.h" />
@@ -161,10 +161,10 @@
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\debug\tmp\moc_application.cpp">
+    <ClCompile Include="..\debug\tmp\core\moc_application.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\release\tmp\moc_application.cpp">
+    <ClCompile Include="..\release\tmp\core\moc_application.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>

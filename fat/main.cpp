@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	// Initialize the application
 	try
 	{
-		F3Application::initiate(argc, argv);
+		F3Application::initiate(argc, argv, "Face Annotation Tool");
 	}
 	catch(std::exception &e)
 	{

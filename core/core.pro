@@ -57,10 +57,10 @@ CONFIG(debug, debug|release) {
 
 	TARGET = f3cored
     DESTDIR = ../debug
-	OBJECTS_DIR = ../debug/tmp
-	MOC_DIR = ../debug/tmp
-	RCC_DIR = ../debug/tmp
-	UI_DIR = ../debug/tmp
+	OBJECTS_DIR = ../debug/tmp/core
+	MOC_DIR = ../debug/tmp/core
+	RCC_DIR = ../debug/tmp/core
+	UI_DIR = ../debug/tmp/core
 
     win32 {
         LIBS += -lopencv_core2410d \
@@ -92,10 +92,10 @@ CONFIG(debug, debug|release) {
 
 	TARGET = f3core
     DESTDIR = ../release
-	OBJECTS_DIR = ../release/tmp
-	MOC_DIR = ../release/tmp
-	RCC_DIR = ../release/tmp
-	UI_DIR = ../release/tmp
+	OBJECTS_DIR = ../release/tmp/core
+	MOC_DIR = ../release/tmp/core
+	RCC_DIR = ../release/tmp/core
+	UI_DIR = ../release/tmp/core
 
     win32 {
         LIBS += -lopencv_core2410 \

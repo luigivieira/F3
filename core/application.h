@@ -54,8 +54,10 @@ namespace f3
 		 * inter-process communication can not be established).
 		 * @param argc Integer with the number of parameters received from the command line.
 		 * @param argv String array with the list of parameters received from the command line.
+		 * @param sAppName QString with the name of the application for log control purposes.
+		 * The default is an empty string (meaning that no log control is required).
 		 */
-		static void initiate(int argc, char* argv[]);
+		static void initiate(int argc, char* argv[], const QString &sAppName = QString());
 
 		/**
 		 * Terminates the singleton object.
@@ -116,8 +118,9 @@ namespace f3
 
 		/**
 		 * Configure the instance of the application.
+		 * @param sAppName QString with the name of the application for log control purposes.
 		 */
-		void setup();
+		void setup(const QString &sAppName);
 
 		/**
 		 * Clean the instance of the application.
@@ -138,7 +141,7 @@ namespace f3
 		LogControl m_oLogControl;
 
 		/** Name of the application, used for the log control via inter-process communication. */
-		static const QString APP_NAME;
+		QString m_sAppName;
 	};
 }
 

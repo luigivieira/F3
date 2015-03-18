@@ -41,13 +41,13 @@ bool f3::LogControl::disconnect()
 }
 
 // +-----------------------------------------------------------
-bool f3::LogControl::isConnected()
+bool f3::LogControl::isConnected() const
 {
 	return m_pSharedMemory->isAttached();
 }
 
 // +-----------------------------------------------------------
-bool f3::LogControl::getLogLevel(const QString &sAppName, QtMsgType &eLevel)
+bool f3::LogControl::getLogLevel(const QString &sAppName, QtMsgType &eLevel) const
 {
 	// Try to lock the shared memory
 	if(!m_pSharedMemory->lock())
@@ -131,7 +131,7 @@ bool f3::LogControl::setLogLevel(const QString &sAppName, const QtMsgType eLevel
 }
 
 // +-----------------------------------------------------------
-bool f3::LogControl::getAppLogData(QMap<QString, QtMsgType> &mAppLogData)
+bool f3::LogControl::getAppLogData(QMap<QString, QtMsgType> &mAppLogData) const
 {
 	// Try to lock the shared memory
 	if(!m_pSharedMemory->lock())

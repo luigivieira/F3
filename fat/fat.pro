@@ -57,10 +57,10 @@ CONFIG(debug, debug|release) {
 
 	TARGET = f3fatd
 	DESTDIR = ../debug
-	OBJECTS_DIR = ../debug/tmp
-	MOC_DIR = ../debug/tmp
-	RCC_DIR = ../debug/tmp
-	UI_DIR = ../debug/tmp
+	OBJECTS_DIR = ../debug/tmp/fat
+	MOC_DIR = ../debug/tmp/fat
+	RCC_DIR = ../debug/tmp/fat
+	UI_DIR = ../debug/tmp/fat
 
 	LIBS += -L../debug
 	LIBS += -lf3cored
@@ -97,10 +97,10 @@ CONFIG(debug, debug|release) {
 
 	TARGET = f3fat
 	DESTDIR = ../release
-	OBJECTS_DIR = ../release/tmp
-	MOC_DIR = ../release/tmp
-	RCC_DIR = ../release/tmp
-	UI_DIR = ../release/tmp
+	OBJECTS_DIR = ../release/tmp/fat
+	MOC_DIR = ../release/tmp/fat
+	RCC_DIR = ../release/tmp/fat
+	UI_DIR = ../release/tmp/fat
 
 	LIBS += -L../release
 	LIBS += -lf3core

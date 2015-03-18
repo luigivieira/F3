@@ -22,7 +22,7 @@
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
-    <IntermediateDirectory>..\release\tmp\</IntermediateDirectory>
+    <IntermediateDirectory>..\release\tmp\fat\</IntermediateDirectory>
     <PrimaryOutput>f3fat</PrimaryOutput>
   </PropertyGroup>
   <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;" Label="Configuration">
@@ -31,7 +31,7 @@
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
-    <IntermediateDirectory>..\debug\tmp\</IntermediateDirectory>
+    <IntermediateDirectory>..\debug\tmp\fat\</IntermediateDirectory>
     <PrimaryOutput>f3fatd</PrimaryOutput>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -45,25 +45,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\</OutDir>
-    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\</IntDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\fat\</IntDir>
     <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">f3fat</TargetName>
     <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</IgnoreImportLibrary>
     <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">false</LinkIncremental>
     <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\</OutDir>
-    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\</IntDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\fat\</IntDir>
     <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">f3fatd</TargetName>
     <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</IgnoreImportLibrary>
     <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;..\core&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\release\tmp&quot;;&quot;..\release\tmp&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;..\core&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\release\tmp\fat&quot;;&quot;..\release\tmp\fat&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>..\release\tmp\</AssemblerListingLocation>
+      <AssemblerListingLocation>..\release\tmp\fat\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>None</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>..\release\tmp\</ObjectFileName>
+      <ObjectFileName>..\release\tmp\fat\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
@@ -98,13 +98,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;..\core&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\debug\tmp&quot;;&quot;..\debug\tmp&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;..\core&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\debug\tmp\fat&quot;;&quot;..\debug\tmp\fat&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>..\debug\tmp\</AssemblerListingLocation>
+      <AssemblerListingLocation>..\debug\tmp\fat\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>..\debug\tmp\</ObjectFileName>
+      <ObjectFileName>..\debug\tmp\fat\</ObjectFileName>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
@@ -146,56 +146,56 @@
   <ItemGroup>
     <CustomBuild Include="aboutwindow.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">aboutwindow.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore aboutwindow.h -o ..\release\tmp\moc_aboutwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore aboutwindow.h -o ..\release\tmp\fat\moc_aboutwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC aboutwindow.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\moc_aboutwindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\fat\moc_aboutwindow.cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">aboutwindow.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore aboutwindow.h -o ..\debug\tmp\moc_aboutwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore aboutwindow.h -o ..\debug\tmp\fat\moc_aboutwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC aboutwindow.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\moc_aboutwindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\fat\moc_aboutwindow.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="childwindow.h" />
     <ClInclude Include="facedatasetmodel.h" />
     <CustomBuild Include="mainwindow.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\release\tmp\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\release\tmp\fat\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC mainwindow.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\moc_mainwindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\fat\moc_mainwindow.cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\debug\tmp\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\debug\tmp\fat\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC mainwindow.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\moc_mainwindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\fat\moc_mainwindow.cpp;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\debug\tmp\moc_aboutwindow.cpp">
+    <ClCompile Include="..\debug\tmp\fat\moc_aboutwindow.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\release\tmp\moc_aboutwindow.cpp">
+    <ClCompile Include="..\release\tmp\fat\moc_aboutwindow.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\debug\tmp\moc_mainwindow.cpp">
+    <ClCompile Include="..\debug\tmp\fat\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\release\tmp\moc_mainwindow.cpp">
+    <ClCompile Include="..\release\tmp\fat\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\debug\tmp\qrc_resources.cpp">
+    <ClCompile Include="..\debug\tmp\fat\qrc_resources.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\release\tmp\qrc_resources.cpp">
+    <ClCompile Include="..\release\tmp\fat\qrc_resources.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClInclude Include="..\debug\tmp\ui_aboutwindow.h">
+    <ClInclude Include="..\debug\tmp\fat\ui_aboutwindow.h">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\release\tmp\ui_aboutwindow.h">
+    <ClInclude Include="..\release\tmp\fat\ui_aboutwindow.h">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\debug\tmp\ui_mainwindow.h">
+    <ClInclude Include="..\debug\tmp\fat\ui_mainwindow.h">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\release\tmp\ui_mainwindow.h">
+    <ClInclude Include="..\release\tmp\fat\ui_mainwindow.h">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClInclude>
   </ItemGroup>
@@ -203,47 +203,56 @@
     <CustomBuild Include="aboutwindow.ui">
       <FileType>Document</FileType>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">aboutwindow.ui;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe aboutwindow.ui -o ..\release\tmp\ui_aboutwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe aboutwindow.ui -o ..\release\tmp\fat\ui_aboutwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">UIC aboutwindow.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\ui_aboutwindow.h;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\fat\ui_aboutwindow.h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">aboutwindow.ui;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe aboutwindow.ui -o ..\debug\tmp\ui_aboutwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe aboutwindow.ui -o ..\debug\tmp\fat\ui_aboutwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">UIC aboutwindow.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\ui_aboutwindow.h;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\fat\ui_aboutwindow.h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="mainwindow.ui">
       <FileType>Document</FileType>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mainwindow.ui;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe mainwindow.ui -o ..\release\tmp\ui_mainwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe mainwindow.ui -o ..\release\tmp\fat\ui_mainwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">UIC mainwindow.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\ui_mainwindow.h;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\fat\ui_mainwindow.h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">mainwindow.ui;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe mainwindow.ui -o ..\debug\tmp\ui_mainwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe mainwindow.ui -o ..\debug\tmp\fat\ui_mainwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">UIC mainwindow.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\ui_mainwindow.h;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\fat\ui_mainwindow.h;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\icons\addimage.png" />
+    <None Include="resources\icons\add.png" />
     <None Include="resources\images\brokenimage.png" />
-    <None Include="resources\icons\face-dataset.png" />
+    <None Include="resources\icons\database.png" />
+    <None Include="resources\icons\delete.png" />
+    <None Include="resources\icons\emotion-anger.png" />
+    <None Include="resources\icons\emotion-contempt.png" />
+    <None Include="resources\icons\emotion-disgust.png" />
+    <None Include="resources\icons\emotion-fear.png" />
+    <None Include="resources\icons\emotion-happiness.png" />
+    <None Include="resources\icons\emotion-sadness.png" />
+    <None Include="resources\icons\emotion-surprise.png" />
+    <None Include="resources\icons\emotion-undefined.png" />
     <None Include="resources\icons\fat.png" />
     <None Include="resources\icons\help.png" />
     <None Include="resources\images\imagemissing.png" />
+    <None Include="resources\icons\information.png" />
     <None Include="resources\icons\new.png" />
     <None Include="resources\images\noface.png" />
     <None Include="resources\icons\open.png" />
-    <None Include="resources\icons\removeimage.png" />
     <CustomBuild Include="resources.qrc">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">resources.qrc;resources\images\brokenimage.png;resources\images\noface.png;resources\images\imagemissing.png;resources\icons\saveas.png;resources\icons\face-dataset.png;resources\icons\viewdetails.png;resources\icons\viewicons.png;resources\icons\new.png;resources\icons\addimage.png;resources\icons\removeimage.png;resources\icons\open.png;resources\icons\fat.png;resources\icons\save.png;resources\icons\help.png;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\release\tmp\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">resources.qrc;resources\images\brokenimage.png;resources\images\noface.png;resources\images\imagemissing.png;resources\icons\viewdetails.png;resources\icons\viewicons.png;resources\icons\fat.png;resources\icons\save.png;resources\icons\emotion-anger.png;resources\icons\emotion-contempt.png;resources\icons\open.png;resources\icons\emotion-undefined.png;resources\icons\help.png;resources\icons\database.png;resources\icons\add.png;resources\icons\emotion-disgust.png;resources\icons\emotion-surprise.png;resources\icons\information.png;resources\icons\saveas.png;resources\icons\delete.png;resources\icons\emotion-happiness.png;resources\icons\emotion-sadness.png;resources\icons\emotion-fear.png;resources\icons\new.png;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\release\tmp\fat\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">RCC resources.qrc</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\qrc_resources.cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">resources.qrc;resources\images\brokenimage.png;resources\images\noface.png;resources\images\imagemissing.png;resources\icons\saveas.png;resources\icons\face-dataset.png;resources\icons\viewdetails.png;resources\icons\viewicons.png;resources\icons\new.png;resources\icons\addimage.png;resources\icons\removeimage.png;resources\icons\open.png;resources\icons\fat.png;resources\icons\save.png;resources\icons\help.png;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\debug\tmp\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\fat\qrc_resources.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">resources.qrc;resources\images\brokenimage.png;resources\images\noface.png;resources\images\imagemissing.png;resources\icons\viewdetails.png;resources\icons\viewicons.png;resources\icons\fat.png;resources\icons\save.png;resources\icons\emotion-anger.png;resources\icons\emotion-contempt.png;resources\icons\open.png;resources\icons\emotion-undefined.png;resources\icons\help.png;resources\icons\database.png;resources\icons\add.png;resources\icons\emotion-disgust.png;resources\icons\emotion-surprise.png;resources\icons\information.png;resources\icons\saveas.png;resources\icons\delete.png;resources\icons\emotion-happiness.png;resources\icons\emotion-sadness.png;resources\icons\emotion-fear.png;resources\icons\new.png;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\debug\tmp\fat\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">RCC resources.qrc</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\qrc_resources.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\fat\qrc_resources.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <None Include="resources\icons\save.png" />
     <None Include="resources\icons\saveas.png" />

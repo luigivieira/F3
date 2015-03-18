@@ -22,7 +22,7 @@
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
-    <IntermediateDirectory>..\release\tmp\</IntermediateDirectory>
+    <IntermediateDirectory>..\release\tmp\lol\</IntermediateDirectory>
     <PrimaryOutput>f3lol</PrimaryOutput>
   </PropertyGroup>
   <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;" Label="Configuration">
@@ -31,7 +31,7 @@
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
-    <IntermediateDirectory>..\debug\tmp\</IntermediateDirectory>
+    <IntermediateDirectory>..\debug\tmp\lol\</IntermediateDirectory>
     <PrimaryOutput>f3lold</PrimaryOutput>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -45,25 +45,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\</OutDir>
-    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\</IntDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\lol\</IntDir>
     <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">f3lol</TargetName>
     <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</IgnoreImportLibrary>
     <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">false</LinkIncremental>
     <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\</OutDir>
-    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\</IntDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\lol\</IntDir>
     <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">f3lold</TargetName>
     <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</IgnoreImportLibrary>
     <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;..\core&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\release\tmp&quot;;&quot;..\release\tmp&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;..\core&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\release\tmp\lol&quot;;&quot;..\release\tmp\lol&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>..\release\tmp\</AssemblerListingLocation>
+      <AssemblerListingLocation>..\release\tmp\lol\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>None</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>..\release\tmp\</ObjectFileName>
+      <ObjectFileName>..\release\tmp\lol\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
@@ -98,13 +98,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;..\core&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\debug\tmp&quot;;&quot;..\debug\tmp&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;..\core&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\debug\tmp\lol&quot;;&quot;..\debug\tmp\lol&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>..\debug\tmp\</AssemblerListingLocation>
+      <AssemblerListingLocation>..\debug\tmp\lol\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>..\debug\tmp\</ObjectFileName>
+      <ObjectFileName>..\debug\tmp\lol\</ObjectFileName>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
@@ -138,60 +138,79 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aboutwindow.cpp" />
+    <ClCompile Include="datamodel.cpp" />
+    <ClCompile Include="leveldelegate.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="aboutwindow.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">aboutwindow.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore aboutwindow.h -o ..\release\tmp\moc_aboutwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore aboutwindow.h -o ..\release\tmp\lol\moc_aboutwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC aboutwindow.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\moc_aboutwindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\lol\moc_aboutwindow.cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">aboutwindow.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore aboutwindow.h -o ..\debug\tmp\moc_aboutwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore aboutwindow.h -o ..\debug\tmp\lol\moc_aboutwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC aboutwindow.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\moc_aboutwindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\lol\moc_aboutwindow.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="datamodel.h" />
+    <CustomBuild Include="leveldelegate.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">leveldelegate.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore leveldelegate.h -o ..\release\tmp\lol\moc_leveldelegate.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC leveldelegate.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\lol\moc_leveldelegate.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">leveldelegate.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore leveldelegate.h -o ..\debug\tmp\lol\moc_leveldelegate.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC leveldelegate.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\lol\moc_leveldelegate.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="mainwindow.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\release\tmp\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\release\tmp\lol\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC mainwindow.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\moc_mainwindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\lol\moc_mainwindow.cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\debug\tmp\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/lol -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\debug\tmp\lol\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC mainwindow.h</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\moc_mainwindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\lol\moc_mainwindow.cpp;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\debug\tmp\moc_aboutwindow.cpp">
+    <ClCompile Include="..\debug\tmp\lol\moc_aboutwindow.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\release\tmp\moc_aboutwindow.cpp">
+    <ClCompile Include="..\release\tmp\lol\moc_aboutwindow.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\debug\tmp\moc_mainwindow.cpp">
+    <ClCompile Include="..\debug\tmp\lol\moc_leveldelegate.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\release\tmp\moc_mainwindow.cpp">
+    <ClCompile Include="..\release\tmp\lol\moc_leveldelegate.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\debug\tmp\qrc_resources.cpp">
+    <ClCompile Include="..\debug\tmp\lol\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\release\tmp\qrc_resources.cpp">
+    <ClCompile Include="..\release\tmp\lol\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClInclude Include="..\debug\tmp\ui_aboutwindow.h">
+    <ClCompile Include="..\debug\tmp\lol\qrc_resources.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\release\tmp\lol\qrc_resources.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="..\debug\tmp\lol\ui_aboutwindow.h">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\release\tmp\ui_aboutwindow.h">
+    <ClInclude Include="..\release\tmp\lol\ui_aboutwindow.h">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\debug\tmp\ui_mainwindow.h">
+    <ClInclude Include="..\debug\tmp\lol\ui_mainwindow.h">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\release\tmp\ui_mainwindow.h">
+    <ClInclude Include="..\release\tmp\lol\ui_mainwindow.h">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
     </ClInclude>
   </ItemGroup>
@@ -199,38 +218,41 @@
     <CustomBuild Include="aboutwindow.ui">
       <FileType>Document</FileType>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">aboutwindow.ui;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe aboutwindow.ui -o ..\release\tmp\ui_aboutwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe aboutwindow.ui -o ..\release\tmp\lol\ui_aboutwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">UIC aboutwindow.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\ui_aboutwindow.h;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\lol\ui_aboutwindow.h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">aboutwindow.ui;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe aboutwindow.ui -o ..\debug\tmp\ui_aboutwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe aboutwindow.ui -o ..\debug\tmp\lol\ui_aboutwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">UIC aboutwindow.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\ui_aboutwindow.h;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\lol\ui_aboutwindow.h;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="mainwindow.ui">
       <FileType>Document</FileType>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mainwindow.ui;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe mainwindow.ui -o ..\release\tmp\ui_mainwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe mainwindow.ui -o ..\release\tmp\lol\ui_mainwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">UIC mainwindow.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\ui_mainwindow.h;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\lol\ui_mainwindow.h;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">mainwindow.ui;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe mainwindow.ui -o ..\debug\tmp\ui_mainwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\uic.exe mainwindow.ui -o ..\debug\tmp\lol\ui_mainwindow.h&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">UIC mainwindow.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\ui_mainwindow.h;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\lol\ui_mainwindow.h;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <None Include="resources\icons\help.png" />
+    <None Include="resources\icons\lol.png" />
     <CustomBuild Include="resources.qrc">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">resources.qrc;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\release\tmp\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">resources.qrc;resources\icons\lol.png;resources\icons\help.png;resources\icons\update.png;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\release\tmp\lol\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">RCC resources.qrc</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\qrc_resources.cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">resources.qrc;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\debug\tmp\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\lol\qrc_resources.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">resources.qrc;resources\icons\lol.png;resources\icons\help.png;resources\icons\update.png;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\debug\tmp\lol\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">RCC resources.qrc</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\qrc_resources.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\lol\qrc_resources.cpp;%(Outputs)</Outputs>
     </CustomBuild>
+    <None Include="resources\icons\update.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="win_resources.rc" />

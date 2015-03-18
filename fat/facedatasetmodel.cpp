@@ -14,23 +14,23 @@ f3::FaceDatasetModel::FaceDatasetModel(FaceDataset *pFaceDataset, QObject *pPare
 }
 
 // +-----------------------------------------------------------
-f3::FaceDatasetModel::~FaceDatasetModel(void)
+f3::FaceDatasetModel::~FaceDatasetModel()
 {
 }
 
 
 // +-----------------------------------------------------------
-int f3::FaceDatasetModel::rowCount(const QModelIndex &/*oParent*/) const
+int f3::FaceDatasetModel::rowCount(const QModelIndex &oParent) const
 {
+	Q_UNUSED(oParent);
 	return m_pFaceDataset->size();
 }
 
 // +-----------------------------------------------------------
-int f3::FaceDatasetModel::columnCount(const QModelIndex &) const
+int f3::FaceDatasetModel::columnCount(const QModelIndex &oParent) const
 {
-	// There are two columns of data:
-	// [Image], [Emotion Label]
-	return 2;
+	Q_UNUSED(oParent);
+	return 2; // There are two columns of data: [Image], [Emotion Label]
 }
 
 // +-----------------------------------------------------------
@@ -80,8 +80,9 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 }
 
 // +-----------------------------------------------------------
-QVariant f3::FaceDatasetModel::headerData(int iSection, Qt::Orientation /*eOrientation*/, int iRole) const
+QVariant f3::FaceDatasetModel::headerData(int iSection, Qt::Orientation eOrientation, int iRole) const
 {
+	Q_UNUSED(eOrientation);
 	switch(iRole)
 	{
 		// Display data (the dataset contents)

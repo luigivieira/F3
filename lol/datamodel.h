@@ -17,31 +17,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FACEDATASETMODEL_H
-#define FACEDATASETMODEL_H
+#ifndef DATAMODEL_H
+#define DATAMODEL_H
 
-#include "facedataset.h"
+#include "logcontrol.h"
 
 #include <QAbstractListModel>
+#include <QMap>
 
 namespace f3
 {
 	/**
-	 * Model class that encapsulates the access to the FaceDataset in order to provide data for
-	 * the view classes in Qt (such as QListView).
+	 * Model class that encapsulates the access to the Log Control data for the view
+	 * classes in Qt (such as QListView).
 	 */
-	class FaceDatasetModel : public QAbstractListModel
+	class DataModel : public QAbstractListModel
 	{
 	public:
 		/**
 		 * Class constructor.
+		 * @param pParent Instance of the parent object for the data model (default is 0).
 		 */
-		FaceDatasetModel(FaceDataset *pFaceDataset, QObject *pParent = NULL);
+		DataModel(QObject *pParent = 0);
 
 		/**
 		 * Virtual class destructor.
 		 */
-		virtual ~FaceDatasetModel();
+		virtual ~DataModel();
 
 		/**
 		 * Returns the number of rows under the given parent. When the parent is valid
@@ -59,27 +61,52 @@ namespace f3
 		int columnCount(const QModelIndex &oParent = QModelIndex()) const;
 
 		/**
-		 * Returns the data stored under the given role for the item referred to by the index.
+		 * Returns the data stored under the given role for the item referred by the index.
 		 * @param oIndex A QModelIndex with the index of the data requested.
-		 * @param iRole A DispleyRole identifying the role of the data requested (the default is DisplayRole).
+		 * @param iRole A DisplayRole identifying the role of the data requested.
 		 * @return A QVariant with the data requested.
 		 */
 		QVariant data(const QModelIndex &oIndex, int iRole = Qt::DisplayRole) const;
 
+		/**
+		 * Updates the data stored under the given role for the item referred by the index.
+		 * @param oIndex A QModelIndex with the index of the data to be updated.
+		 * param oValue A QVariant with the new value for the data under the index.
+		 * @param iRole A DisplayRole identifying the role of the data to be updated.
+		 * @return A boolean indicating if the update was successful (true) or not (false).
+		 */
+		bool setData(const QModelIndex &oIndex, const QVariant &oValue, int iRole = Qt::EditRole);
+
+		/**
+		 * Returns the header data stored under the given role and orientation for the section referred.
+		 * @param iSection Integer with the index of the section (column).
+		 * @param eOrientation Orientation of the header data requested (not used).
+		 * @param iRole A DisplayRole identifying the role of the header data requested.
+		 */
 		QVariant headerData(int iSection, Qt::Orientation eOrientation, int iRole = Qt::DisplayRole) const;
 
 		/**
-		 * Mark that a change in the a reset in the model so the views using it will be updated.
+		 * Queries the display/edit flags for the given index.
+		 * @param oIndex A QModelIndex with the index to be queried.
+		 * @return A Qt::ItemFlags with the flags to be applied to the given index.
 		 */
-		void beginUpdate();
+		Qt::ItemFlags flags(const QModelIndex &oIndex) const;
 
-		void endUpdate();
+		/**
+		 * Update the map used to provide the data from the Log Control.
+		 * @return Boolean indicating if the update was successful (true) or not (false).
+		 */
+		bool updateData();
 
 	private:
+
+		/** Map with the data from the applications running. */
+		QMap<QString, QtMsgType> m_mData;
+
 		/** Instance of the face annotation dataset for data access. */
-		FaceDataset *m_pFaceDataset;
+		LogControl m_oLogControl;
 	};
 
 }
 
-#endif //FACEDATASETMODEL_H
+#endif //DATAMODEL_H

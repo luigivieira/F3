@@ -145,10 +145,22 @@ namespace f3
 		 */
 		void on_actionRemoveImage_triggered();
 
+		/**
+		 * Define the view to be used for the list of images (icons, a list view, or "details", a tree view).
+		 * @param sType String with the type to be used (either "icons" or "details").
+		 */
 		void setImageListView(QString sType);
 
+		/**
+		 * Helper method to toggle the current view for the list of images (used in the shortcut button).
+		 */
 		void toggleImageListView();
 
+		/**
+		 * Slot for the selection of an image thumbnail in either the list or the tree view components.
+		 * @param oIndex QModelIndex with the item selected.
+		 * @param oPrevIndex QModelIndex with the item previously selected.
+		 */
 		void on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex);
 
     private:
@@ -164,7 +176,6 @@ namespace f3
 		/** Instance of a dropdown button for the view mode of the image list. */
 		QMenu *m_pViewButton;
     };
-
-}
+};
 
 #endif // MAINWINDOW_H

@@ -263,8 +263,9 @@ void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_tabChanged(int /*iTabIndex*/)
+void f3::MainWindow::on_tabChanged(int iTabIndex)
 {
+	Q_UNUSED(iTabIndex);
 	updateUI(true); // In case the current tab is changed, force the update of the view model
 }
 
@@ -363,8 +364,9 @@ void f3::MainWindow::toggleImageListView()
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &/*oPrevIndex*/)
+void f3::MainWindow::on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex)
 {
+	Q_UNUSED(oPrevIndex);
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
 	if(!pChild)
 		return;

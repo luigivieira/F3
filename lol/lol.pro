@@ -31,9 +31,13 @@ win32 {
 SOURCES += main.cpp \
            mainwindow.cpp \
            aboutwindow.cpp \
+           datamodel.cpp \
+           leveldelegate.cpp
            
 HEADERS += mainwindow.h \
-           aboutwindow.h
+           aboutwindow.h \
+           datamodel.h \
+           leveldelegate.h
 
 FORMS += mainwindow.ui \
          aboutwindow.ui
@@ -53,10 +57,10 @@ CONFIG(debug, debug|release) {
 
 	TARGET = f3lold
 	DESTDIR = ../debug
-	OBJECTS_DIR = ../debug/tmp
-	MOC_DIR = ../debug/tmp
-	RCC_DIR = ../debug/tmp
-	UI_DIR = ../debug/tmp
+	OBJECTS_DIR = ../debug/tmp/lol
+	MOC_DIR = ../debug/tmp/lol
+	RCC_DIR = ../debug/tmp/lol
+	UI_DIR = ../debug/tmp/lol
 
 	LIBS += -L../debug
 	LIBS += -lf3cored
@@ -67,10 +71,10 @@ CONFIG(debug, debug|release) {
 
 	TARGET = f3lol
 	DESTDIR = ../release
-	OBJECTS_DIR = ../release/tmp
-	MOC_DIR = ../release/tmp
-	RCC_DIR = ../release/tmp
-	UI_DIR = ../release/tmp
+	OBJECTS_DIR = ../release/tmp/lol
+	MOC_DIR = ../release/tmp/lol
+	RCC_DIR = ../release/tmp/lol
+	UI_DIR = ../release/tmp/lol
 
 	LIBS += -L../release
 	LIBS += -lf3core

@@ -31,16 +31,13 @@ using namespace std;
 // Initiate the singleton instance with null
 f3::F3Application* f3::F3Application::m_spInstance = NULL;
 
-// Initialize the application name
-const QString f3::F3Application::APP_NAME = "Face Annotation Tool";
-
 // +-----------------------------------------------------------
-void f3::F3Application::initiate(int argc, char* argv[])
+void f3::F3Application::initiate(int argc, char* argv[], const QString &sAppName)
 {
 	if(!m_spInstance)
 	{
 		m_spInstance = new F3Application(argc, argv);
-		m_spInstance->setup();
+		m_spInstance->setup(sAppName);
 	}
 }
 
@@ -56,36 +53,45 @@ void f3::F3Application::terminate()
 }
 
 // +-----------------------------------------------------------
-void f3::F3Application::setup()
+void f3::F3Application::setup(const QString &sAppName)
 {
-	if(!m_oLogControl.connect())
-		throw runtime_error("Error initiating the inter-process communication");
+	m_sAppName = sAppName;
 
-	QString sLogFile = QCoreApplication::applicationFilePath();
-	sLogFile.replace(".exe", ""); // For windows
-	sLogFile += ".log";
-    
-	m_oLogFile.open(qPrintable(sLogFile), ios::app);
-	if(!m_oLogFile.is_open())
+	// Only install the message handler and initialize the log control if the app name is not empty
+	if(m_sAppName.length() > 0)
 	{
-		QString sError = QString("Error opening log file [%1] for writing").arg(sLogFile);
-		throw runtime_error(qPrintable(sError));
+		if(!m_oLogControl.connect())
+			throw runtime_error("Error initiating the inter-process communication");
+
+		QString sLogFile = QCoreApplication::applicationFilePath();
+		sLogFile.replace(".exe", ""); // For windows
+		sLogFile += ".log";
+    
+		m_oLogFile.open(qPrintable(sLogFile), ios::app);
+		if(!m_oLogFile.is_open())
+		{
+			QString sError = QString("Error opening log file [%1] for writing").arg(sLogFile);
+			throw runtime_error(qPrintable(sError));
+		}
+
+		qInstallMessageHandler(&f3::F3Application::handleLogOutput);
+
+		// Default to only log fatal messages
+		m_eLogLevel = QtFatalMsg;
+		m_oLogControl.setLogLevel(m_sAppName, m_eLogLevel);
 	}
-
-	qInstallMessageHandler(&f3::F3Application::handleLogOutput);
-
-	// Default to only log fatal messages
-	m_eLogLevel = QtFatalMsg;
-	m_oLogControl.setLogLevel(APP_NAME, m_eLogLevel);
 }
 
 // +-----------------------------------------------------------
 void f3::F3Application::clean()
 {
-	m_oLogFile.flush();
-	m_oLogFile.close();
-	m_oLogControl.removeAppEntry("Face Annotation Tool");
-	m_oLogControl.disconnect();
+	if(m_sAppName.length() > 0)
+	{
+		m_oLogFile.flush();
+		m_oLogFile.close();
+		m_oLogControl.removeAppEntry(m_sAppName);
+		m_oLogControl.disconnect();
+	}
 }
 
 // +-----------------------------------------------------------
@@ -128,9 +134,12 @@ bool f3::F3Application::notify(QObject* pReceiver, QEvent* pEvent)
     try
 	{
 		// Check if there is an update in the log level for this application
-		QtMsgType eLevel;
-		if(m_oLogControl.getLogLevel(APP_NAME, eLevel))
-			m_eLogLevel = eLevel;
+		if(m_sAppName.length() > 0)
+		{
+			QtMsgType eLevel;
+			if(m_oLogControl.getLogLevel(m_sAppName, eLevel) && m_eLogLevel != eLevel)
+				m_eLogLevel = eLevel;
+		}
 
 		// Retransmit the event notification
         return QApplication::notify(pReceiver, pEvent);
@@ -150,9 +159,9 @@ bool f3::F3Application::notify(QObject* pReceiver, QEvent* pEvent)
 }
 
 // +-----------------------------------------------------------
-void f3::F3Application::handleLogOutput(QtMsgType eType, const QMessageLogContext& oContext, const QString& sMsg) {
+void f3::F3Application::handleLogOutput(QtMsgType eType, const QMessageLogContext &oContext, const QString &sMsg) {
 	// Do not log the message if its type is bigger then the maximum configured log level
-	if(eType > instance()->m_eLogLevel)
+	if(eType < instance()->m_eLogLevel)
 		return;
 
 	QString sNow = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");

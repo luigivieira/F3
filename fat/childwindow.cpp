@@ -36,7 +36,7 @@ using namespace std;
 using namespace cv;
 
 // +-----------------------------------------------------------
-f3::ChildWindow::ChildWindow(QWidget* pParent) :
+f3::ChildWindow::ChildWindow(QWidget *pParent) :
     QWidget(pParent)
 {
 	setAutoFillBackground(true);
@@ -246,6 +246,7 @@ void f3::ChildWindow::applyZoom()
 // +-----------------------------------------------------------
 bool f3::ChildWindow::eventFilter(QObject *pObject, QEvent *pEvent)
 {
+	Q_UNUSED(pObject);
 	// Ignore the mouse wheel events if the Ctrl key is pressed
 	bool bCtrl = QApplication::keyboardModifiers() & Qt::ControlModifier;
 	if(pEvent->type() == QEvent::Wheel && bCtrl)

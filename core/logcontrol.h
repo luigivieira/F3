@@ -61,7 +61,7 @@ namespace f3
 		 * Queries if the log control is connected.
 		 * @return Boolean indicating if the application is connected (true) or not (false) via log control.
 		 */
-		bool isConnected();
+		bool isConnected() const;
 
 		/**
 		 * Queries the current log level of the application with the given name.
@@ -72,7 +72,7 @@ namespace f3
 		 * the application with the given name has not been registered yet (it is probably not
 		 * running).
 		 */
-		bool getLogLevel(const QString &sAppName, QtMsgType &eLevel);
+		bool getLogLevel(const QString &sAppName, QtMsgType &eLevel) const;
 
 		/**
 		 * Updates the current log level of the application with the given name.
@@ -92,7 +92,7 @@ namespace f3
 		 * @return Boolean indicating if the operation was successful (true) or not (false).
 		 * This method returns false if the log control has not been connected before.
 		 */
-		bool getAppLogData(QMap<QString, QtMsgType> &mAppLogData);
+		bool getAppLogData(QMap<QString, QtMsgType> &mAppLogData) const;
 
 		/**
 		 * Removes the entry of the given application name from the log control.

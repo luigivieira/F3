@@ -21,7 +21,7 @@
 #define MAINWINDOW_H
 
 #include "aboutwindow.h"
-#include "logcontrol.h"
+#include "datamodel.h"
 
 #include <QMainWindow>
 #include <QTreeWidget>
@@ -95,12 +95,6 @@ namespace f3
          */
         void on_actionAbout_triggered();
 
-		/**
-		 * Slot for the 
-		 */
-
-		void onEditLevel(QTreeWidgetItem *pItem, int iColumn);
-
     private:
         /** Instance of the ui for GUI element access. */
         Ui::MainWindow *ui;
@@ -109,7 +103,7 @@ namespace f3
         AboutWindow* m_pAbout;
 
 		/** Object used to access the log data via inter-process communication. */
-		LogControl m_oLogControl;
+		DataModel m_oDataModel;
     };
 
 }

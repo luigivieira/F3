@@ -31,38 +31,16 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTreeWidget" name="treeData">
+     <widget class="QTreeView" name="treeData">
       <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="alternatingRowColors">
-       <bool>true</bool>
+       <set>QAbstractItemView::AllEditTriggers</set>
       </property>
       <property name="rootIsDecorated">
        <bool>false</bool>
       </property>
-      <property name="columnCount">
-       <number>2</number>
-      </property>
       <attribute name="headerDefaultSectionSize">
-       <number>400</number>
+       <number>250</number>
       </attribute>
-      <column>
-       <property name="text">
-        <string>Nome da Aplicação</string>
-       </property>
-       <property name="toolTip">
-        <string>Nome da aplicação do projeto F3 (Fun from Faces) atualmente em execução</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Nível de Log</string>
-       </property>
-       <property name="toolTip">
-        <string>Nível de log atualmente utilizado pela aplicação</string>
-       </property>
-      </column>
      </widget>
     </item>
    </layout>
