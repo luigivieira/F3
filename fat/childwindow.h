@@ -23,11 +23,10 @@
 //#include "ui_childwindow.h"
 #include "facedataset.h"
 #include "facedatasetmodel.h"
+#include "facewidget.h"
 
 #include <QtGui>
 #include <QWidget>
-#include <QScrollArea>
-#include <QLabel>
 
 namespace f3
 {
@@ -105,51 +104,10 @@ namespace f3
 		 */
 		bool loadFromFile(const QString &sFileName, QString &sMsgError);
 
-		/**
-		 * Queries the current applied scale factor (used to zoom the image currently displayed).
-		 * @return Float with the current applied scale factor.
-		 */
-		float getScaleFactor() const;
-
-		/**
-		 * Updates the scale factor (and immediatelly applies the zoom to the image currently displayed).
-		 * @param fFactor New scale factor to be applied to the display of images (must be in the range
-		 * [0.33, 3.00]).
-		 */
-		void setScaleFactor(const float fFactor);
-
-	protected:
-
-		/**
-		 * Applies the current scale factor to the image on display.
-		 */
-		void applyZoom();
-
-		/**
-		 * Filters the Qt events that shall be processed by the given object.
-		 * Currently it is only used to filter the mouse wheel event in the QScrollArea
-		 * while the Ctrl key is pressed (since this combination is handled at this class
-		 * to emulate the zoom in and out).
-		 * @param pObject Instance of the object about to receive the event.
-		 * @param pEvent Instace of the event being delivered.
-		 * @return Boolean indicating if the event develiry to the object shall be
-		 * prevented (true) or not (false).
-		 */
-		bool eventFilter(QObject *pObject, QEvent *pEvent);
-
-		/**
-		 * Captures the mouse wheel event on the child window widget.
-		 * @param pEvent Instance of the mouse wheel event.
-		 */
-		void wheelEvent(QWheelEvent *pEvent);
-
 	private:
 
-		/** Scroll area used to allow visualizing the whole image when it is larger than the view port. */
-		QScrollArea *m_pScrollArea;
-
-		/** Label used to display the image in the centre of the child window widget. */
-		QLabel *m_pImage;
+		/** Widget used to display face images and edit facial features. */
+		FaceWidget *m_pFaceWidget;
 
 		/** Instance of the face dataset control class used to handle the annotation operations. */
 		FaceDataset *m_pFaceDataset;
@@ -159,9 +117,6 @@ namespace f3
 
 		/** Selection model used to represent the selection of items in Qt view components such as QListView. */
 		QItemSelectionModel *m_pFaceSelectionModel;
-
-		/** Factor used to scale the display image in zoom in and out interactions. */
-		float m_fScaleFactor;
 	};
 }
 

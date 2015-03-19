@@ -32,11 +32,13 @@ SOURCES += main.cpp \
            mainwindow.cpp \
            childwindow.cpp \
            aboutwindow.cpp \
-           facedatasetmodel.cpp
+           facewidget.cpp \
+           facedatasetmodel.cpp           
            
 HEADERS += mainwindow.h \
            childwindow.h \
            aboutwindow.h \
+           facewidget.h \
            facedatasetmodel.h
 
 FORMS += mainwindow.ui \

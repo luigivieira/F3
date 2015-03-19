@@ -27,10 +27,8 @@
 #include <QMessageBox>
 #include <QGridLayout>
 #include <QApplication>
-#include <QScrollBar>
 
 #include <vector>
-#include <math.h>
 
 using namespace std;
 using namespace cv;
@@ -47,23 +45,9 @@ f3::ChildWindow::ChildWindow(QWidget *pParent) :
 	pLayout->setMargin(0);
 	setLayout(pLayout);
 
-	m_pScrollArea = new QScrollArea(this);
-	m_pScrollArea->setBackgroundRole(QPalette::Dark);
-	m_pScrollArea->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	m_pFaceWidget = new FaceWidget(this);
+	pLayout->addWidget(m_pFaceWidget);
 
-	// Make the scroll ignore the mouse wheel events (they will be handled
-	// at this class scope).
-	m_pScrollArea->viewport()->installEventFilter(this);
-
-	pLayout->addWidget(m_pScrollArea);
-
-	m_pImage = new QLabel(m_pScrollArea);
-	m_pImage->setScaledContents(true);
-	m_pImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-
-	m_pScrollArea->setWidget(m_pImage);
-
-	m_fScaleFactor = 1.0f;
 	showImage(-1);
 
 	m_pFaceDataset = new FaceDataset();
@@ -162,22 +146,17 @@ QItemSelectionModel* f3::ChildWindow::getSelectionModel() const
 void f3::ChildWindow::showImage(const int iIndex)
 {
 	if(iIndex == -1)
-	{
-		m_pImage->setPixmap(QPixmap(":/images/noface"));
-		applyZoom();
-	}
+		m_pFaceWidget->setPixmap(QPixmap(":/images/noface"));
 	else
 	{
 		QImage oImage;
 		if(!m_pFaceDataset->getImage(iIndex, oImage))
 		{
-			m_pImage->setPixmap(QPixmap(":/images/brokenimage"));
-			applyZoom();
+			m_pFaceWidget->setPixmap(QPixmap(":/images/brokenimage"));
 			return;
 		}
 
-		m_pImage->setPixmap(QPixmap().fromImage(oImage));
-		applyZoom();
+		m_pFaceWidget->setPixmap(QPixmap().fromImage(oImage));
 	}
 }
 
@@ -214,60 +193,4 @@ bool f3::ChildWindow::loadFromFile(const QString &sFileName, QString &sMsgError)
 	setWindowModified(false);
 	setProperty("new", QVariant()); // No longer a new dataset
 	return true;
-}
-
-// +-----------------------------------------------------------
-float f3::ChildWindow::getScaleFactor() const
-{
-	return m_fScaleFactor;
-}
-
-// +-----------------------------------------------------------
-void f3::ChildWindow::setScaleFactor(const float fFactor)
-{
-	if(fFactor > 0.333 && fFactor < 3.0) // Guarantee a zoom in range [33.3%, 300%]
-	{
-		m_fScaleFactor = fFactor;
-		
-		// Apply the zoon to the current image
-		applyZoom();
-	}
-}
-
-// +-----------------------------------------------------------
-void f3::ChildWindow::applyZoom()
-{
-	if(m_fScaleFactor == 1.0f)
-		m_pImage->adjustSize();
-	else
-		m_pImage->resize(m_fScaleFactor * m_pImage->pixmap()->size());
-}
-
-// +-----------------------------------------------------------
-bool f3::ChildWindow::eventFilter(QObject *pObject, QEvent *pEvent)
-{
-	Q_UNUSED(pObject);
-	// Ignore the mouse wheel events if the Ctrl key is pressed
-	bool bCtrl = QApplication::keyboardModifiers() & Qt::ControlModifier;
-	if(pEvent->type() == QEvent::Wheel && bCtrl)
-	{
-		pEvent->ignore();
-		return true;
-	}
-	return false;
-}
-
-// +-----------------------------------------------------------
-void f3::ChildWindow::wheelEvent(QWheelEvent *pEvent)
-{
-	if(QApplication::keyboardModifiers() & Qt::ControlModifier)
-	{
-		float fFactor = getScaleFactor();
-		if(pEvent->delta() > 0)
-			fFactor *= 1.25f;
-		else
-			fFactor *= 0.8f;
-		setScaleFactor(fFactor);
-		pEvent->accept();
-	}
 }
