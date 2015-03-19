@@ -23,6 +23,7 @@
 #include <QGraphicsScene>
 #include <QPixmap>
 #include <QGraphicsEffect>
+#include <QScrollBar>
 
 // +-----------------------------------------------------------
 f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
@@ -73,7 +74,17 @@ void f3::FaceWidget::scaleView(float fScaleFactor)
 // +-----------------------------------------------------------
 void f3::FaceWidget::wheelEvent(QWheelEvent *pEvent)
 {
-    scaleView(pow((double)2, -pEvent->delta() / 240.0));
+	bool bCtrl = QApplication::keyboardModifiers() & Qt::ControlModifier;
+	bool bAlt = QApplication::keyboardModifiers() & Qt::AltModifier;
+	bool bShift = QApplication::keyboardModifiers() & Qt::ShiftModifier;
+	int iDelta = pEvent->angleDelta().x() + pEvent->angleDelta().y();
+
+	if(!(bCtrl || bAlt || bShift)) // No special key pressed => scroll vertically
+		verticalScrollBar()->setValue(verticalScrollBar()->value() - iDelta);
+	else if(bShift && !(bCtrl || bAlt)) // Only shift key pressed => scroll horizontally
+		horizontalScrollBar()->setValue(horizontalScrollBar()->value() - iDelta);
+	else if(bCtrl && !(bAlt || bShift)) // Only ctrl key pressed => zoom in and out
+		scaleView(pow(2.0, iDelta / 240.0));
 }
 #endif
 
