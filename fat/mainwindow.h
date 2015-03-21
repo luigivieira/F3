@@ -73,8 +73,9 @@ namespace f3
 		/**
 		 * Updates all the user interface components according to the current state of the application
 		 * (i.e. disables action buttons when there is no opened face annotation dataset, etc).
+		 * @param bCompleteUpdate Boolean indicating if a complete update is required. The default is false.
 		 */
-		void updateUI(const bool bUpdateModel = false);
+		void updateUI(const bool bCompleteUpdate = false);
 
 	public slots:
 

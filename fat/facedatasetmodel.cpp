@@ -74,6 +74,14 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 			else
 				return QVariant();
 
+		// User role used to get the complete file path
+		case Qt::UserRole:
+			if(!m_pFaceDataset->getImageFileName(oIndex.row(), sFileName))
+				return QVariant();
+			else
+				return sFileName;
+
+		// Any other role, return invalid
 		default:
 			return QVariant();
 	}

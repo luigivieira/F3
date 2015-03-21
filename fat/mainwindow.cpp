@@ -45,6 +45,10 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 {
 	// Setup the UI
     ui->setupUi(this);
+	QPalette oROPalette = ui->textFileName->palette();
+	oROPalette.setColor(QPalette::Base, oROPalette.midlight().color());
+	ui->textFileName->setPalette(oROPalette);
+
     setWindowState(Qt::WindowMaximized);
     m_pAbout = NULL;
 
@@ -268,6 +272,13 @@ void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
 	ui->tabWidget->removeTab(iTabIndex);
 	disconnect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
 	delete pChild;
+
+	if(ui->tabWidget->count() == 0) // no more tabs
+	{
+		ui->textFileName->setText("");
+		ui->radioUndefined->setChecked(true);
+		ui->zoomSlider->setValue(ui->zoomSlider->maximum() - ui->zoomSlider->minimum() + 1);
+	}
 }
 
 // +-----------------------------------------------------------
@@ -388,17 +399,19 @@ void f3::MainWindow::on_thumbnailSelected(const QModelIndex &oIndex, const QMode
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::updateUI(const bool bUpdateModel)
+void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 {
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
 	bool bFileOpened = pChild != NULL;
 
 	// Update display of thumbnails and selection events if requested
-	if(bUpdateModel)
+	if(bCompleteUpdate)
 	{
+		// Update the properties
 		if(bFileOpened)
 			ui->zoomSlider->setValue(pChild->getZoomLevel());
 
+		// Update the model (image list)
 		if(ui->listImages->selectionModel() || ui->treeImages->selectionModel())
 		{
 			disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
@@ -434,7 +447,7 @@ void f3::MainWindow::updateUI(const bool bUpdateModel)
 	ui->groupEmotions->setEnabled(bItemsSelected);
 	ui->zoomSlider->setEnabled(bFileOpened);
 
-	// Update the tab text and tooltip and the image in display (if needed)
+	// Update the properties, the tab text and tooltip and the image in display (if needed)
 	if(bFileOpened)
 	{
 		QString sTitle = QFileInfo(pChild->windowFilePath()).baseName() + (pChild->isWindowModified() ? "*" : "");
@@ -444,7 +457,13 @@ void f3::MainWindow::updateUI(const bool bUpdateModel)
 
 		QModelIndex oCurrent = pChild->getSelectionModel()->currentIndex();
 		if(!oCurrent.isValid())
+		{
+			ui->textFileName->setText("");
+			ui->radioUndefined->setChecked(true);
 			pChild->showImage(-1);
+		}
+		else
+			ui->textFileName->setText(oCurrent.data(Qt::UserRole).toString());
 	}
 }
 
