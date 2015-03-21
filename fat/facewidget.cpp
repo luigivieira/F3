@@ -25,6 +25,11 @@
 #include <QGraphicsEffect>
 #include <QScrollBar>
 #include <QDebug>
+#include <QtCore\qmath.h>
+
+// Scale values for zoom in and out steps
+const double f3::FaceWidget::ZOOM_IN_STEP = 1.25;
+const double f3::FaceWidget::ZOOM_OUT_STEP = 0.80;
 
 // +-----------------------------------------------------------
 f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
@@ -64,13 +69,45 @@ void f3::FaceWidget::setPixmap(const QPixmap &oPixmap)
 }
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::scaleView(double dScaleFactor)
+double f3::FaceWidget::getScaleFactor() const
 {
-	double dFactor = m_dScaleFactor * dScaleFactor;
-	if(dFactor >= 0.10 && dFactor <= 10)
+	return m_dScaleFactor;
+}
+
+// +-----------------------------------------------------------
+void f3::FaceWidget::setScaleFactor(const double dScaleFactor, const bool bEmitSignal)
+{
+	if(dScaleFactor == m_dScaleFactor)
+		return;
+
+	if(dScaleFactor >= 0.10 && dScaleFactor <= 10.0)
+	{
+		// First, go back to the base scale (1.0 or 100%)
+		double dAdjust = 1.0 / m_dScaleFactor;
+		scale(dAdjust, dAdjust);
+
+		// Then, apply the requested factor.
+		m_dScaleFactor = dScaleFactor;
+		if(m_dScaleFactor != 1.0)
+			scale(dScaleFactor, dScaleFactor);
+
+		// Emit the signal that the scale factor has changed
+		if(bEmitSignal)
+			emit onScaleFactorChanged(m_dScaleFactor);
+	}
+}
+
+// +-----------------------------------------------------------
+void f3::FaceWidget::scaleViewBy(double dFactorBy)
+{
+	double dFactor = m_dScaleFactor * dFactorBy;
+	if(dFactor >= 0.10 && dFactor <= 10.0)
 	{
 		m_dScaleFactor = dFactor;
-	    scale(dScaleFactor, dScaleFactor);
+	    scale(dFactorBy, dFactorBy);
+
+		// Emit the signal that the scale factor has changed
+		emit onScaleFactorChanged(m_dScaleFactor);
 	}
 }
 
@@ -82,7 +119,7 @@ void f3::FaceWidget::wheelEvent(QWheelEvent *pEvent)
 	bool bAlt = QApplication::keyboardModifiers() & Qt::AltModifier;
 	bool bShift = QApplication::keyboardModifiers() & Qt::ShiftModifier;
 	int iDelta = pEvent->angleDelta().x() + pEvent->angleDelta().y();
-	double dBase = iDelta < 0 ? 0.8 : 1.25;
+	double dBase = iDelta < 0 ? ZOOM_OUT_STEP : ZOOM_IN_STEP;
 	int iSteps = abs(iDelta / 120);
 
 	if(!(bCtrl || bAlt || bShift)) // No special key pressed => scroll vertically
@@ -90,7 +127,7 @@ void f3::FaceWidget::wheelEvent(QWheelEvent *pEvent)
 	else if(bShift && !(bCtrl || bAlt)) // Only shift key pressed => scroll horizontally
 		horizontalScrollBar()->setValue(horizontalScrollBar()->value() - iDelta);
 	else if(bCtrl && !(bAlt || bShift)) // Only ctrl key pressed => zoom in and out
-		scaleView(pow(dBase, iSteps));
+		scaleViewBy(qPow(dBase, iSteps));
 }
 #endif
 
@@ -115,11 +152,11 @@ void f3::FaceWidget::keyPressEvent(QKeyEvent *pEvent)
 // +-----------------------------------------------------------
 void f3::FaceWidget::zoomIn()
 {
-	scaleView(1.25);
+	scaleViewBy(ZOOM_IN_STEP);
 }
 
 // +-----------------------------------------------------------
 void f3::FaceWidget::zoomOut()
 {
-	scaleView(0.8);
+	scaleViewBy(ZOOM_OUT_STEP);
 }

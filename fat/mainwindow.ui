@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>845</width>
-    <height>585</height>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -211,6 +211,9 @@
           <font>
            <pointsize>12</pointsize>
           </font>
+         </property>
+         <property name="toolTip">
+          <string>Altera o zoom nas imagens (+/- ou Ctrl+Roda do Mouse)</string>
          </property>
          <property name="minimum">
           <number>1</number>

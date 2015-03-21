@@ -37,6 +37,13 @@ namespace f3
     {
         Q_OBJECT
 	public:
+
+		/** Scale value for the zoom in step. */
+		static const double ZOOM_IN_STEP;
+
+		/** Scale value for the zoom out step. */
+		static const double ZOOM_OUT_STEP;
+
 		/**
 		 * Class constructor.
 		 * @param pParent Instance of the parent widget.
@@ -49,16 +56,44 @@ namespace f3
 		virtual ~FaceWidget();
 
 		/**
-		 * Scales the widget view to emulate a zoom behaviour.
-		 * @param dScaleFactor Double with the scale to be applied.
-		 */
-		void scaleView(double dScaleFactor);
-
-		/**
 		 * Updates the pixmap displayed at the central area.
 		 * @param oPixmap Reference for a QPixmap with the new pixmap to display.
 		 */
 		void setPixmap(const QPixmap &oPixmap);
+
+		/**
+		 * Gets the currently applied scale factor on the image displayed.
+		 * @return Double with the currently applied scale factor.
+		 */
+		double getScaleFactor() const;
+
+		/**
+		 * Sets the scale factor of the image displayed.
+		 * @param dScaleFactor Double with the new scale factor to be applied. It must be 
+		 * in the interval [0.10, 10.0].
+		 * @param bEmitSignal Boolean indicating if the change signal should be emitted or not.
+		 * The default is true. This parameter is intended to be used with false by widgets that change
+		 * the scale factor and depend upon receiving signal updates from the mouse wheel interaction.
+		 */
+		void setScaleFactor(const double dScaleFactor, const bool bEmitSignal = true);
+
+		/**
+		 * Performs one step of zoom in.
+		 */
+	    void zoomIn();
+
+		/**
+		 * Performs one step of zoom out.
+		 */
+		void zoomOut();
+
+	signals:
+
+		/**
+		 * Signal to indicate that the scale of the display image has changed.
+		 * @param dScaleFactor Double with the new scale factor.
+		 */
+		void onScaleFactorChanged(const double dScaleFactor);
 
 	protected:
 
@@ -76,14 +111,10 @@ namespace f3
 		void keyPressEvent(QKeyEvent *pEvent) Q_DECL_OVERRIDE;
 
 		/**
-		 * Performs one step of zoom in.
+		 * Scales the widget view to emulate a zoom behaviour by the given factor.
+		 * @param dFactorBy Double with the scale to be added/removed.
 		 */
-	    void zoomIn();
-
-		/**
-		 * Performs one step of zoom out.
-		 */
-		void zoomOut();
+		void scaleViewBy(double dFactorBy);
 
 	private:
 		/** The scene used to render the widget contents. */
@@ -92,6 +123,7 @@ namespace f3
 		/** Pixmap item used to display the face image. */
 		QGraphicsPixmapItem *m_pPixmapItem;
 
+		/** The current applied scale factor. */
 		double m_dScaleFactor;
 	};
 };

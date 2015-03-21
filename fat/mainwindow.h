@@ -163,6 +163,18 @@ namespace f3
 		 */
 		void on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex);
 
+		/**
+		 * Captures the updates in the zoom slider by user interaction.
+		 * @param iValue Integer with the new value of the slider (in the range [1, 21]).
+		 */
+		void onSliderValueChanged(int iValue);
+
+		/**
+		 * Captures the updates in the zoom by user interaction in other sources that not the slider.
+		 * @param iValue Integer with the new value of the zoom (in the range [1, 21]).
+		 */
+		void onZoomLevelChanged(int iValue);
+
     private:
         /** Instance of the ui for GUI element access. */
         Ui::MainWindow *ui;

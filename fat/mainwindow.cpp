@@ -105,6 +105,9 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 		if(pRadio && !pRadio->shortcut().isEmpty())
 			pRadio->setToolTip(QString("%1 (%2)").arg(pRadio->toolTip()).arg(pRadio->shortcut().toString()));
 	}
+
+	// Connect the zoom slider
+	connect(ui->zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(onSliderValueChanged(int)));
 }
 
 // +-----------------------------------------------------------
@@ -121,6 +124,7 @@ f3::MainWindow::~MainWindow()
 void f3::MainWindow::on_actionNew_triggered()
 {
     ChildWindow *pChild = new ChildWindow(this);
+	connect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
 
 	pChild->setWindowFilePath(QString(tr("%1novo banco de faces anotadas.afd")).arg(m_sDocumentsPath));
 	pChild->setWindowModified(true);
@@ -146,6 +150,7 @@ void f3::MainWindow::on_actionOpen_triggered()
 		else
 		{
 			ChildWindow *pChild = new ChildWindow(this);
+
 			pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
 
 			QString sMsg;
@@ -155,6 +160,8 @@ void f3::MainWindow::on_actionOpen_triggered()
 				QMessageBox::warning(this, tr("Erro carregando banco de faces anotadas"), tr("Não foi possível abrir o banco de faces anotadas:\n%1").arg(sMsg), QMessageBox::Ok);
 				return;
 			}
+
+			connect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
 
 			int iIndex = ui->tabWidget->addTab(pChild, pChild->windowIcon(), "");
 			ui->tabWidget->setCurrentIndex(iIndex);
@@ -259,6 +266,7 @@ void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
 	}
 
 	ui->tabWidget->removeTab(iTabIndex);
+	disconnect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
 	delete pChild;
 }
 
@@ -388,6 +396,9 @@ void f3::MainWindow::updateUI(const bool bUpdateModel)
 	// Update display of thumbnails and selection events if requested
 	if(bUpdateModel)
 	{
+		if(bFileOpened)
+			ui->zoomSlider->setValue(pChild->getZoomLevel());
+
 		if(ui->listImages->selectionModel() || ui->treeImages->selectionModel())
 		{
 			disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
@@ -421,6 +432,7 @@ void f3::MainWindow::updateUI(const bool bUpdateModel)
 	ui->actionRemoveImage->setEnabled(bItemsSelected);
 	m_pViewButton->setEnabled(bFileOpened);
 	ui->groupEmotions->setEnabled(bItemsSelected);
+	ui->zoomSlider->setEnabled(bFileOpened);
 
 	// Update the tab text and tooltip and the image in display (if needed)
 	if(bFileOpened)
@@ -434,4 +446,18 @@ void f3::MainWindow::updateUI(const bool bUpdateModel)
 		if(!oCurrent.isValid())
 			pChild->showImage(-1);
 	}
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::onSliderValueChanged(int iValue)
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(pChild)
+		pChild->setZoomLevel(iValue, false); // the false means: do not emit the update signal in this case
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::onZoomLevelChanged(int iValue)
+{
+	ui->zoomSlider->setValue(iValue);
 }

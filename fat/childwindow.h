@@ -35,6 +35,7 @@ namespace f3
 	 */
 	class ChildWindow : public QWidget
 	{
+		Q_OBJECT
 	public:
 		/**
 		 * Class constructor.
@@ -103,6 +104,39 @@ namespace f3
 		 * @param sFileName QString with the path and name of the file to load the dataset from.
 		 */
 		bool loadFromFile(const QString &sFileName, QString &sMsgError);
+
+		/**
+		 * Sets the zoom level of the image in display in terms of the steps defined in the zoom
+		 * slider from 1 to 21, with 11 (the middle value) as "no zoom" (i.e. 100% view).
+		 * @param iLevel Integer with the zoom level to set.
+		 * @param bEmitSignal Boolean indicating if the change signal should be emitted or not.
+		 * The default is true. This parameter is intended to be used with false by widgets that change
+		 * the scale factor and depend upon receiving signal updates from the mouse wheel interaction.
+		 */
+		void setZoomLevel(const int iLevel, const bool bEmitSignal = true);
+
+		/**
+		 * Gets the current zoom level of the image in display in terms of the steps defined in the zoom
+		 * slider from 1 to 21, with 11 (the middle value) as "no zoom" (i.e. 100% view).
+		 * @return Integer with the current zoom level.
+		 */
+		int getZoomLevel() const;
+
+	protected slots:
+
+		/**
+		 * Captures the indication of changes in the image scale factor (zoom).
+		 * @param dScaleFactor Double with the new scale factor for the image.
+		 */
+		void onScaleFactorChanged(const double dScaleFactor);
+
+	signals:
+
+		/**
+		 * Signal to indicate that the zoom level has changed.
+		 * @param iLevel Integer with the new level of zoom.
+		 */
+		void onZoomLevelChanged(const int iLevel);
 
 	private:
 

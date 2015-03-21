@@ -27,6 +27,7 @@
 #include <QMessageBox>
 #include <QGridLayout>
 #include <QApplication>
+#include <QtCore\qmath.h>
 
 #include <vector>
 
@@ -47,6 +48,7 @@ f3::ChildWindow::ChildWindow(QWidget *pParent) :
 
 	m_pFaceWidget = new FaceWidget(this);
 	pLayout->addWidget(m_pFaceWidget);
+	connect(m_pFaceWidget, SIGNAL(onScaleFactorChanged(const double)), this, SLOT(onScaleFactorChanged(const double)));
 
 	showImage(-1);
 
@@ -193,4 +195,34 @@ bool f3::ChildWindow::loadFromFile(const QString &sFileName, QString &sMsgError)
 	setWindowModified(false);
 	setProperty("new", QVariant()); // No longer a new dataset
 	return true;
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::setZoomLevel(const int iLevel, const bool bEmitSignal)
+{
+	int iSteps = iLevel - 11; // Because 11 is the middle slider value, equivalent to the scale of 1.0 (100%)
+	double dBase = iSteps < 0 ? FaceWidget::ZOOM_OUT_STEP : FaceWidget::ZOOM_IN_STEP;
+	
+	double dFactor = 1.0 * qPow(dBase, abs(iSteps));
+	m_pFaceWidget->setScaleFactor(dFactor, bEmitSignal);
+}
+
+// +-----------------------------------------------------------
+int f3::ChildWindow::getZoomLevel() const
+{
+	double dFactor = m_pFaceWidget->getScaleFactor();
+	double dBase = dFactor < 1.0 ? FaceWidget::ZOOM_OUT_STEP : FaceWidget::ZOOM_IN_STEP;
+
+	int iSteps = qCeil(qLn(abs(dFactor)) / qLn(dBase));
+	if(dFactor > 1.0)
+		return iSteps + 11;
+	else
+		return 11 - iSteps;
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::onScaleFactorChanged(const double dScaleFactor)
+{
+	Q_UNUSED(dScaleFactor);
+	emit onZoomLevelChanged(getZoomLevel());
 }
