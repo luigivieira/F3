@@ -50,9 +50,9 @@ namespace f3
 
 		/**
 		 * Scales the widget view to emulate a zoom behaviour.
-		 * @param fScaleFactor Float with the scale to be applied.
+		 * @param dScaleFactor Double with the scale to be applied.
 		 */
-		void scaleView(float fScaleFactor);
+		void scaleView(double dScaleFactor);
 
 		/**
 		 * Updates the pixmap displayed at the central area.
@@ -91,6 +91,8 @@ namespace f3
 
 		/** Pixmap item used to display the face image. */
 		QGraphicsPixmapItem *m_pPixmapItem;
+
+		double m_dScaleFactor;
 	};
 };
 

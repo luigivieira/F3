@@ -24,6 +24,7 @@
 #include <QPixmap>
 #include <QGraphicsEffect>
 #include <QScrollBar>
+#include <QDebug>
 
 // +-----------------------------------------------------------
 f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
@@ -45,6 +46,8 @@ f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
 	m_pPixmapItem = m_pScene->addPixmap(oPixmap);
 	m_pPixmapItem->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
 	m_pScene->setSceneRect(0, 0, oPixmap.width(), oPixmap.height());
+
+	m_dScaleFactor = 1.0;
 }
 
 // +-----------------------------------------------------------
@@ -61,13 +64,14 @@ void f3::FaceWidget::setPixmap(const QPixmap &oPixmap)
 }
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::scaleView(float fScaleFactor)
+void f3::FaceWidget::scaleView(double dScaleFactor)
 {
-	float fFactor = transform().scale(fScaleFactor, fScaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
-    if(fFactor < 0.07 || fFactor > 100)
-        return;
-
-    scale(fScaleFactor, fScaleFactor);
+	double dFactor = m_dScaleFactor * dScaleFactor;
+	if(dFactor >= 0.10 && dFactor <= 10)
+	{
+		m_dScaleFactor = dFactor;
+	    scale(dScaleFactor, dScaleFactor);
+	}
 }
 
 #ifndef QT_NO_WHEELEVENT
@@ -78,13 +82,15 @@ void f3::FaceWidget::wheelEvent(QWheelEvent *pEvent)
 	bool bAlt = QApplication::keyboardModifiers() & Qt::AltModifier;
 	bool bShift = QApplication::keyboardModifiers() & Qt::ShiftModifier;
 	int iDelta = pEvent->angleDelta().x() + pEvent->angleDelta().y();
+	double dBase = iDelta < 0 ? 0.8 : 1.25;
+	int iSteps = abs(iDelta / 120);
 
 	if(!(bCtrl || bAlt || bShift)) // No special key pressed => scroll vertically
 		verticalScrollBar()->setValue(verticalScrollBar()->value() - iDelta);
 	else if(bShift && !(bCtrl || bAlt)) // Only shift key pressed => scroll horizontally
 		horizontalScrollBar()->setValue(horizontalScrollBar()->value() - iDelta);
 	else if(bCtrl && !(bAlt || bShift)) // Only ctrl key pressed => zoom in and out
-		scaleView(pow(2.0, iDelta / 240.0));
+		scaleView(pow(dBase, iSteps));
 }
 #endif
 
@@ -109,11 +115,11 @@ void f3::FaceWidget::keyPressEvent(QKeyEvent *pEvent)
 // +-----------------------------------------------------------
 void f3::FaceWidget::zoomIn()
 {
-    scaleView(1.2f);
+	scaleView(1.25);
 }
 
 // +-----------------------------------------------------------
 void f3::FaceWidget::zoomOut()
 {
-	scaleView(1.0f / 1.2f);
+	scaleView(0.8);
 }
