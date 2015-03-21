@@ -125,6 +125,57 @@ f3::MainWindow::~MainWindow()
 }
 
 // +-----------------------------------------------------------
+void f3::MainWindow::closeEvent(QCloseEvent *pEvent)
+{
+	QList<ChildWindow*> lModified;
+	ChildWindow *pChild;
+
+	for(int i = 0; i < ui->tabWidget->count(); i++)
+	{
+		pChild = (ChildWindow*) ui->tabWidget->widget(i);
+		if(pChild->isWindowModified())
+			lModified.append(pChild);
+	}
+
+	if(lModified.size() > 0)
+	{
+		QString sMsg;
+		if(lModified.size() == 1)
+		{
+			pChild = lModified[0];
+			sMsg = tr("Existem alterações pendentes no banco de faces anotadas de nome [%1]. Deseja gravar antes de fechar?").arg(QFileInfo(pChild->windowFilePath()).baseName());
+		}
+		else
+			sMsg = tr("Existem alterações pendentes em %1 bancos de faces anotadas. Deseja gravar antes de fechar?").arg(lModified.size());
+
+		QMessageBox::StandardButton oResp = QMessageBox::question(this, tr("Alterações pendentes"), sMsg, QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
+
+		// Do not close the tab if the user has chosen "cancel" or if she has chosen "yes" but then
+		// cancelled the file save dialog in any of the modified tab
+		if(oResp == QMessageBox::Cancel)
+		{
+			pEvent->ignore();
+			return;
+		}
+		else if(oResp == QMessageBox::Yes)
+		{
+			for(int i = 0; i < lModified.size(); i++)
+			{
+				pChild = lModified[i];
+				ui->tabWidget->setCurrentWidget(pChild);
+				if(!saveCurrentFile())
+				{
+					pEvent->ignore();
+					return;
+				}
+			}
+		}
+	}
+
+	pEvent->accept();
+}
+
+// +-----------------------------------------------------------
 void f3::MainWindow::on_actionNew_triggered()
 {
     ChildWindow *pChild = new ChildWindow(this);

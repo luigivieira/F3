@@ -51,6 +51,12 @@ namespace f3
 	protected:
 
 		/**
+		 * Captures the close event of the main window.
+		 * @param pEvent Instance of the QCloseEvent with the close event data.
+		 */
+		void closeEvent(QCloseEvent *pEvent);
+
+		/**
 		 * Helper method to request the saving of the current face annotation dataset opened
 		 * to the user.
 		 * @param bAskForFileName Boolean indicating if the UI should ask the user for a file
