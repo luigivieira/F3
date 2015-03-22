@@ -67,7 +67,7 @@ void f3::F3Application::terminate()
 // +-----------------------------------------------------------
 void f3::F3Application::setup(const QString &sAppName)
 {
-	QCoreApplication::setOrganizationName("Fun from Face");
+	QCoreApplication::setOrganizationName("Fun from Faces");
     QCoreApplication::setOrganizationDomain("https://github.com/luigivieira/F3");
     QCoreApplication::setApplicationName(sAppName);
 
