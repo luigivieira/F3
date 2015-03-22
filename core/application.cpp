@@ -23,6 +23,8 @@
 #include <QFileInfo>
 #include <QDebug>
 #include <QMessageBox>
+#include <QSettings>
+
 #include <iostream>
 #include <stdexcept>
 
@@ -42,6 +44,16 @@ void f3::F3Application::initiate(int argc, char* argv[], const QString &sAppName
 }
 
 // +-----------------------------------------------------------
+void f3::F3Application::loadAndShowMainWindow(const QMainWindow *pMainWindow)
+{
+	m_pMainWindow = (QMainWindow*) pMainWindow;
+	QSettings oSettings;
+	m_pMainWindow->restoreGeometry(oSettings.value("geometry").toByteArray());
+    m_pMainWindow->restoreState(oSettings.value("windowState").toByteArray());
+	m_pMainWindow->show();
+}
+
+// +-----------------------------------------------------------
 void f3::F3Application::terminate()
 {
 	if(m_spInstance)
@@ -55,7 +67,12 @@ void f3::F3Application::terminate()
 // +-----------------------------------------------------------
 void f3::F3Application::setup(const QString &sAppName)
 {
+	QCoreApplication::setOrganizationName("Fun from Face");
+    QCoreApplication::setOrganizationDomain("https://github.com/luigivieira/F3");
+    QCoreApplication::setApplicationName(sAppName);
+
 	m_sAppName = sAppName;
+	m_pMainWindow = NULL;
 
 	// Only install the message handler and initialize the log control if the app name is not empty
 	if(m_sAppName.length() > 0)
@@ -91,6 +108,14 @@ void f3::F3Application::clean()
 		m_oLogFile.close();
 		m_oLogControl.removeAppEntry(m_sAppName);
 		m_oLogControl.disconnect();
+	}
+
+	if(m_pMainWindow)
+	{
+		QSettings oSettings;
+		oSettings.setValue("geometry", m_pMainWindow->saveGeometry());
+		oSettings.setValue("windowState", m_pMainWindow->saveState());
+		delete m_pMainWindow;
 	}
 }
 

@@ -42,13 +42,14 @@ int main(int argc, char *argv[])
 	// Create the main window (as a pointer because it must be deleted before the application to avoid double deletion)
 	MainWindow *pMainWindow = new MainWindow();
 	QObject::connect(F3Application::instance(), SIGNAL(statusMessageShown(const QString &, const int)), pMainWindow, SLOT(showStatusMessage(const QString &, const int)));
-	pMainWindow->show();
+	
+	// Load main window geometry and widgets states and show it
+	F3Application::instance()->loadAndShowMainWindow(pMainWindow);
 
 	// Execute the application
 	int iRet = F3Application::run();
 
 	// Terminate the application and the program execution
-	delete pMainWindow;
 	F3Application::terminate();
 	return iRet;
 }

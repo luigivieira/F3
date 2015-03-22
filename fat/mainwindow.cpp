@@ -49,7 +49,6 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 	oROPalette.setColor(QPalette::Base, oROPalette.midlight().color());
 	ui->textFileName->setPalette(oROPalette);
 
-    setWindowState(Qt::WindowMaximized);
     m_pAbout = NULL;
 
     setWindowIcon(QIcon(":/icons/fat"));

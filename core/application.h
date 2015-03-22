@@ -20,6 +20,7 @@
 #define APPLICATION_H
 
 #include <QApplication>
+#include <QMainWindow>
 #include <QObject>
 
 #include <fstream>
@@ -86,6 +87,14 @@ namespace f3
 		static void showStatusMessage(const QString &sMsg, const int iTimeout = 5000);
 
 		/**
+		 * Sets the main window to be used with this application, load its properties and
+		 * display it. The application handles the saving of the window properties such as geometry
+		 * and toolbars/docks states, and also delete its pointer upon termination.
+		 * @param pMainWindow Instance of the QMainWindow with the main window to be used.
+		 */
+		void loadAndShowMainWindow(const QMainWindow *pMainWindow);
+
+		/**
 		 * Handles the notification of messages in the application event loop.
 		 * @param pReceiver Pointer to the QObject that shall receive the message.
 		 * @param pEvent Pointer to the QEvent with the message information.
@@ -142,6 +151,9 @@ namespace f3
 
 		/** Name of the application, used for the log control via inter-process communication. */
 		QString m_sAppName;
+
+		/** Instance of the main window used with this application. */
+		QMainWindow *m_pMainWindow;
 	};
 }
 
