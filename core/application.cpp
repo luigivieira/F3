@@ -24,6 +24,9 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QSettings>
+#include <QDir>
+#include <QStandardPaths>
+#include <QFileInfo>
 
 #include <iostream>
 #include <stdexcept>
@@ -81,9 +84,10 @@ void f3::F3Application::setup(const QString &sAppName, const bool bCreateLog)
 		if(!m_oLogControl.connect())
 			throw runtime_error("Error initiating the inter-process communication");
 
-		QString sLogFile = QCoreApplication::applicationFilePath();
-		sLogFile.replace(".exe", ""); // For windows
-		sLogFile += ".log";
+		QString sAppFile = QCoreApplication::applicationFilePath();
+		QString sDocPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
+		QFileInfo oFile = QFileInfo(sAppFile);
+		QString sLogFile = QString("%1%2.log").arg(sDocPath).arg(oFile.baseName());
     
 		m_oLogFile.open(qPrintable(sLogFile), ios::app);
 		if(!m_oLogFile.is_open())
