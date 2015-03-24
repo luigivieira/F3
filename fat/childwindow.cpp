@@ -27,7 +27,6 @@
 #include <QMessageBox>
 #include <QGridLayout>
 #include <QApplication>
-#include <QtCore\qmath.h>
 
 #include <vector>
 
@@ -80,34 +79,26 @@ void f3::ChildWindow::addImages(const QStringList &lsFiles)
 
 	for(int i = 0; i < lsFiles.size(); i++)
 	{
-		try
-		{
-			m_pFaceDataset->addImage(qPrintable(lsFiles[i]));
-			bModified = true;
-		}
-		catch(invalid_argument)
-		{
-			sError = lsFiles[i];
-			iError++;
-		}
-		catch(runtime_error)
+		if(!m_pFaceDataset->addImage(qPrintable(lsFiles[i])))
 		{
 			sExisting = lsFiles[i];
 			iExisting++;
 		}
+		else
+			bModified = true;
 	}
 
 	m_pFaceDatasetModel->endUpdate();
 
 	if(iError == 1)
-		QMessageBox::warning(NULL, tr("Erro adicionando imagens"), tr("A imagem [%1] n„o pode ser adicionada ao banco de faces anotadas. Por favor, verifique o arquivo de log para detalhes.").arg(sError), QMessageBox::Ok);
+		QMessageBox::warning(NULL, tr("Erro adicionando imagens"), tr("A imagem [%1] n√£o pode ser adicionada ao banco de faces anotadas. Por favor, verifique o arquivo de log para detalhes.").arg(sError), QMessageBox::Ok);
 	else if(iError > 1)
-		QMessageBox::warning(NULL, tr("Erro adicionando imagens"), tr("Um total de %1 imagens n„o puderam ser adicionadas ao banco de faces anotadas. Por favor, verifique o arquivo de log para detalhes.").arg(iError), QMessageBox::Ok);
+		QMessageBox::warning(NULL, tr("Erro adicionando imagens"), tr("Um total de %1 imagens n√£o puderam ser adicionadas ao banco de faces anotadas. Por favor, verifique o arquivo de log para detalhes.").arg(iError), QMessageBox::Ok);
 
 	if(iExisting == 1)
-		F3Application::showStatusMessage(tr("A imagem [%1] j· existia no banco de faces anotadas e n„o foi adicionada novamente. Por favor, verifique o arquivo de log para detalhes.").arg(sExisting));
+		F3Application::showStatusMessage(tr("A imagem [%1] j√° existia no banco de faces anotadas e n√£o foi adicionada novamente. Por favor, verifique o arquivo de log para detalhes.").arg(sExisting));
 	else if(iExisting > 1)
-		F3Application::showStatusMessage(tr("Um total de %1 imagens j· existia no banco de faces anotadas e n„o foram adicionadas novamente. Por favor, verifique o arquivo de log para detalhes.").arg(iExisting));
+		F3Application::showStatusMessage(tr("Um total de %1 imagens j√° existia no banco de faces anotadas e n√£o foram adicionadas novamente. Por favor, verifique o arquivo de log para detalhes.").arg(iExisting));
 
 	if(bModified)
 		setWindowModified(true);
