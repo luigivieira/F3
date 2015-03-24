@@ -34,8 +34,7 @@ int main(int argc, char *argv[])
 	}
 	catch(std::exception &e)
 	{
-		printf("It was not possible to initiate the application due to a critical error:\n");
-		printf(e.what());
+		printf("It was not possible to initiate the application due to a critical error:\n%s", e.what());
 		return -1;
 	}
 	

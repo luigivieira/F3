@@ -65,8 +65,6 @@ CONFIG(debug, debug|release) {
 	LIBS += -L../debug
 	LIBS += -lf3cored
 
-    QMAKE_RPATHDIR += $ORIGIN/../../debug
-
 } else {
 
 	TARGET = f3lol
@@ -78,8 +76,6 @@ CONFIG(debug, debug|release) {
 
 	LIBS += -L../release
 	LIBS += -lf3core
-
-    QMAKE_RPATHDIR += $ORIGIN/../../release
     
 }
 

@@ -67,8 +67,6 @@ CONFIG(debug, debug|release) {
 	LIBS += -L../debug
 	LIBS += -lf3cored
 
-        QMAKE_RPATHDIR += $ORIGIN/../../debug
-
 	win32 {
 		LIBS += -lopencv_core2410d \
 				-lopencv_imgproc2410d \
@@ -106,8 +104,6 @@ CONFIG(debug, debug|release) {
 
 	LIBS += -L../release
 	LIBS += -lf3core
-
-        QMAKE_RPATHDIR += $ORIGIN/../../release
 
 	win32 {
 		LIBS += -lopencv_core2410 \

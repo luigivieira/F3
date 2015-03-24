@@ -96,7 +96,7 @@ CONFIG(debug, debug|release) {
 	MOC_DIR = ../release/tmp/core
 	RCC_DIR = ../release/tmp/core
 	UI_DIR = ../release/tmp/core
-
+    
     win32 {
         LIBS += -lopencv_core2410 \
 				-lopencv_imgproc2410 \
@@ -122,4 +122,10 @@ CONFIG(debug, debug|release) {
 				-lopencv_legacy \
 				-lopencv_flann    
     }
+}
+
+unix {
+    binary.path = /usr/local/lib
+    binary.files = $${DESTDIR}/$${TARGET}
+    INSTALLS += binary
 }
