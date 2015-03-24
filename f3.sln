@@ -9,6 +9,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "f3fat", "fat\f3fat.vcxproj"
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "f3lol", "lol\f3lol.vcxproj", "{DE6EE85E-BA93-34EF-B089-B18CDCD02BA8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A2D171BB-2CDB-3224-AA43-943B0E77669D} = {A2D171BB-2CDB-3224-AA43-943B0E77669D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

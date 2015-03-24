@@ -134,3 +134,8 @@ CONFIG(debug, debug|release) {
 
 RESOURCES += resources.qrc
 win32:RC_FILE = win_resources.rc
+
+unix {
+    target.path = /usr/local/f3
+    INSTALLS += target
+}

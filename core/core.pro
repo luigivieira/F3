@@ -125,7 +125,6 @@ CONFIG(debug, debug|release) {
 }
 
 unix {
-    binary.path = /usr/local/lib
-    binary.files = $${DESTDIR}/$${TARGET}
-    INSTALLS += binary
+    target.path = /usr/local/lib
+    INSTALLS += target
 }
