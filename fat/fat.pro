@@ -136,6 +136,6 @@ RESOURCES += resources.qrc
 win32:RC_FILE = win_resources.rc
 
 unix {
-    target.path = /usr/local/f3
+    target.path = /usr/local/bin
     INSTALLS += target
 }
