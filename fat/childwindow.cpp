@@ -109,15 +109,7 @@ void f3::ChildWindow::removeImages(const std::vector<int> &vIndexes)
 {
 	m_pFaceDatasetModel->beginUpdate();
 	for(int i = (int) vIndexes.size() - 1; i >=0; i--)
-	{
-		try
-		{
-			m_pFaceDataset->removeImage(vIndexes[i]);
-		}
-		catch(...) // An exception would happen only in case of invalid indexes...
-		{
-		}
-	}
+		m_pFaceDataset->removeImage(vIndexes[i]);
 	m_pFaceDatasetModel->endUpdate();
 	setWindowModified(true);
 }
