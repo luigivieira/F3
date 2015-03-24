@@ -27,6 +27,7 @@
 #include <QMessageBox>
 #include <QGridLayout>
 #include <QApplication>
+#include <QtMath>
 
 #include <vector>
 

@@ -25,7 +25,7 @@
 #include <QGraphicsEffect>
 #include <QScrollBar>
 #include <QDebug>
-#include <QtCore\qmath.h>
+#include <QtMath>
 
 // Scale values for zoom in and out steps
 const double f3::FaceWidget::ZOOM_IN_STEP = 1.25;
