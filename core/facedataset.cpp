@@ -277,7 +277,7 @@ bool f3::FaceDataset::removeImage(const int iIndex)
 bool f3::FaceDataset::getEmotionLabel(const int iIndex, EmotionLabel &eLabel) const
 {
     if(iIndex < 0 || iIndex >= size())
-		false;
+		return false;
 
 	eLabel = m_vEmotionLabels[iIndex];
 	return true;
