@@ -56,9 +56,10 @@ namespace f3
 		 * @param argc Integer with the number of parameters received from the command line.
 		 * @param argv String array with the list of parameters received from the command line.
 		 * @param sAppName QString with the name of the application for log control purposes.
-		 * The default is an empty string (meaning that no log control is required).
+		 * @param bCreateLog Boolean indicating if the application shall create and update a log file.
+		 * The default is true.
 		 */
-		static void initiate(int argc, char* argv[], const QString &sAppName = QString());
+		static void initiate(int argc, char* argv[], const QString &sAppName, const bool bCreateLog = true);
 
 		/**
 		 * Terminates the singleton object.
@@ -128,8 +129,9 @@ namespace f3
 		/**
 		 * Configure the instance of the application.
 		 * @param sAppName QString with the name of the application for log control purposes.
+		 * @param bCreateLog Boolean indicating if the application shall create and update a log file.
 		 */
-		void setup(const QString &sAppName);
+		void setup(const QString &sAppName, const bool bCreateLog);
 
 		/**
 		 * Clean the instance of the application.
@@ -154,6 +156,9 @@ namespace f3
 
 		/** Instance of the main window used with this application. */
 		QMainWindow *m_pMainWindow;
+
+		/** Indication about creating a log file. */
+		bool m_bCreateLog;
 	};
 }
 

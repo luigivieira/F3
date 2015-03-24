@@ -34,12 +34,12 @@ using namespace std;
 f3::F3Application* f3::F3Application::m_spInstance = NULL;
 
 // +-----------------------------------------------------------
-void f3::F3Application::initiate(int argc, char* argv[], const QString &sAppName)
+void f3::F3Application::initiate(int argc, char* argv[], const QString &sAppName, const bool bCreateLog)
 {
 	if(!m_spInstance)
 	{
 		m_spInstance = new F3Application(argc, argv);
-		m_spInstance->setup(sAppName);
+		m_spInstance->setup(sAppName, bCreateLog);
 	}
 }
 
@@ -65,17 +65,18 @@ void f3::F3Application::terminate()
 }
 
 // +-----------------------------------------------------------
-void f3::F3Application::setup(const QString &sAppName)
+void f3::F3Application::setup(const QString &sAppName, const bool bCreateLog)
 {
 	QCoreApplication::setOrganizationName("Fun from Faces");
     QCoreApplication::setOrganizationDomain("https://github.com/luigivieira/F3");
     QCoreApplication::setApplicationName(sAppName);
 
 	m_sAppName = sAppName;
+	m_bCreateLog = bCreateLog;
 	m_pMainWindow = NULL;
 
-	// Only install the message handler and initialize the log control if the app name is not empty
-	if(m_sAppName.length() > 0)
+	// Only install the message handler and initialize the log control if required
+	if(m_bCreateLog)
 	{
 		if(!m_oLogControl.connect())
 			throw runtime_error("Error initiating the inter-process communication");
@@ -102,7 +103,7 @@ void f3::F3Application::setup(const QString &sAppName)
 // +-----------------------------------------------------------
 void f3::F3Application::clean()
 {
-	if(m_sAppName.length() > 0)
+	if(m_bCreateLog)
 	{
 		m_oLogFile.flush();
 		m_oLogFile.close();
@@ -159,7 +160,7 @@ bool f3::F3Application::notify(QObject* pReceiver, QEvent* pEvent)
     try
 	{
 		// Check if there is an update in the log level for this application
-		if(m_sAppName.length() > 0)
+		if(m_bCreateLog)
 		{
 			QtMsgType eLevel;
 			if(m_oLogControl.getLogLevel(m_sAppName, eLevel) && m_eLogLevel != eLevel)
