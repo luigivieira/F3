@@ -372,10 +372,10 @@ void f3::MainWindow::on_actionRemoveImage_triggered()
 			sMsg = tr("Você confirma a remoção das %1 imagens selecionadas?").arg(lsSelected.size());
 		if(QMessageBox::question(this, tr("Confirmação da remoção"), sMsg, QMessageBox::Yes|QMessageBox::No) == QMessageBox::Yes)
 		{
-			vector<int> vIndexes;
+			QList<int> lIndexes;
 			for(int i = 0; i < lsSelected.size(); i++)
-				vIndexes.push_back(lsSelected[i].row());
-			pChild->removeImages(vIndexes);
+				lIndexes.append(lsSelected[i].row());
+			pChild->removeImages(lIndexes);
 			updateUI();
 		}
 	}

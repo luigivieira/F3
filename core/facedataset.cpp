@@ -21,7 +21,6 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QApplication>
-#include <QPixmap>
 
 #include <opencv2/highgui/highgui.hpp>
 
@@ -212,7 +211,7 @@ void f3::FaceDataset::clear()
 }
 
 // +-----------------------------------------------------------
-bool f3::FaceDataset::getImage(const int iIndex, QImage &oImage) const
+bool f3::FaceDataset::getImage(const int iIndex, QPixmap &oImage) const
 {
     if(iIndex < 0 || iIndex >= size())
 		return false;

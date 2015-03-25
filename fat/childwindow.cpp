@@ -52,8 +52,7 @@ f3::ChildWindow::ChildWindow(QWidget *pParent) :
 
 	showImage(-1);
 
-	m_pFaceDataset = new FaceDataset();
-	m_pFaceDatasetModel = new FaceDatasetModel(m_pFaceDataset);
+	m_pFaceDatasetModel = new FaceDatasetModel();
 	m_pFaceSelectionModel = new QItemSelectionModel(m_pFaceDatasetModel);
 
 	// Indicate that it is a brand new dataset (i.e. not yet saved to a file)
@@ -65,54 +64,20 @@ f3::ChildWindow::~ChildWindow()
 {
 	delete m_pFaceSelectionModel;
 	delete m_pFaceDatasetModel;
-	delete m_pFaceDataset;
 }
 
 // +-----------------------------------------------------------
 void f3::ChildWindow::addImages(const QStringList &lsFiles)
 {
-	int iExisting = 0;
-	int iError = 0;
-	QString sError, sExisting;
-	bool bModified = false;
-
-	m_pFaceDatasetModel->beginUpdate();
-
-	for(int i = 0; i < lsFiles.size(); i++)
-	{
-		if(!m_pFaceDataset->addImage(qPrintable(lsFiles[i])))
-		{
-			sExisting = lsFiles[i];
-			iExisting++;
-		}
-		else
-			bModified = true;
-	}
-
-	m_pFaceDatasetModel->endUpdate();
-
-	if(iError == 1)
-		QMessageBox::warning(NULL, tr("Erro adicionando imagens"), tr("A imagem [%1] não pode ser adicionada ao banco de faces anotadas. Por favor, verifique o arquivo de log para detalhes.").arg(sError), QMessageBox::Ok);
-	else if(iError > 1)
-		QMessageBox::warning(NULL, tr("Erro adicionando imagens"), tr("Um total de %1 imagens não puderam ser adicionadas ao banco de faces anotadas. Por favor, verifique o arquivo de log para detalhes.").arg(iError), QMessageBox::Ok);
-
-	if(iExisting == 1)
-		F3Application::showStatusMessage(tr("A imagem [%1] já existia no banco de faces anotadas e não foi adicionada novamente. Por favor, verifique o arquivo de log para detalhes.").arg(sExisting));
-	else if(iExisting > 1)
-		F3Application::showStatusMessage(tr("Um total de %1 imagens já existia no banco de faces anotadas e não foram adicionadas novamente. Por favor, verifique o arquivo de log para detalhes.").arg(iExisting));
-
-	if(bModified)
+	if(m_pFaceDatasetModel->addImages(lsFiles))
 		setWindowModified(true);
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::removeImages(const std::vector<int> &vIndexes)
+void f3::ChildWindow::removeImages(const QList<int> &lIndexes)
 {
-	m_pFaceDatasetModel->beginUpdate();
-	for(int i = (int) vIndexes.size() - 1; i >=0; i--)
-		m_pFaceDataset->removeImage(vIndexes[i]);
-	m_pFaceDatasetModel->endUpdate();
-	setWindowModified(true);
+	if(m_pFaceDatasetModel->removeImages(lIndexes))
+		setWindowModified(true);
 }
 
 // +-----------------------------------------------------------
@@ -135,21 +100,18 @@ void f3::ChildWindow::showImage(const int iIndex)
 		m_pFaceWidget->setPixmap(QPixmap(":/images/noface"));
 	else
 	{
-		QImage oImage;
-		if(!m_pFaceDataset->getImage(iIndex, oImage))
-		{
+		QVariant oData = m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(iIndex, 1), Qt::UserRole);
+		if(oData.isValid())
+			m_pFaceWidget->setPixmap(oData.value<QPixmap>());
+		else
 			m_pFaceWidget->setPixmap(QPixmap(":/images/brokenimage"));
-			return;
-		}
-
-		m_pFaceWidget->setPixmap(QPixmap().fromImage(oImage));
 	}
 }
 
 // +-----------------------------------------------------------
 bool f3::ChildWindow::save(QString &sMsgError)
 {
-	if(!m_pFaceDataset->saveToFile(windowFilePath(), sMsgError))
+	if(!m_pFaceDatasetModel->saveToFile(windowFilePath(), sMsgError))
 		return false;
 
 	setWindowModified(false);
@@ -160,7 +122,7 @@ bool f3::ChildWindow::save(QString &sMsgError)
 // +-----------------------------------------------------------
 bool f3::ChildWindow::saveToFile(const QString &sFileName, QString &sMsgError)
 {
-	if(!m_pFaceDataset->saveToFile(sFileName, sMsgError))
+	if(!m_pFaceDatasetModel->saveToFile(sFileName, sMsgError))
 		return false;
 
 	setWindowFilePath(sFileName);
@@ -172,7 +134,7 @@ bool f3::ChildWindow::saveToFile(const QString &sFileName, QString &sMsgError)
 // +-----------------------------------------------------------
 bool f3::ChildWindow::loadFromFile(const QString &sFileName, QString &sMsgError)
 {
-	if(!m_pFaceDataset->loadFromFile(qPrintable(sFileName), sMsgError))
+	if(!m_pFaceDatasetModel->loadFromFile(qPrintable(sFileName), sMsgError))
 		return false;
 
 	setWindowFilePath(sFileName);

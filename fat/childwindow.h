@@ -20,8 +20,6 @@
 #ifndef CHILDWINDOW_H
 #define CHILDWINDOW_H
 
-//#include "ui_childwindow.h"
-#include "facedataset.h"
 #include "facedatasetmodel.h"
 #include "facewidget.h"
 
@@ -56,9 +54,9 @@ namespace f3
 
 		/**
 		 * Removes the given images from the face annotation dataset.
-		 * @param vIndexes Std vector with the indexes of the files to be removed.
+		 * @param lIndexes QList with the indexes of the files to be removed.
 		 */
-		void removeImages(const std::vector<int> &vIndexes);
+		void removeImages(const QList<int> &lIndexes);
 
 		/**
 		 * Gets the list model used to display information about the contents of the
@@ -143,10 +141,7 @@ namespace f3
 		/** Widget used to display face images and edit facial features. */
 		FaceWidget *m_pFaceWidget;
 
-		/** Instance of the face dataset control class used to handle the annotation operations. */
-		FaceDataset *m_pFaceDataset;
-
-		/** Instance of the model used to encapsulate the access of Qt view components such as QListView. */
+		/** Instance of the model used to encapsulate the access of the face dataset to Qt view components such as QListView. */
 		FaceDatasetModel *m_pFaceDatasetModel;
 
 		/** Selection model used to represent the selection of items in Qt view components such as QListView. */

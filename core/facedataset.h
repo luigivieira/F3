@@ -82,11 +82,11 @@ namespace f3
 		 * Gets the face image for the given index. The index must be in the range [0, count - 1],
 		 * where count is the number of face images in the dataset.
 		 * @param iIndex Integer with the index of the image file to load.
-		 * @param oImage QImage reference for receiving the image loaded.
+		 * @param oImage QPixmap reference for receiving the image loaded.
 		 * @return Boolean indicating if the image file could be loaded (true) or not (false, in case
 		 * the given index is out of range or the image file could not be read).
 		 */
-		bool getImage(const int iIndex, QImage &oImage) const;
+		bool getImage(const int iIndex, QPixmap &oImage) const;
 
 		/**
 		 * Gets the face image for the given index. The index must be in the range [0, count - 1],

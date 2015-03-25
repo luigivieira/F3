@@ -23,6 +23,8 @@
 #include "facedataset.h"
 
 #include <QAbstractListModel>
+#include <QList>
+#include <QPixmap>
 
 namespace f3
 {
@@ -35,8 +37,9 @@ namespace f3
 	public:
 		/**
 		 * Class constructor.
+		 * @param pParent Instance of a QObject with the parent of the model. Default is NULL.
 		 */
-		FaceDatasetModel(FaceDataset *pFaceDataset, QObject *pParent = NULL);
+		FaceDatasetModel(QObject *pParent = NULL);
 
 		/**
 		 * Virtual class destructor.
@@ -66,18 +69,67 @@ namespace f3
 		 */
 		QVariant data(const QModelIndex &oIndex, int iRole = Qt::DisplayRole) const;
 
+		/**
+		 * Returns the header data stored under the given section (column), for the given role.
+		 * @param iSection Integer with the section (column) to retrieve the header data.
+		 * @param eOrientation The orientation of the header (not used).
+		 * @param iRole A DispleyRole identifying the role of the header data requested (the default is DisplayRole).
+		 * @return A QVariant with the header data requested.
+		 */
 		QVariant headerData(int iSection, Qt::Orientation eOrientation, int iRole = Qt::DisplayRole) const;
 
 		/**
-		 * Mark that a change in the a reset in the model so the views using it will be updated.
+		 * Loads the data from the given text file in the YAML format
+		 * (YAML Ain't Markup Language - http://en.wikipedia.org/wiki/YAML).
+		 * @param sFileName QString with the name of the file to read the data from.
+		 * @param sMsgError QString to receive the error message in case the method fails.
+		 * @return Boolean indicating if the loading was successful (true) of failed (false).
 		 */
-		void beginUpdate();
+		bool loadFromFile(const QString &sFileName, QString &sMsgError);
 
-		void endUpdate();
+        /**
+         * Saves the data to the given file in the YAML format
+		 * (YAML Ain't Markup Language - http://en.wikipedia.org/wiki/YAML).
+         * @param sFileName QString with the name of the file to write the data to.
+		 * @param sMsgError QString to receive the error message in case the method fails.
+		 * @return Boolean indicating if the saving was successful (true) of failed (false).
+         */
+        bool saveToFile(const QString &sFileName, QString &sMsgError) const;
+
+		/**
+		 * Adds the given images to the dataset.
+		 * @param lImageFiles QStringList with the list of image file names to add.
+		 * @return Boolean indicating if the operation was successful or not.
+		 */
+		bool addImages(const QStringList &lImageFiles);
+
+		/**
+		 * Removes the given images to the dataset.
+		 * @param lImageFiles QList with the list of image indexes to remove.
+		 * @return Boolean indicating if the operation was successful or not.
+		 */
+		bool removeImages(const QList<int> &lImageIndexes);
+
+	protected:
+
+		/**
+		 * Build a thumbnail for the given image index.
+		 * @param iIndex Integer with the index of the image to build the thumbnail for.
+		 * @return A QPixmap with the thumbmail. If the image could not be read,
+		 * a thumbnail of the 'image missing' is returned instead.
+		 */
+		QPixmap buildThumbnail(const int iIndex);
 
 	private:
 		/** Instance of the face annotation dataset for data access. */
 		FaceDataset *m_pFaceDataset;
+
+		/**
+		 * List of thumbnails for the existing images to improve access performance.
+		 * The thumbnails are related to the images in the facedataset according to their
+		 * indexed position.
+		 */
+		QList<QPixmap> m_lCachedThumbnails;
 	};
 
 }
