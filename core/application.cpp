@@ -195,22 +195,31 @@ void f3::F3Application::handleLogOutput(QtMsgType eType, const QMessageLogContex
 		return;
 
 	QString sNow = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
-	QString sSource = QFileInfo(QFile(oContext.file).fileName()).fileName();
+
+	// Only include context information if it exists (when compiled in debug)
+	QString sDebugInfo;
+	if(oContext.line != 0)
+	{
+		QString sSource = QFileInfo(QFile(oContext.file).fileName()).fileName();
+		sDebugInfo = QString(" [%1:%2, %3] ").arg(sSource).arg(oContext.line).arg(oContext.function);
+	}
+	else
+		sDebugInfo = " ";
 
 	switch (eType)
 	{
 		case QtDebugMsg:
-			m_spInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") DEBUG: " << qPrintable(sMsg) << endl;
+			m_spInstance->m_oLogFile << qPrintable(sNow) << qPrintable(sDebugInfo) << "DEBUG: " << qPrintable(sMsg) << endl;
 			m_spInstance->m_oLogFile.flush();
 			break;
 
 		case QtWarningMsg:
-			m_spInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") WARNING: " << qPrintable(sMsg) << endl;
+			m_spInstance->m_oLogFile << qPrintable(sNow) << qPrintable(sDebugInfo) << "WARNING: " << qPrintable(sMsg) << endl;
 			m_spInstance->m_oLogFile.flush();
 			break;
 
 		case QtCriticalMsg:
-			m_spInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") CRITICAL: " << qPrintable(sMsg) << endl;
+			m_spInstance->m_oLogFile << qPrintable(sNow) << qPrintable(sDebugInfo) << "CRITICAL: " << qPrintable(sMsg) << endl;
 			m_spInstance->m_oLogFile.flush();
 			break;
 
@@ -218,8 +227,8 @@ void f3::F3Application::handleLogOutput(QtMsgType eType, const QMessageLogContex
 			QApplication::beep();
 			QMessageBox::critical(NULL, qApp->translate("Main", "Erro de Execução"), qApp->translate("Main", "Uma exceção grave ocorreu e a aplicação precisará ser encerrada. Por favor, verifique o arquivo de log para detalhes."), QMessageBox::Ok);
 
-			cerr << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;
-			m_spInstance->m_oLogFile << qPrintable(sNow) << " (" << qPrintable(sSource) << ":" << oContext.line << ", " << oContext.function << ") FATAL: " << qPrintable(sMsg) << endl;
+			cerr << qPrintable(sNow) << qPrintable(sDebugInfo) << "FATAL: " << qPrintable(sMsg) << endl;
+			m_spInstance->m_oLogFile << qPrintable(sNow) << qPrintable(sDebugInfo) << "FATAL:" << qPrintable(sMsg) << endl;
 			terminate();
 			exit(-2);
 	}

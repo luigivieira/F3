@@ -91,6 +91,8 @@ void f3::FaceWidget::setScaleFactor(const double dScaleFactor, const bool bEmitS
 		if(m_dScaleFactor != 1.0)
 			scale(dScaleFactor, dScaleFactor);
 
+		qDebug() << m_dScaleFactor;
+
 		// Emit the signal that the scale factor has changed
 		if(bEmitSignal)
 			emit onScaleFactorChanged(m_dScaleFactor);
