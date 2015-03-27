@@ -24,7 +24,6 @@
 #include <QPixmap>
 #include <QGraphicsEffect>
 #include <QScrollBar>
-#include <QDebug>
 #include <QtMath>
 
 // Scale values for zoom in and out steps
@@ -71,11 +70,11 @@ void f3::FaceWidget::setPixmap(const QPixmap &oPixmap)
 // +-----------------------------------------------------------
 double f3::FaceWidget::getScaleFactor() const
 {
-	return m_dScaleFactor;
+	return qFloor(m_dScaleFactor * 100000.0) / 100000.0; // Returns it with precision of 5 decimals
 }
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::setScaleFactor(const double dScaleFactor, const bool bEmitSignal)
+void f3::FaceWidget::setScaleFactor(const double dScaleFactor)
 {
 	if(dScaleFactor == m_dScaleFactor)
 		return;
@@ -90,10 +89,6 @@ void f3::FaceWidget::setScaleFactor(const double dScaleFactor, const bool bEmitS
 		m_dScaleFactor = dScaleFactor;
 		if(m_dScaleFactor != 1.0)
 			scale(dScaleFactor, dScaleFactor);
-
-		// Emit the signal that the scale factor has changed
-		if(bEmitSignal)
-			emit onScaleFactorChanged(m_dScaleFactor);
 	}
 }
 
@@ -107,7 +102,7 @@ void f3::FaceWidget::scaleViewBy(double dFactorBy)
 	    scale(dFactorBy, dFactorBy);
 
 		// Emit the signal that the scale factor has changed
-		emit onScaleFactorChanged(m_dScaleFactor);
+		emit onScaleFactorChanged(getScaleFactor());
 	}
 }
 

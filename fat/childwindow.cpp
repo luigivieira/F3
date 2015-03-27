@@ -144,13 +144,13 @@ bool f3::ChildWindow::loadFromFile(const QString &sFileName, QString &sMsgError)
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::setZoomLevel(const int iLevel, const bool bEmitSignal)
+void f3::ChildWindow::setZoomLevel(const int iLevel)
 {
 	int iSteps = iLevel - 11; // Because 11 is the middle slider value, equivalent to the scale of 1.0 (100%)
 	double dBase = iSteps < 0 ? FaceWidget::ZOOM_OUT_STEP : FaceWidget::ZOOM_IN_STEP;
 	
 	double dFactor = 1.0 * qPow(dBase, abs(iSteps));
-	m_pFaceWidget->setScaleFactor(dFactor, bEmitSignal);
+	m_pFaceWidget->setScaleFactor(dFactor);
 }
 
 // +-----------------------------------------------------------

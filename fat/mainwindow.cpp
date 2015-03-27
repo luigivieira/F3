@@ -523,11 +523,13 @@ void f3::MainWindow::onSliderValueChanged(int iValue)
 {
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
 	if(pChild)
-		pChild->setZoomLevel(iValue, false); // the false means: do not emit the update signal in this case
+		pChild->setZoomLevel(iValue);
 }
 
 // +-----------------------------------------------------------
 void f3::MainWindow::onZoomLevelChanged(int iValue)
 {
+	ui->zoomSlider->blockSignals(true);
 	ui->zoomSlider->setValue(iValue);
+	ui->zoomSlider->blockSignals(false);
 }

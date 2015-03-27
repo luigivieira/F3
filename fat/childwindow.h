@@ -107,11 +107,8 @@ namespace f3
 		 * Sets the zoom level of the image in display in terms of the steps defined in the zoom
 		 * slider from 1 to 21, with 11 (the middle value) as "no zoom" (i.e. 100% view).
 		 * @param iLevel Integer with the zoom level to set.
-		 * @param bEmitSignal Boolean indicating if the change signal should be emitted or not.
-		 * The default is true. This parameter is intended to be used with false by widgets that change
-		 * the scale factor and depend upon receiving signal updates from the mouse wheel interaction.
 		 */
-		void setZoomLevel(const int iLevel, const bool bEmitSignal = true);
+		void setZoomLevel(const int iLevel);
 
 		/**
 		 * Gets the current zoom level of the image in display in terms of the steps defined in the zoom

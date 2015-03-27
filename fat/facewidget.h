@@ -71,11 +71,8 @@ namespace f3
 		 * Sets the scale factor of the image displayed.
 		 * @param dScaleFactor Double with the new scale factor to be applied. It must be 
 		 * in the interval [0.10, 10.0].
-		 * @param bEmitSignal Boolean indicating if the change signal should be emitted or not.
-		 * The default is true. This parameter is intended to be used with false by widgets that change
-		 * the scale factor and depend upon receiving signal updates from the mouse wheel interaction.
 		 */
-		void setScaleFactor(const double dScaleFactor, const bool bEmitSignal = true);
+		void setScaleFactor(const double dScaleFactor);
 
 		/**
 		 * Performs one step of zoom in.
@@ -90,7 +87,8 @@ namespace f3
 	signals:
 
 		/**
-		 * Signal to indicate that the scale of the display image has changed.
+		 * Signal to indicate that the scale of the display image has changed from direct user interaction
+		 * with the widget (that is, a call to setScaleFactor does not emit this signal).
 		 * @param dScaleFactor Double with the new scale factor.
 		 */
 		void onScaleFactorChanged(const double dScaleFactor);
