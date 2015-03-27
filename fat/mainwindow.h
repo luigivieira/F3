@@ -83,6 +83,12 @@ namespace f3
 		 */
 		void updateUI(const bool bCompleteUpdate = false);
 
+		/**
+		 * Captures and handles the keyboard events to automate user interactions.
+		 * @param pEvent Instance of the QKeyEvent with the parameters of the event that happened.
+		 */
+		void keyPressEvent(QKeyEvent *pEvent) Q_DECL_OVERRIDE;
+
 	public slots:
 
 		/**

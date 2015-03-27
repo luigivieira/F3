@@ -167,6 +167,18 @@ int f3::ChildWindow::getZoomLevel() const
 }
 
 // +-----------------------------------------------------------
+void f3::ChildWindow::zoomIn()
+{
+	m_pFaceWidget->zoomIn();
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::zoomOut()
+{
+	m_pFaceWidget->zoomOut();
+}
+
+// +-----------------------------------------------------------
 void f3::ChildWindow::onScaleFactorChanged(const double dScaleFactor)
 {
 	Q_UNUSED(dScaleFactor);

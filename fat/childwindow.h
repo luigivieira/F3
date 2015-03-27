@@ -117,6 +117,16 @@ namespace f3
 		 */
 		int getZoomLevel() const;
 
+		/**
+		 * Performs one step of zoom in.
+		 */
+		void zoomIn();
+
+		/**
+		 * Performs one step of zoom out.
+		 */
+		void zoomOut();
+
 	protected slots:
 
 		/**

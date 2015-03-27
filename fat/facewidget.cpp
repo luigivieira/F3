@@ -127,24 +127,6 @@ void f3::FaceWidget::wheelEvent(QWheelEvent *pEvent)
 #endif
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::keyPressEvent(QKeyEvent *pEvent)
-{
-    switch(pEvent->key())
-	{
-		case Qt::Key_Plus:
-			zoomIn();
-			break;
-
-		case Qt::Key_Minus:
-			zoomOut();
-			break;
-
-		default:
-			QGraphicsView::keyPressEvent(pEvent);
-    }
-}
-
-// +-----------------------------------------------------------
 void f3::FaceWidget::zoomIn()
 {
 	scaleViewBy(ZOOM_IN_STEP);

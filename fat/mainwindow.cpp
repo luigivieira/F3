@@ -533,3 +533,30 @@ void f3::MainWindow::onZoomLevelChanged(int iValue)
 	ui->zoomSlider->setValue(iValue);
 	ui->zoomSlider->blockSignals(false);
 }
+
+// +-----------------------------------------------------------
+void f3::MainWindow::keyPressEvent(QKeyEvent *pEvent)
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+	{
+		QMainWindow::keyPressEvent(pEvent);
+		return;
+	}
+
+    switch(pEvent->key())
+	{
+		case Qt::Key_Plus:
+			pChild->zoomIn();
+			pEvent->accept();
+			break;
+
+		case Qt::Key_Minus:
+			pChild->zoomOut();
+			pEvent->accept();
+			break;
+
+		default:
+			QMainWindow::keyPressEvent(pEvent);
+    }
+}

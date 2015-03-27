@@ -104,11 +104,6 @@ namespace f3
 	#endif
 
 		/**
-		 * Captures and handles the keyboard events to automate user interactions.
-		 */
-		void keyPressEvent(QKeyEvent *pEvent) Q_DECL_OVERRIDE;
-
-		/**
 		 * Scales the widget view to emulate a zoom behaviour by the given factor.
 		 * @param dFactorBy Double with the scale to be added/removed.
 		 */
