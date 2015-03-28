@@ -184,3 +184,26 @@ void f3::ChildWindow::onScaleFactorChanged(const double dScaleFactor)
 	Q_UNUSED(dScaleFactor);
 	emit onZoomLevelChanged(getZoomLevel());
 }
+
+// +-----------------------------------------------------------
+bool f3::ChildWindow::getEmotionLabel(const int iIndex, EmotionLabel &eLabel) const
+{
+	QModelIndex oIndex = m_pFaceDatasetModel->index(iIndex, 2);
+	QVariant oValue = m_pFaceDatasetModel->data(oIndex, Qt::UserRole);
+	if(oValue.isValid())
+	{
+		eLabel = EmotionLabel::fromValue(oValue.toInt());
+		return true;
+	}
+	else
+		return false;
+}
+
+// +-----------------------------------------------------------
+bool f3::ChildWindow::setEmotionLabel(const int iIndex, const EmotionLabel eLabel)
+{
+    bool bRet = m_pFaceDatasetModel->setData(m_pFaceDatasetModel->index(iIndex, 1), QVariant(eLabel.getValue()), Qt::UserRole);
+	if(bRet)
+		setWindowModified(true);
+	return bRet;
+}

@@ -8,7 +8,7 @@ using namespace std;
  * Setup the constant labels based on the indexes used in the Cohn-Kanade
  * (CK and CK+) database (http://www.pitt.edu/~emotion/ck-spread.htm).
  */
-const f3::EmotionLabel f3::EmotionLabel::UNDEFINED = f3::EmotionLabel(-1);
+const f3::EmotionLabel f3::EmotionLabel::UNDEFINED = f3::EmotionLabel(0);
 const f3::EmotionLabel f3::EmotionLabel::ANGER     = f3::EmotionLabel(1);
 const f3::EmotionLabel f3::EmotionLabel::CONTEMPT  = f3::EmotionLabel(2);
 const f3::EmotionLabel f3::EmotionLabel::DISGUST   = f3::EmotionLabel(3);
@@ -20,7 +20,7 @@ const f3::EmotionLabel f3::EmotionLabel::SURPRISE  = f3::EmotionLabel(7);
 // +-----------------------------------------------------------
 f3::EmotionLabel::EmotionLabel()
 {
-    m_iLabel = -1;
+    m_iLabel = 0;
 }
 
 // +-----------------------------------------------------------

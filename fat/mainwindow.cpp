@@ -22,6 +22,7 @@
 #include "aboutwindow.h"
 #include "childwindow.h"
 #include "utils.h"
+#include "application.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -112,6 +113,17 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 
 	// Connect the zoom slider
 	connect(ui->zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(onSliderValueChanged(int)));
+
+	// Connect the emotion radio selectors
+	connect(ui->radioUndefined, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
+	connect(ui->radioAnger, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
+	connect(ui->radioContempt, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
+	connect(ui->radioDisgust, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
+	connect(ui->radioFear, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
+	connect(ui->radioHappiness, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
+	connect(ui->radioSadness, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
+	connect(ui->radioSurprise, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
+
 }
 
 // +-----------------------------------------------------------
@@ -327,8 +339,12 @@ void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
 	if(ui->tabWidget->count() == 0) // no more tabs
 	{
 		ui->textFileName->setText("");
+		ui->radioUndefined->blockSignals(true);
 		ui->radioUndefined->setChecked(true);
-		ui->zoomSlider->setValue(ui->zoomSlider->maximum() - ui->zoomSlider->minimum() + 1);
+		ui->radioUndefined->blockSignals(false);
+		ui->zoomSlider->blockSignals(true);
+		ui->zoomSlider->setValue((ui->zoomSlider->maximum() - ui->zoomSlider->minimum()) / 2 + 1);
+		ui->zoomSlider->blockSignals(false);
 	}
 }
 
@@ -411,16 +427,16 @@ void f3::MainWindow::setImageListView(QString sType)
 		m_pViewButton->setIcon(QIcon(":/icons/viewdetails"));
 		ui->listImages->setVisible(false);
 		ui->treeImages->setVisible(true);
-		disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
-		connect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		connect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
 	}
 	else if(sType == "icons")
 	{
 		m_pViewButton->setIcon(QIcon(":/icons/viewicons"));
 		ui->treeImages->setVisible(false);
 		ui->listImages->setVisible(true);
-		disconnect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
-		connect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		disconnect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		connect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
 	}
 }
 
@@ -434,7 +450,7 @@ void f3::MainWindow::toggleImageListView()
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex)
+void f3::MainWindow::onthumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex)
 {
 	Q_UNUSED(oPrevIndex);
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
@@ -465,8 +481,8 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 		// Update the model (image list)
 		if(ui->listImages->selectionModel() || ui->treeImages->selectionModel())
 		{
-			disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
-			disconnect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+			disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
+			disconnect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
 		}
 		ui->listImages->setModel(NULL);
 		ui->treeImages->setModel(NULL);
@@ -479,9 +495,9 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 			ui->treeImages->setSelectionModel(pChild->getSelectionModel());
 
 			if(ui->listImages->isVisible())
-				connect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+				connect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
 			else
-				connect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(on_thumbnailSelected(const QModelIndex &, const QModelIndex &)));
+				connect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
 		}
 	}
 
@@ -501,20 +517,36 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 	// Update the properties, the tab text and tooltip and the image in display (if needed)
 	if(bFileOpened)
 	{
+		// Tab title and tooltip
 		QString sTitle = QFileInfo(pChild->windowFilePath()).baseName() + (pChild->isWindowModified() ? "*" : "");
 		ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), sTitle);
 		if(bFileNotNew) // Complete file path only if the file has been saved before
 			ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), pChild->windowFilePath());
 
+		// Properties
 		QModelIndex oCurrent = pChild->getSelectionModel()->currentIndex();
 		if(!oCurrent.isValid())
 		{
 			ui->textFileName->setText("");
+			ui->radioUndefined->blockSignals(true);
 			ui->radioUndefined->setChecked(true);
+			ui->radioUndefined->blockSignals(false);
 			pChild->showImage(-1);
 		}
 		else
+		{
+			// Image file path
 			ui->textFileName->setText(oCurrent.data(Qt::UserRole).toString());
+			
+			// Emotion label
+			EmotionLabel eLabel;
+			pChild->getEmotionLabel(oCurrent.row(), eLabel);
+			QObjectList lsObjects = ui->groupEmotions->children();
+			QRadioButton *pRadio = qobject_cast<QRadioButton*>(lsObjects.at(eLabel.getValue() + 1)); // The +1 is to ignore the layout widget
+			pRadio->blockSignals(true);
+			pRadio->setChecked(true);
+			pRadio->blockSignals(false);
+		}
 	}
 }
 
@@ -559,4 +591,32 @@ void f3::MainWindow::keyPressEvent(QKeyEvent *pEvent)
 		default:
 			QMainWindow::keyPressEvent(pEvent);
     }
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::onEmotionToggled(bool bValue)
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!bValue || !pChild)
+		return;
+
+	EmotionLabel eLabel = EmotionLabel::UNDEFINED;
+	QObjectList lsObjects = ui->groupEmotions->children();
+	QRadioButton *pRadio;
+	for(int i = lsObjects.size() - 1; i >= 0; i--)
+	{
+		pRadio = qobject_cast<QRadioButton*>(lsObjects.at(i));
+		if(pRadio && pRadio == sender())
+		{
+			eLabel = EmotionLabel::fromValue(i-1);
+			break;
+		}
+	}
+
+	QModelIndex oIndex = pChild->getSelectionModel()->currentIndex();
+	if(oIndex.isValid()) // Sanity check
+	{
+		pChild->setEmotionLabel(oIndex.row(), eLabel);
+		updateUI();
+	}
 }

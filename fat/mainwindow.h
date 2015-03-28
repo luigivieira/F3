@@ -21,6 +21,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+
 #include "aboutwindow.h"
 
 namespace Ui {
@@ -174,7 +175,7 @@ namespace f3
 		 * @param oIndex QModelIndex with the item selected.
 		 * @param oPrevIndex QModelIndex with the item previously selected.
 		 */
-		void on_thumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex);
+		void onthumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex);
 
 		/**
 		 * Captures the updates in the zoom slider by user interaction.
@@ -187,6 +188,13 @@ namespace f3
 		 * @param iValue Integer with the new value of the zoom (in the range [1, 21]).
 		 */
 		void onZoomLevelChanged(int iValue);
+
+		/**
+		 * Captures the selection events of the emotion radio buttons. This slot is connected to all radio
+		 * buttons. The sender() method is used to differentiate them.
+		 * @param bValue Boolean indicating if the sender was checked or unchecked.
+		 */
+		void onEmotionToggled(bool bValue);
 
     private:
         /** Instance of the ui for GUI element access. */

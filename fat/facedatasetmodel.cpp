@@ -30,66 +30,7 @@ int f3::FaceDatasetModel::rowCount(const QModelIndex &oParent) const
 int f3::FaceDatasetModel::columnCount(const QModelIndex &oParent) const
 {
 	Q_UNUSED(oParent);
-	return 2; // There are two columns of data: [Image Name], [Emotion Label]
-}
-
-// +-----------------------------------------------------------
-QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
-{
-	QPixmap oImage;
-	QString sFileName;
-	EmotionLabel eLabel;
-
-	switch(iRole)
-	{
-		// Listing textual data
-		case Qt::DisplayRole:
-			switch(oIndex.column())
-			{
-				case 0: // [Image Name]
-					if(!m_pFaceDataset->getImageFileName(oIndex.row(), sFileName))
-						return QVariant();
-					else
-						return QFileInfo(sFileName).baseName();
-
-				case 1: // [Emotion Label]
-					m_pFaceDataset->getEmotionLabel(oIndex.row(), eLabel);
-					return eLabel.getName();
-
-				default:
-					return QVariant();
-			}
-
-		// Listing decoration data (image thumbnails)
-		case Qt::DecorationRole:
-			if(oIndex.column() == 0)
-				return m_lCachedThumbnails[oIndex.row()];
-			else
-				return QVariant();
-
-		// User role used to get original dataset data
-		case Qt::UserRole:
-			switch(oIndex.column())
-			{
-				case 0: // The complete image file name+path
-					if(!m_pFaceDataset->getImageFileName(oIndex.row(), sFileName))
-						return QVariant();
-					else
-						return sFileName;
-
-				case 1: // The original image data
-					if(!m_pFaceDataset->getImage(oIndex.row(), oImage))
-						oImage = QPixmap(":/images/brokenimage");
-					return oImage;
-
-				default:
-					return QVariant();
-			}
-
-		// Any other role, return invalid
-		default:
-			return QVariant();
-	}
+	return 4; // There are four columns of data: [Image Name], [Emotion Label]
 }
 
 // +-----------------------------------------------------------
@@ -122,6 +63,95 @@ QVariant f3::FaceDatasetModel::headerData(int iSection, Qt::Orientation eOrienta
 		default:
 			return QVariant();
 	}
+}
+
+// +-----------------------------------------------------------
+QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
+{
+	QPixmap oImage;
+	QString sFileName;
+	EmotionLabel eLabel;
+
+	switch(iRole)
+	{
+		// Data to be displayed on ModelViews
+		case Qt::DisplayRole:
+			switch(oIndex.column())
+			{
+				case 0: // [Image Name]
+					if(!m_pFaceDataset->getImageFileName(oIndex.row(), sFileName))
+						return QVariant();
+					else
+						return QFileInfo(sFileName).baseName();
+
+				case 1: // [Emotion Label Name]
+					m_pFaceDataset->getEmotionLabel(oIndex.row(), eLabel);
+					return eLabel.getName();
+
+				default:
+					return QVariant();
+			}
+
+		// Decoration data (image thumbnails for the first column)
+		case Qt::DecorationRole:
+			if(oIndex.column() == 0)
+				return m_lCachedThumbnails[oIndex.row()];
+			else
+				return QVariant();
+
+		// Raw data from the face dataset
+		case Qt::UserRole:
+			switch(oIndex.column())
+			{
+				case 0: // The complete image file name+path
+					if(!m_pFaceDataset->getImageFileName(oIndex.row(), sFileName))
+						return QVariant();
+					else
+						return sFileName;
+
+				case 1: // The image data
+					if(!m_pFaceDataset->getImage(oIndex.row(), oImage))
+						oImage = QPixmap(":/images/brokenimage");
+					return oImage;
+
+				case 2: // The emotion label
+					m_pFaceDataset->getEmotionLabel(oIndex.row(), eLabel);
+					return eLabel.getValue();
+
+				default:
+					return QVariant();
+			}
+
+		// Any other role, return invalid
+		default:
+			return QVariant();
+	}
+}
+
+// +-----------------------------------------------------------
+bool f3::FaceDatasetModel::setData(const QModelIndex &oIndex, const QVariant &oValue, int iRole)
+{
+	if(iRole == Qt::UserRole)
+	{
+		EmotionLabel eLabel;
+
+		switch(oIndex.column())
+		{
+			case 0: // [Image Name]
+				return false;
+
+			case 1: // [Emotion Label]
+				eLabel = EmotionLabel::fromValue(oValue.toInt());
+				m_pFaceDataset->setEmotionLabel(oIndex.row(), eLabel);
+				emit dataChanged(oIndex, oIndex);
+				return true;
+
+			default:
+				return false;
+		}
+	}
+	else
+		return false;
 }
 
 // +-----------------------------------------------------------

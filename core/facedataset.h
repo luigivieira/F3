@@ -136,6 +136,16 @@ namespace f3
 		 */
 		bool getEmotionLabel(const int iIndex, EmotionLabel &eLabel) const;
 
+		/**
+		 * Updates the emotion label of the sample at the given index. The index must be in
+		 * the range [0, count - 1], where count is the number of face images in the dataset.
+		 * @param iIndex Integer with the index of sample from which to update the emotion label.
+		 * @param eLabel EmotionLabel with the new emotion label for the given image.
+		 * @return Boolean indicating if the method call was successful (true) or not (false, in case
+		 * the given index is out of range).
+		 */
+		bool setEmotionLabel(const int iIndex, const EmotionLabel eLabel);
+
 	private:
 		/** Names of the face image files. */
 		std::vector<QString> m_vFaceImages;

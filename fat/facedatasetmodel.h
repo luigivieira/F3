@@ -110,6 +110,15 @@ namespace f3
 		 */
 		bool removeImages(const QList<int> &lImageIndexes);
 
+		/**
+		 * Updates the face data stored under the given role for the item referred by the index.
+		 * @param oIndex A QModelIndex with the index of the data to be updated.
+		 * param oValue A QVariant with the new value for the data under the index.
+		 * @param iRole A DisplayRole identifying the role of the data to be updated.
+		 * @return A boolean indicating if the update was successful (true) or not (false).
+		 */
+		bool setData(const QModelIndex &oIndex, const QVariant &oValue, int iRole = Qt::EditRole);
+
 	protected:
 
 		/**

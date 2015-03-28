@@ -127,6 +127,24 @@ namespace f3
 		 */
 		void zoomOut();
 
+		/**
+		 * Gets the emotion label of the face at the given index.
+		 * @param iIndex Integer with the index of face from which to get the emotion label.
+		 * @param eLabel EmotionLabel reference to receive the emotion label for the given image.
+		 * @return Boolean indicating if the method call was successful (true) or not (false, in case
+		 * the given index is out of range).
+		 */
+		bool getEmotionLabel(const int iIndex, EmotionLabel &eLabel) const;
+
+		/**
+		 * Updates the emotion label of the face at the given index.
+		 * @param iIndex Integer with the index of sample from which to update the emotion label.
+		 * @param eLabel EmotionLabel with the new emotion label for the given image.
+		 * @return Boolean indicating if the method call was successful (true) or not (false, in case
+		 * the given index is out of range).
+		 */
+		bool setEmotionLabel(const int iIndex, const EmotionLabel eLabel);
+
 	protected slots:
 
 		/**

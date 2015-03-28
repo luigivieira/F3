@@ -282,6 +282,16 @@ bool f3::FaceDataset::getEmotionLabel(const int iIndex, EmotionLabel &eLabel) co
 	return true;
 }
 
+// +-----------------------------------------------------------
+bool f3::FaceDataset::setEmotionLabel(const int iIndex, const EmotionLabel eLabel)
+{
+    if(iIndex < 0 || iIndex >= size())
+		return false;
+
+	m_vEmotionLabels[iIndex] = eLabel;
+	return true;
+}
+
 /*
 // +-----------------------------------------------------------
 void f3::FaceDataset::addSamples(vector<string> vSamples, vector< vector<Point2f> > vFeatures)
