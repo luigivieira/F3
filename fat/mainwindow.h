@@ -190,6 +190,11 @@ namespace f3
 		void onZoomLevelChanged(int iValue);
 
 		/**
+		 * Captures indications that the data in the child window was updated (so the UI can be updated accordingly).
+		 */
+		void onDataModified();
+
+		/**
 		 * Captures the selection events of the emotion radio buttons. This slot is connected to all radio
 		 * buttons. The sender() method is used to differentiate them.
 		 * @param bValue Boolean indicating if the sender was checked or unchecked.

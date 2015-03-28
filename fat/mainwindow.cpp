@@ -23,6 +23,7 @@
 #include "childwindow.h"
 #include "utils.h"
 #include "application.h"
+#include "emotiondelegate.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -124,6 +125,8 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 	connect(ui->radioSadness, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
 	connect(ui->radioSurprise, SIGNAL(toggled(bool)), this, SLOT(onEmotionToggled(bool)));
 
+	// Item delegate to allow editing the emotion label directly through the TreeView
+	ui->treeImages->setItemDelegate(new EmotionDelegate());
 }
 
 // +-----------------------------------------------------------
@@ -192,6 +195,7 @@ void f3::MainWindow::on_actionNew_triggered()
 {
     ChildWindow *pChild = new ChildWindow(this);
 	connect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
+	connect(pChild, SIGNAL(onDataModified()), this, SLOT(onDataModified()));
 
 	pChild->setWindowFilePath(QString(tr("%1novo banco de faces anotadas.afd")).arg(m_sDocumentsPath));
 	pChild->setWindowModified(true);
@@ -229,6 +233,7 @@ void f3::MainWindow::on_actionOpen_triggered()
 			}
 
 			connect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
+			connect(pChild, SIGNAL(onDataModified()), this, SLOT(onDataModified()));
 
 			int iIndex = ui->tabWidget->addTab(pChild, pChild->windowIcon(), "");
 			ui->tabWidget->setCurrentIndex(iIndex);
@@ -271,7 +276,6 @@ bool f3::MainWindow::saveCurrentFile(bool bAskForFileName)
 				return false;
 			}
 
-			updateUI();
 			return true;
 		}
 		else
@@ -291,7 +295,6 @@ bool f3::MainWindow::saveCurrentFile(bool bAskForFileName)
 				return false;
 			}
 
-			updateUI();
 			return true;
 		}
 	}
@@ -334,6 +337,7 @@ void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
 
 	ui->tabWidget->removeTab(iTabIndex);
 	disconnect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
+	disconnect(pChild, SIGNAL(onDataModified()), this, SLOT(onDataModified()));
 	delete pChild;
 
 	if(ui->tabWidget->count() == 0) // no more tabs
@@ -392,7 +396,6 @@ void f3::MainWindow::on_actionRemoveImage_triggered()
 			for(int i = 0; i < lsSelected.size(); i++)
 				lIndexes.append(lsSelected[i].row());
 			pChild->removeImages(lIndexes);
-			updateUI();
 		}
 	}
 }
@@ -567,6 +570,12 @@ void f3::MainWindow::onZoomLevelChanged(int iValue)
 }
 
 // +-----------------------------------------------------------
+void f3::MainWindow::onDataModified()
+{
+	updateUI();
+}
+
+// +-----------------------------------------------------------
 void f3::MainWindow::keyPressEvent(QKeyEvent *pEvent)
 {
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
@@ -614,9 +623,5 @@ void f3::MainWindow::onEmotionToggled(bool bValue)
 	}
 
 	QModelIndex oIndex = pChild->getSelectionModel()->currentIndex();
-	if(oIndex.isValid()) // Sanity check
-	{
-		pChild->setEmotionLabel(oIndex.row(), eLabel);
-		updateUI();
-	}
+	pChild->setEmotionLabel(oIndex.row(), eLabel);
 }

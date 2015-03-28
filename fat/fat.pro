@@ -33,13 +33,15 @@ SOURCES += main.cpp \
            childwindow.cpp \
            aboutwindow.cpp \
            facewidget.cpp \
-           facedatasetmodel.cpp           
+           facedatasetmodel.cpp \
+           emotiondelegate.cpp
            
 HEADERS += mainwindow.h \
            childwindow.h \
            aboutwindow.h \
            facewidget.h \
-           facedatasetmodel.h
+           facedatasetmodel.h \
+           emotiondelegate.h
 
 FORMS += mainwindow.ui \
          aboutwindow.ui

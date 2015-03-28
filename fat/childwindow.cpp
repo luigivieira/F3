@@ -55,6 +55,8 @@ f3::ChildWindow::ChildWindow(QWidget *pParent) :
 	m_pFaceDatasetModel = new FaceDatasetModel();
 	m_pFaceSelectionModel = new QItemSelectionModel(m_pFaceDatasetModel);
 
+	connect(m_pFaceDatasetModel, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), this, SLOT(onModelUpdated()));
+
 	// Indicate that it is a brand new dataset (i.e. not yet saved to a file)
 	setProperty("new", true);
 }
@@ -70,14 +72,14 @@ f3::ChildWindow::~ChildWindow()
 void f3::ChildWindow::addImages(const QStringList &lsFiles)
 {
 	if(m_pFaceDatasetModel->addImages(lsFiles))
-		setWindowModified(true);
+		onModelUpdated();
 }
 
 // +-----------------------------------------------------------
 void f3::ChildWindow::removeImages(const QList<int> &lIndexes)
 {
 	if(m_pFaceDatasetModel->removeImages(lIndexes))
-		setWindowModified(true);
+		onModelUpdated();
 }
 
 // +-----------------------------------------------------------
@@ -100,7 +102,7 @@ void f3::ChildWindow::showImage(const int iIndex)
 		m_pFaceWidget->setPixmap(QPixmap(":/images/noface"));
 	else
 	{
-		QVariant oData = m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(iIndex, 1), Qt::UserRole);
+		QVariant oData = m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(iIndex, 2), Qt::UserRole);
 		if(oData.isValid())
 			m_pFaceWidget->setPixmap(oData.value<QPixmap>());
 		else
@@ -114,7 +116,7 @@ bool f3::ChildWindow::save(QString &sMsgError)
 	if(!m_pFaceDatasetModel->saveToFile(windowFilePath(), sMsgError))
 		return false;
 
-	setWindowModified(false);
+	onModelUpdated(false);
 	setProperty("new", QVariant()); // No longer a new dataset
 	return true;
 }
@@ -126,7 +128,7 @@ bool f3::ChildWindow::saveToFile(const QString &sFileName, QString &sMsgError)
 		return false;
 
 	setWindowFilePath(sFileName);
-	setWindowModified(false);
+	onModelUpdated(false);
 	setProperty("new", QVariant()); // No longer a new dataset
 	return true;
 }
@@ -138,7 +140,7 @@ bool f3::ChildWindow::loadFromFile(const QString &sFileName, QString &sMsgError)
 		return false;
 
 	setWindowFilePath(sFileName);
-	setWindowModified(false);
+	onModelUpdated(false);
 	setProperty("new", QVariant()); // No longer a new dataset
 	return true;
 }
@@ -188,7 +190,7 @@ void f3::ChildWindow::onScaleFactorChanged(const double dScaleFactor)
 // +-----------------------------------------------------------
 bool f3::ChildWindow::getEmotionLabel(const int iIndex, EmotionLabel &eLabel) const
 {
-	QModelIndex oIndex = m_pFaceDatasetModel->index(iIndex, 2);
+	QModelIndex oIndex = m_pFaceDatasetModel->index(iIndex, 1);
 	QVariant oValue = m_pFaceDatasetModel->data(oIndex, Qt::UserRole);
 	if(oValue.isValid())
 	{
@@ -203,7 +205,13 @@ bool f3::ChildWindow::getEmotionLabel(const int iIndex, EmotionLabel &eLabel) co
 bool f3::ChildWindow::setEmotionLabel(const int iIndex, const EmotionLabel eLabel)
 {
     bool bRet = m_pFaceDatasetModel->setData(m_pFaceDatasetModel->index(iIndex, 1), QVariant(eLabel.getValue()), Qt::UserRole);
-	if(bRet)
-		setWindowModified(true);
+	// No need to manually call onModelUpdated() since the model will do it automatically through the call to setData
 	return bRet;
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::onModelUpdated(const bool bModified)
+{
+	setWindowModified(bModified);
+	emit onDataModified();
 }

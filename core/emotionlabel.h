@@ -22,7 +22,7 @@
 
 #include "core_global.h"
 
-#include <vector>
+#include <QStringList>
 
 namespace f3
 {
@@ -113,10 +113,10 @@ namespace f3
 		int getValue() const;
 
 		/**
-		 * Queries the existing emotion labels.
-		 * @return Vector with the existing emotion labels.
+		 * Queries the names (translated) of the existing emotion labels.
+		 * @return QStringList with the names of the existing emotion labels.
 		 */
-		static std::vector<EmotionLabel> getLabels();
+		static QStringList getLabels();
 
 		/**
 		 * Creates a emotion label object from the given index value.

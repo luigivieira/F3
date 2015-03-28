@@ -153,6 +153,13 @@ namespace f3
 		 */
 		void onScaleFactorChanged(const double dScaleFactor);
 
+		/**
+		 * Captures indications of changes in the data model (so the UI can be updated accordingly).
+		 * @param bModified Boolean indicating if the child window shall be marked as modified or not.
+		 * The default is true.
+		 */
+		void onModelUpdated(const bool bModified = true);
+
 	signals:
 
 		/**
@@ -160,6 +167,11 @@ namespace f3
 		 * @param iLevel Integer with the new level of zoom.
 		 */
 		void onZoomLevelChanged(const int iLevel);
+
+		/**
+		 * Signal to indicate changes in the data model (so the UI can be updated accordingly).
+		 */
+		void onDataModified();
 
 	private:
 

@@ -1,8 +1,7 @@
 #include "emotionlabel.h"
+
 #include <QApplication>
 #include <QDebug>
-
-using namespace std;
 
 /*
  * Setup the constant labels based on the indexes used in the Cohn-Kanade
@@ -82,21 +81,21 @@ bool f3::EmotionLabel::operator>=(const EmotionLabel &oOther) const
 QString f3::EmotionLabel::getName() const
 {
     if(*this == ANGER)
-        return qApp->translate("EmotionLabel", "raiva");
+        return qApp->translate("EmotionLabel", "Raiva");
     else if(*this == CONTEMPT)
-        return qApp->translate("EmotionLabel", "desprezo");
+        return qApp->translate("EmotionLabel", "Desprezo");
     else if(*this == DISGUST)
-        return qApp->translate("EmotionLabel", "nojo");
+        return qApp->translate("EmotionLabel", "Nojo");
     else if(*this == FEAR)
-        return qApp->translate("EmotionLabel", "medo");
+        return qApp->translate("EmotionLabel", "Medo");
     else if(*this == HAPPINESS)
-        return qApp->translate("EmotionLabel", "felicidade");
+        return qApp->translate("EmotionLabel", "Felicidade");
     else if(*this == SADNESS)
-        return qApp->translate("EmotionLabel", "tristeza");
+        return qApp->translate("EmotionLabel", "Tristeza");
     else if(*this == SURPRISE)
-        return qApp->translate("EmotionLabel", "surpresa");
+        return qApp->translate("EmotionLabel", "Surpresa");
     else
-        return qApp->translate("EmotionLabel", "indefinido");
+        return qApp->translate("EmotionLabel", "Indefinido");
 }
 
 // +-----------------------------------------------------------
@@ -106,19 +105,20 @@ int f3::EmotionLabel::getValue() const
 }
 
 // +-----------------------------------------------------------
-vector<f3::EmotionLabel> f3::EmotionLabel::getLabels()
+QStringList f3::EmotionLabel::getLabels()
 {
-    vector<f3::EmotionLabel> vRet;
+    QStringList lRet;
 
-    vRet.push_back(ANGER);
-    vRet.push_back(CONTEMPT);
-    vRet.push_back(DISGUST);
-    vRet.push_back(FEAR);
-    vRet.push_back(HAPPINESS);
-    vRet.push_back(SADNESS);
-    vRet.push_back(SURPRISE);
+	lRet.append(UNDEFINED.getName());
+    lRet.append(ANGER.getName());
+    lRet.append(CONTEMPT.getName());
+    lRet.append(DISGUST.getName());
+    lRet.append(FEAR.getName());
+    lRet.append(HAPPINESS.getName());
+    lRet.append(SADNESS.getName());
+    lRet.append(SURPRISE.getName());
 
-    return vRet;
+    return lRet;
 }
 
 // +-----------------------------------------------------------

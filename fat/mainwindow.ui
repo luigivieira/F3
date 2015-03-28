@@ -629,11 +629,14 @@
      <item row="2" column="0">
       <widget class="QTreeView" name="treeImages">
        <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
+        <set>QAbstractItemView::AllEditTriggers</set>
        </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::ExtendedSelection</enum>
        </property>
+       <attribute name="headerDefaultSectionSize">
+        <number>150</number>
+       </attribute>
       </widget>
      </item>
     </layout>

@@ -109,14 +109,14 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 					else
 						return sFileName;
 
-				case 1: // The image data
+				case 1: // The emotion label
+					m_pFaceDataset->getEmotionLabel(oIndex.row(), eLabel);
+					return eLabel.getValue();
+
+				case 2: // The image data
 					if(!m_pFaceDataset->getImage(oIndex.row(), oImage))
 						oImage = QPixmap(":/images/brokenimage");
 					return oImage;
-
-				case 2: // The emotion label
-					m_pFaceDataset->getEmotionLabel(oIndex.row(), eLabel);
-					return eLabel.getValue();
 
 				default:
 					return QVariant();
@@ -217,4 +217,20 @@ QPixmap f3::FaceDatasetModel::buildThumbnail(const int iIndex)
 
 	oImage = oImage.scaled(50, 50, Qt::IgnoreAspectRatio);
 	return oImage;
+}
+
+// +-----------------------------------------------------------
+Qt::ItemFlags f3::FaceDatasetModel::flags(const QModelIndex &oIndex) const
+{
+	switch(oIndex.column())
+	{
+		case 0: // [Image Name]
+			return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
+		case 1: // [Emotion Label]
+			return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+
+		default:
+			return Qt::NoItemFlags;
+	}
 }

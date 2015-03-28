@@ -129,6 +129,13 @@ namespace f3
 		 */
 		QPixmap buildThumbnail(const int iIndex);
 
+		/**
+		 * Queries the display/edit flags for the given index.
+		 * @param oIndex A QModelIndex with the index to be queried.
+		 * @return A Qt::ItemFlags with the flags to be applied to the given index.
+		 */
+		Qt::ItemFlags flags(const QModelIndex &oIndex) const;
+
 	private:
 		/** Instance of the face annotation dataset for data access. */
 		FaceDataset *m_pFaceDataset;
