@@ -50,22 +50,26 @@ SOURCES       = main.cpp \
 		childwindow.cpp \
 		aboutwindow.cpp \
 		facewidget.cpp \
-		facedatasetmodel.cpp ../release/tmp/fat/qrc_resources.cpp \
+		facedatasetmodel.cpp \
+		emotiondelegate.cpp ../release/tmp/fat/qrc_resources.cpp \
 		../release/tmp/fat/moc_mainwindow.cpp \
 		../release/tmp/fat/moc_childwindow.cpp \
 		../release/tmp/fat/moc_aboutwindow.cpp \
-		../release/tmp/fat/moc_facewidget.cpp
+		../release/tmp/fat/moc_facewidget.cpp \
+		../release/tmp/fat/moc_emotiondelegate.cpp
 OBJECTS       = ../release/tmp/fat/main.o \
 		../release/tmp/fat/mainwindow.o \
 		../release/tmp/fat/childwindow.o \
 		../release/tmp/fat/aboutwindow.o \
 		../release/tmp/fat/facewidget.o \
 		../release/tmp/fat/facedatasetmodel.o \
+		../release/tmp/fat/emotiondelegate.o \
 		../release/tmp/fat/qrc_resources.o \
 		../release/tmp/fat/moc_mainwindow.o \
 		../release/tmp/fat/moc_childwindow.o \
 		../release/tmp/fat/moc_aboutwindow.o \
-		../release/tmp/fat/moc_facewidget.o
+		../release/tmp/fat/moc_facewidget.o \
+		../release/tmp/fat/moc_emotiondelegate.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -285,7 +289,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d ../release/tmp/fat/f3fat1.0.0 || mkdir -p ../release/tmp/fat/f3fat1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) ../release/tmp/fat/f3fat1.0.0/ && $(COPY_FILE) --parents resources.qrc ../release/tmp/fat/f3fat1.0.0/ && $(COPY_FILE) --parents mainwindow.h childwindow.h aboutwindow.h facewidget.h facedatasetmodel.h ../release/tmp/fat/f3fat1.0.0/ && $(COPY_FILE) --parents main.cpp mainwindow.cpp childwindow.cpp aboutwindow.cpp facewidget.cpp facedatasetmodel.cpp ../release/tmp/fat/f3fat1.0.0/ && $(COPY_FILE) --parents mainwindow.ui aboutwindow.ui ../release/tmp/fat/f3fat1.0.0/ && (cd `dirname ../release/tmp/fat/f3fat1.0.0` && $(TAR) f3fat1.0.0.tar f3fat1.0.0 && $(COMPRESS) f3fat1.0.0.tar) && $(MOVE) `dirname ../release/tmp/fat/f3fat1.0.0`/f3fat1.0.0.tar.gz . && $(DEL_FILE) -r ../release/tmp/fat/f3fat1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) ../release/tmp/fat/f3fat1.0.0/ && $(COPY_FILE) --parents resources.qrc ../release/tmp/fat/f3fat1.0.0/ && $(COPY_FILE) --parents mainwindow.h childwindow.h aboutwindow.h facewidget.h facedatasetmodel.h emotiondelegate.h ../release/tmp/fat/f3fat1.0.0/ && $(COPY_FILE) --parents main.cpp mainwindow.cpp childwindow.cpp aboutwindow.cpp facewidget.cpp facedatasetmodel.cpp emotiondelegate.cpp ../release/tmp/fat/f3fat1.0.0/ && $(COPY_FILE) --parents mainwindow.ui aboutwindow.ui ../release/tmp/fat/f3fat1.0.0/ && (cd `dirname ../release/tmp/fat/f3fat1.0.0` && $(TAR) f3fat1.0.0.tar f3fat1.0.0 && $(COMPRESS) f3fat1.0.0.tar) && $(MOVE) `dirname ../release/tmp/fat/f3fat1.0.0`/f3fat1.0.0.tar.gz . && $(DEL_FILE) -r ../release/tmp/fat/f3fat1.0.0
 
 
 clean:compiler_clean 
@@ -310,34 +314,34 @@ compiler_rcc_make_all: ../release/tmp/fat/qrc_resources.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) ../release/tmp/fat/qrc_resources.cpp
 ../release/tmp/fat/qrc_resources.cpp: resources.qrc \
-		resources/images/noface.png \
-		resources/images/imagemissing.png \
-		resources/images/brokenimage.png \
-		resources/icons/viewicons.png \
-		resources/icons/fat.png \
 		resources/icons/viewdetails.png \
+		resources/icons/fat.png \
+		resources/icons/viewicons.png \
+		resources/icons/emotion-fear.png \
+		resources/icons/emotion-sadness.png \
+		resources/icons/emotion-happiness.png \
+		resources/icons/saveas.png \
+		resources/icons/information.png \
+		resources/icons/add.png \
 		resources/icons/delete.png \
+		resources/icons/emotion-surprise.png \
+		resources/icons/database.png \
 		resources/icons/emotion-undefined.png \
 		resources/icons/emotion-anger.png \
-		resources/icons/add.png \
-		resources/icons/emotion-disgust.png \
-		resources/icons/emotion-contempt.png \
-		resources/icons/emotion-happiness.png \
 		resources/icons/save.png \
-		resources/icons/database.png \
-		resources/icons/emotion-sadness.png \
-		resources/icons/open.png \
-		resources/icons/emotion-surprise.png \
-		resources/icons/help.png \
-		resources/icons/emotion-fear.png \
+		resources/icons/emotion-disgust.png \
 		resources/icons/new.png \
-		resources/icons/information.png \
-		resources/icons/saveas.png
+		resources/icons/open.png \
+		resources/icons/help.png \
+		resources/icons/emotion-contempt.png \
+		resources/images/imagemissing.png \
+		resources/images/noface.png \
+		resources/images/brokenimage.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name resources resources.qrc -o ../release/tmp/fat/qrc_resources.cpp
 
-compiler_moc_header_make_all: ../release/tmp/fat/moc_mainwindow.cpp ../release/tmp/fat/moc_childwindow.cpp ../release/tmp/fat/moc_aboutwindow.cpp ../release/tmp/fat/moc_facewidget.cpp
+compiler_moc_header_make_all: ../release/tmp/fat/moc_mainwindow.cpp ../release/tmp/fat/moc_childwindow.cpp ../release/tmp/fat/moc_aboutwindow.cpp ../release/tmp/fat/moc_facewidget.cpp ../release/tmp/fat/moc_emotiondelegate.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) ../release/tmp/fat/moc_mainwindow.cpp ../release/tmp/fat/moc_childwindow.cpp ../release/tmp/fat/moc_aboutwindow.cpp ../release/tmp/fat/moc_facewidget.cpp
+	-$(DEL_FILE) ../release/tmp/fat/moc_mainwindow.cpp ../release/tmp/fat/moc_childwindow.cpp ../release/tmp/fat/moc_aboutwindow.cpp ../release/tmp/fat/moc_facewidget.cpp ../release/tmp/fat/moc_emotiondelegate.cpp
 ../release/tmp/fat/moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtWidgets/qwidget.h \
@@ -449,7 +453,8 @@ compiler_moc_header_clean:
 		mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o ../release/tmp/fat/moc_mainwindow.cpp
 
-../release/tmp/fat/moc_childwindow.cpp: ../core/facedataset.h \
+../release/tmp/fat/moc_childwindow.cpp: facedatasetmodel.h \
+		../core/facedataset.h \
 		../core/core_global.h \
 		/usr/include/qt5/QtCore/QtGlobal \
 		/usr/include/qt5/QtCore/qglobal.h \
@@ -481,31 +486,16 @@ compiler_moc_header_clean:
 		/usr/include/qt5/QtCore/qmutex.h \
 		/usr/include/qt5/QtCore/qnumeric.h \
 		../core/emotionlabel.h \
-		/usr/local/include/opencv2/core/core.hpp \
-		/usr/local/include/opencv2/core/types_c.h \
-		/usr/local/include/opencv2/core/version.hpp \
-		/usr/local/include/opencv2/core/operations.hpp \
-		/usr/local/include/opencv2/core/mat.hpp \
-		/usr/include/qt5/QtGui/QPixmap \
-		/usr/include/qt5/QtGui/qpixmap.h \
-		/usr/include/qt5/QtGui/qpaintdevice.h \
-		/usr/include/qt5/QtGui/qwindowdefs.h \
-		/usr/include/qt5/QtCore/qobjectdefs.h \
-		/usr/include/qt5/QtCore/qnamespace.h \
-		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
-		/usr/include/qt5/QtGui/qwindowdefs_win.h \
-		/usr/include/qt5/QtCore/qrect.h \
-		/usr/include/qt5/QtCore/qmargins.h \
-		/usr/include/qt5/QtCore/qsize.h \
-		/usr/include/qt5/QtCore/qpoint.h \
-		/usr/include/qt5/QtGui/qcolor.h \
-		/usr/include/qt5/QtGui/qrgb.h \
+		/usr/include/qt5/QtCore/QStringList \
 		/usr/include/qt5/QtCore/qstringlist.h \
 		/usr/include/qt5/QtCore/qalgorithms.h \
 		/usr/include/qt5/QtCore/qdatastream.h \
 		/usr/include/qt5/QtCore/qscopedpointer.h \
 		/usr/include/qt5/QtCore/qiodevice.h \
 		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
 		/usr/include/qt5/QtCore/qstring.h \
 		/usr/include/qt5/QtCore/qchar.h \
 		/usr/include/qt5/QtCore/qbytearray.h \
@@ -524,6 +514,22 @@ compiler_moc_header_clean:
 		/usr/include/qt5/QtCore/qpair.h \
 		/usr/include/qt5/QtCore/qregexp.h \
 		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/local/include/opencv2/core/core.hpp \
+		/usr/local/include/opencv2/core/types_c.h \
+		/usr/local/include/opencv2/core/version.hpp \
+		/usr/local/include/opencv2/core/operations.hpp \
+		/usr/local/include/opencv2/core/mat.hpp \
+		/usr/include/qt5/QtGui/QPixmap \
+		/usr/include/qt5/QtGui/qpixmap.h \
+		/usr/include/qt5/QtGui/qpaintdevice.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/qt5/QtCore/qrect.h \
+		/usr/include/qt5/QtCore/qmargins.h \
+		/usr/include/qt5/QtCore/qsize.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtGui/qcolor.h \
+		/usr/include/qt5/QtGui/qrgb.h \
 		/usr/include/qt5/QtCore/qsharedpointer.h \
 		/usr/include/qt5/QtCore/qshareddata.h \
 		/usr/include/qt5/QtCore/qhash.h \
@@ -537,7 +543,6 @@ compiler_moc_header_clean:
 		/usr/include/qt5/QtCore/qline.h \
 		/usr/include/qt5/QtGui/qpainterpath.h \
 		/usr/include/qt5/QtGui/qpixelformat.h \
-		facedatasetmodel.h \
 		/usr/include/qt5/QtCore/QAbstractListModel \
 		/usr/include/qt5/QtCore/qabstractitemmodel.h \
 		/usr/include/qt5/QtCore/qvariant.h \
@@ -547,6 +552,7 @@ compiler_moc_header_clean:
 		/usr/include/qt5/QtCore/qlocale.h \
 		/usr/include/qt5/QtCore/qset.h \
 		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/qt5/QtCore/QList \
 		facewidget.h \
 		/usr/include/qt5/QtWidgets/QGraphicsView \
 		/usr/include/qt5/QtWidgets/qgraphicsview.h \
@@ -598,7 +604,6 @@ compiler_moc_header_clean:
 		/usr/include/qt5/QtCore/qdiriterator.h \
 		/usr/include/qt5/QtCore/qfileselector.h \
 		/usr/include/qt5/QtCore/QObject \
-		/usr/include/qt5/QtCore/QStringList \
 		/usr/include/qt5/QtCore/qfilesystemwatcher.h \
 		/usr/include/qt5/QtCore/qlockfile.h \
 		/usr/include/qt5/QtCore/qloggingcategory.h \
@@ -731,7 +736,6 @@ compiler_moc_header_clean:
 		/usr/include/qt5/QtGui/QImage \
 		/usr/include/qt5/QtGui/qrasterwindow.h \
 		/usr/include/qt5/QtGui/qscreen.h \
-		/usr/include/qt5/QtCore/QList \
 		/usr/include/qt5/QtCore/QSize \
 		/usr/include/qt5/QtCore/QSizeF \
 		/usr/include/qt5/QtGui/QTransform \
@@ -1002,6 +1006,133 @@ compiler_moc_header_clean:
 		/usr/include/qt5/QtGui/QMouseEvent \
 		facewidget.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include facewidget.h -o ../release/tmp/fat/moc_facewidget.cpp
+
+../release/tmp/fat/moc_emotiondelegate.cpp: ../core/logcontrol.h \
+		../core/core_global.h \
+		/usr/include/qt5/QtCore/QtGlobal \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qnumeric.h \
+		/usr/include/qt5/QtCore/QSharedMemory \
+		/usr/include/qt5/QtCore/qsharedmemory.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qbytearraylist.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtWidgets/QItemDelegate \
+		/usr/include/qt5/QtWidgets/qitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtWidgets/qwidget.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/qt5/QtCore/qmargins.h \
+		/usr/include/qt5/QtGui/qpaintdevice.h \
+		/usr/include/qt5/QtCore/qrect.h \
+		/usr/include/qt5/QtCore/qsize.h \
+		/usr/include/qt5/QtGui/qpalette.h \
+		/usr/include/qt5/QtGui/qcolor.h \
+		/usr/include/qt5/QtGui/qrgb.h \
+		/usr/include/qt5/QtGui/qbrush.h \
+		/usr/include/qt5/QtGui/qmatrix.h \
+		/usr/include/qt5/QtGui/qpolygon.h \
+		/usr/include/qt5/QtGui/qregion.h \
+		/usr/include/qt5/QtCore/qline.h \
+		/usr/include/qt5/QtGui/qtransform.h \
+		/usr/include/qt5/QtGui/qpainterpath.h \
+		/usr/include/qt5/QtGui/qimage.h \
+		/usr/include/qt5/QtGui/qpixelformat.h \
+		/usr/include/qt5/QtGui/qpixmap.h \
+		/usr/include/qt5/QtCore/qsharedpointer.h \
+		/usr/include/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt5/QtGui/qfont.h \
+		/usr/include/qt5/QtGui/qfontmetrics.h \
+		/usr/include/qt5/QtGui/qfontinfo.h \
+		/usr/include/qt5/QtWidgets/qsizepolicy.h \
+		/usr/include/qt5/QtGui/qcursor.h \
+		/usr/include/qt5/QtGui/qkeysequence.h \
+		/usr/include/qt5/QtGui/qevent.h \
+		/usr/include/qt5/QtCore/qurl.h \
+		/usr/include/qt5/QtCore/qurlquery.h \
+		/usr/include/qt5/QtCore/qfile.h \
+		/usr/include/qt5/QtCore/qfiledevice.h \
+		/usr/include/qt5/QtGui/qvector2d.h \
+		/usr/include/qt5/QtGui/qtouchdevice.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtWidgets/QComboBox \
+		/usr/include/qt5/QtWidgets/qcombobox.h \
+		emotiondelegate.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include emotiondelegate.h -o ../release/tmp/fat/moc_emotiondelegate.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1329,18 +1460,20 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtWidgets/QVBoxLayout \
 		/usr/include/qt5/QtWidgets/QWidget \
 		childwindow.h \
+		facedatasetmodel.h \
 		../core/facedataset.h \
 		../core/core_global.h \
 		/usr/include/qt5/QtCore/QtGlobal \
 		../core/emotionlabel.h \
+		/usr/include/qt5/QtCore/QStringList \
 		/usr/local/include/opencv2/core/core.hpp \
 		/usr/local/include/opencv2/core/types_c.h \
 		/usr/local/include/opencv2/core/version.hpp \
 		/usr/local/include/opencv2/core/operations.hpp \
 		/usr/local/include/opencv2/core/mat.hpp \
 		/usr/include/qt5/QtGui/QPixmap \
-		facedatasetmodel.h \
 		/usr/include/qt5/QtCore/QAbstractListModel \
+		/usr/include/qt5/QtCore/QList \
 		facewidget.h \
 		/usr/include/qt5/QtWidgets/QGraphicsView \
 		/usr/include/qt5/QtWidgets/qgraphicsview.h \
@@ -1372,7 +1505,6 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/qdiriterator.h \
 		/usr/include/qt5/QtCore/qfileselector.h \
 		/usr/include/qt5/QtCore/QObject \
-		/usr/include/qt5/QtCore/QStringList \
 		/usr/include/qt5/QtCore/qfilesystemwatcher.h \
 		/usr/include/qt5/QtCore/qlockfile.h \
 		/usr/include/qt5/QtCore/qloggingcategory.h \
@@ -1498,7 +1630,6 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtGui/QImage \
 		/usr/include/qt5/QtGui/qrasterwindow.h \
 		/usr/include/qt5/QtGui/qscreen.h \
-		/usr/include/qt5/QtCore/QList \
 		/usr/include/qt5/QtCore/QSize \
 		/usr/include/qt5/QtCore/QSizeF \
 		/usr/include/qt5/QtGui/QTransform \
@@ -1542,6 +1673,14 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtGui/qtguiversion.h \
 		../core/utils.h \
 		/usr/include/qt5/QtCore/QString \
+		../core/application.h \
+		../core/logcontrol.h \
+		/usr/include/qt5/QtCore/QSharedMemory \
+		emotiondelegate.h \
+		/usr/include/qt5/QtWidgets/QItemDelegate \
+		/usr/include/qt5/QtWidgets/qitemdelegate.h \
+		/usr/include/qt5/QtWidgets/QComboBox \
+		/usr/include/qt5/QtWidgets/qcombobox.h \
 		/usr/local/include/opencv2/highgui/highgui.hpp \
 		/usr/local/include/opencv2/highgui/highgui_c.h \
 		/usr/local/include/opencv2/core/core_c.h \
@@ -1553,6 +1692,7 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../release/tmp/fat/mainwindow.o mainwindow.cpp
 
 ../release/tmp/fat/childwindow.o: childwindow.cpp childwindow.h \
+		facedatasetmodel.h \
 		../core/facedataset.h \
 		../core/core_global.h \
 		/usr/include/qt5/QtCore/QtGlobal \
@@ -1585,31 +1725,16 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/qmutex.h \
 		/usr/include/qt5/QtCore/qnumeric.h \
 		../core/emotionlabel.h \
-		/usr/local/include/opencv2/core/core.hpp \
-		/usr/local/include/opencv2/core/types_c.h \
-		/usr/local/include/opencv2/core/version.hpp \
-		/usr/local/include/opencv2/core/operations.hpp \
-		/usr/local/include/opencv2/core/mat.hpp \
-		/usr/include/qt5/QtGui/QPixmap \
-		/usr/include/qt5/QtGui/qpixmap.h \
-		/usr/include/qt5/QtGui/qpaintdevice.h \
-		/usr/include/qt5/QtGui/qwindowdefs.h \
-		/usr/include/qt5/QtCore/qobjectdefs.h \
-		/usr/include/qt5/QtCore/qnamespace.h \
-		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
-		/usr/include/qt5/QtGui/qwindowdefs_win.h \
-		/usr/include/qt5/QtCore/qrect.h \
-		/usr/include/qt5/QtCore/qmargins.h \
-		/usr/include/qt5/QtCore/qsize.h \
-		/usr/include/qt5/QtCore/qpoint.h \
-		/usr/include/qt5/QtGui/qcolor.h \
-		/usr/include/qt5/QtGui/qrgb.h \
+		/usr/include/qt5/QtCore/QStringList \
 		/usr/include/qt5/QtCore/qstringlist.h \
 		/usr/include/qt5/QtCore/qalgorithms.h \
 		/usr/include/qt5/QtCore/qdatastream.h \
 		/usr/include/qt5/QtCore/qscopedpointer.h \
 		/usr/include/qt5/QtCore/qiodevice.h \
 		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
 		/usr/include/qt5/QtCore/qstring.h \
 		/usr/include/qt5/QtCore/qchar.h \
 		/usr/include/qt5/QtCore/qbytearray.h \
@@ -1628,6 +1753,22 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/qpair.h \
 		/usr/include/qt5/QtCore/qregexp.h \
 		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/local/include/opencv2/core/core.hpp \
+		/usr/local/include/opencv2/core/types_c.h \
+		/usr/local/include/opencv2/core/version.hpp \
+		/usr/local/include/opencv2/core/operations.hpp \
+		/usr/local/include/opencv2/core/mat.hpp \
+		/usr/include/qt5/QtGui/QPixmap \
+		/usr/include/qt5/QtGui/qpixmap.h \
+		/usr/include/qt5/QtGui/qpaintdevice.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/qt5/QtCore/qrect.h \
+		/usr/include/qt5/QtCore/qmargins.h \
+		/usr/include/qt5/QtCore/qsize.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtGui/qcolor.h \
+		/usr/include/qt5/QtGui/qrgb.h \
 		/usr/include/qt5/QtCore/qsharedpointer.h \
 		/usr/include/qt5/QtCore/qshareddata.h \
 		/usr/include/qt5/QtCore/qhash.h \
@@ -1641,7 +1782,6 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/qline.h \
 		/usr/include/qt5/QtGui/qpainterpath.h \
 		/usr/include/qt5/QtGui/qpixelformat.h \
-		facedatasetmodel.h \
 		/usr/include/qt5/QtCore/QAbstractListModel \
 		/usr/include/qt5/QtCore/qabstractitemmodel.h \
 		/usr/include/qt5/QtCore/qvariant.h \
@@ -1651,6 +1791,7 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/qlocale.h \
 		/usr/include/qt5/QtCore/qset.h \
 		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/qt5/QtCore/QList \
 		facewidget.h \
 		/usr/include/qt5/QtWidgets/QGraphicsView \
 		/usr/include/qt5/QtWidgets/qgraphicsview.h \
@@ -1702,7 +1843,6 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/qdiriterator.h \
 		/usr/include/qt5/QtCore/qfileselector.h \
 		/usr/include/qt5/QtCore/QObject \
-		/usr/include/qt5/QtCore/QStringList \
 		/usr/include/qt5/QtCore/qfilesystemwatcher.h \
 		/usr/include/qt5/QtCore/qlockfile.h \
 		/usr/include/qt5/QtCore/qloggingcategory.h \
@@ -1835,7 +1975,6 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtGui/QImage \
 		/usr/include/qt5/QtGui/qrasterwindow.h \
 		/usr/include/qt5/QtGui/qscreen.h \
-		/usr/include/qt5/QtCore/QList \
 		/usr/include/qt5/QtCore/QSize \
 		/usr/include/qt5/QtCore/QSizeF \
 		/usr/include/qt5/QtGui/QTransform \
@@ -2177,7 +2316,6 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtWidgets/QScrollBar \
 		/usr/include/qt5/QtWidgets/qscrollbar.h \
 		/usr/include/qt5/QtWidgets/qabstractslider.h \
-		/usr/include/qt5/QtCore/QDebug \
 		/usr/include/qt5/QtCore/QtMath \
 		/usr/include/qt5/QtCore/qmath.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../release/tmp/fat/facewidget.o facewidget.cpp
@@ -2215,31 +2353,16 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/qmutex.h \
 		/usr/include/qt5/QtCore/qnumeric.h \
 		../core/emotionlabel.h \
-		/usr/local/include/opencv2/core/core.hpp \
-		/usr/local/include/opencv2/core/types_c.h \
-		/usr/local/include/opencv2/core/version.hpp \
-		/usr/local/include/opencv2/core/operations.hpp \
-		/usr/local/include/opencv2/core/mat.hpp \
-		/usr/include/qt5/QtGui/QPixmap \
-		/usr/include/qt5/QtGui/qpixmap.h \
-		/usr/include/qt5/QtGui/qpaintdevice.h \
-		/usr/include/qt5/QtGui/qwindowdefs.h \
-		/usr/include/qt5/QtCore/qobjectdefs.h \
-		/usr/include/qt5/QtCore/qnamespace.h \
-		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
-		/usr/include/qt5/QtGui/qwindowdefs_win.h \
-		/usr/include/qt5/QtCore/qrect.h \
-		/usr/include/qt5/QtCore/qmargins.h \
-		/usr/include/qt5/QtCore/qsize.h \
-		/usr/include/qt5/QtCore/qpoint.h \
-		/usr/include/qt5/QtGui/qcolor.h \
-		/usr/include/qt5/QtGui/qrgb.h \
+		/usr/include/qt5/QtCore/QStringList \
 		/usr/include/qt5/QtCore/qstringlist.h \
 		/usr/include/qt5/QtCore/qalgorithms.h \
 		/usr/include/qt5/QtCore/qdatastream.h \
 		/usr/include/qt5/QtCore/qscopedpointer.h \
 		/usr/include/qt5/QtCore/qiodevice.h \
 		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
 		/usr/include/qt5/QtCore/qstring.h \
 		/usr/include/qt5/QtCore/qchar.h \
 		/usr/include/qt5/QtCore/qbytearray.h \
@@ -2258,6 +2381,22 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/qpair.h \
 		/usr/include/qt5/QtCore/qregexp.h \
 		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/local/include/opencv2/core/core.hpp \
+		/usr/local/include/opencv2/core/types_c.h \
+		/usr/local/include/opencv2/core/version.hpp \
+		/usr/local/include/opencv2/core/operations.hpp \
+		/usr/local/include/opencv2/core/mat.hpp \
+		/usr/include/qt5/QtGui/QPixmap \
+		/usr/include/qt5/QtGui/qpixmap.h \
+		/usr/include/qt5/QtGui/qpaintdevice.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/qt5/QtCore/qrect.h \
+		/usr/include/qt5/QtCore/qmargins.h \
+		/usr/include/qt5/QtCore/qsize.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtGui/qcolor.h \
+		/usr/include/qt5/QtGui/qrgb.h \
 		/usr/include/qt5/QtCore/qsharedpointer.h \
 		/usr/include/qt5/QtCore/qshareddata.h \
 		/usr/include/qt5/QtCore/qhash.h \
@@ -2280,6 +2419,7 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/qlocale.h \
 		/usr/include/qt5/QtCore/qset.h \
 		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/qt5/QtCore/QList \
 		/usr/include/qt5/QtCore/QFileInfo \
 		/usr/include/qt5/QtCore/qfileinfo.h \
 		/usr/include/qt5/QtCore/qfile.h \
@@ -2308,6 +2448,142 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		/usr/include/qt5/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../release/tmp/fat/facedatasetmodel.o facedatasetmodel.cpp
 
+../release/tmp/fat/emotiondelegate.o: emotiondelegate.cpp emotiondelegate.h \
+		../core/logcontrol.h \
+		../core/core_global.h \
+		/usr/include/qt5/QtCore/QtGlobal \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qnumeric.h \
+		/usr/include/qt5/QtCore/QSharedMemory \
+		/usr/include/qt5/QtCore/qsharedmemory.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qbytearraylist.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtWidgets/QItemDelegate \
+		/usr/include/qt5/QtWidgets/qitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtWidgets/qwidget.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/qt5/QtCore/qmargins.h \
+		/usr/include/qt5/QtGui/qpaintdevice.h \
+		/usr/include/qt5/QtCore/qrect.h \
+		/usr/include/qt5/QtCore/qsize.h \
+		/usr/include/qt5/QtGui/qpalette.h \
+		/usr/include/qt5/QtGui/qcolor.h \
+		/usr/include/qt5/QtGui/qrgb.h \
+		/usr/include/qt5/QtGui/qbrush.h \
+		/usr/include/qt5/QtGui/qmatrix.h \
+		/usr/include/qt5/QtGui/qpolygon.h \
+		/usr/include/qt5/QtGui/qregion.h \
+		/usr/include/qt5/QtCore/qline.h \
+		/usr/include/qt5/QtGui/qtransform.h \
+		/usr/include/qt5/QtGui/qpainterpath.h \
+		/usr/include/qt5/QtGui/qimage.h \
+		/usr/include/qt5/QtGui/qpixelformat.h \
+		/usr/include/qt5/QtGui/qpixmap.h \
+		/usr/include/qt5/QtCore/qsharedpointer.h \
+		/usr/include/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt5/QtGui/qfont.h \
+		/usr/include/qt5/QtGui/qfontmetrics.h \
+		/usr/include/qt5/QtGui/qfontinfo.h \
+		/usr/include/qt5/QtWidgets/qsizepolicy.h \
+		/usr/include/qt5/QtGui/qcursor.h \
+		/usr/include/qt5/QtGui/qkeysequence.h \
+		/usr/include/qt5/QtGui/qevent.h \
+		/usr/include/qt5/QtCore/qurl.h \
+		/usr/include/qt5/QtCore/qurlquery.h \
+		/usr/include/qt5/QtCore/qfile.h \
+		/usr/include/qt5/QtCore/qfiledevice.h \
+		/usr/include/qt5/QtGui/qvector2d.h \
+		/usr/include/qt5/QtGui/qtouchdevice.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtWidgets/QComboBox \
+		/usr/include/qt5/QtWidgets/qcombobox.h \
+		../core/emotionlabel.h \
+		/usr/include/qt5/QtCore/QStringList \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../release/tmp/fat/emotiondelegate.o emotiondelegate.cpp
+
 ../release/tmp/fat/qrc_resources.o: ../release/tmp/fat/qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../release/tmp/fat/qrc_resources.o ../release/tmp/fat/qrc_resources.cpp
 
@@ -2322,6 +2598,9 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 
 ../release/tmp/fat/moc_facewidget.o: ../release/tmp/fat/moc_facewidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../release/tmp/fat/moc_facewidget.o ../release/tmp/fat/moc_facewidget.cpp
+
+../release/tmp/fat/moc_emotiondelegate.o: ../release/tmp/fat/moc_emotiondelegate.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../release/tmp/fat/moc_emotiondelegate.o ../release/tmp/fat/moc_emotiondelegate.cpp
 
 ####### Install
 

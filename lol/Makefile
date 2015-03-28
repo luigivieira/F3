@@ -307,8 +307,8 @@ compiler_rcc_clean:
 	-$(DEL_FILE) ../release/tmp/lol/qrc_resources.cpp
 ../release/tmp/lol/qrc_resources.cpp: resources.qrc \
 		resources/icons/lol.png \
-		resources/icons/help.png \
-		resources/icons/update.png
+		resources/icons/update.png \
+		resources/icons/help.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name resources resources.qrc -o ../release/tmp/lol/qrc_resources.cpp
 
 compiler_moc_header_make_all: ../release/tmp/lol/moc_mainwindow.cpp ../release/tmp/lol/moc_aboutwindow.cpp ../release/tmp/lol/moc_leveldelegate.cpp
