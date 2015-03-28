@@ -24,6 +24,9 @@
 #include <QGraphicsPixmapItem>
 #include <QMouseEvent>
 
+#include "facefeaturenode.h"
+#include "facefeatureedge.h"
+
 namespace Ui {
     class MainWindow;
 }
@@ -84,6 +87,9 @@ namespace f3
 		 */
 		void zoomOut();
 
+		/** Constant with the number of face features. */
+		const static int NUM_FACE_FEATURES;
+
 	signals:
 
 		/**
@@ -118,6 +124,9 @@ namespace f3
 
 		/** The current applied scale factor. */
 		double m_dScaleFactor;
+
+		/** List of visual nodes used to edit the facial features. */
+		QList<FaceFeatureNode*> m_lFaceFeatures;
 	};
 };
 

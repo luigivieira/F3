@@ -141,6 +141,8 @@
     <ClCompile Include="childwindow.cpp" />
     <ClCompile Include="emotiondelegate.cpp" />
     <ClCompile Include="facedatasetmodel.cpp" />
+    <ClCompile Include="facefeatureedge.cpp" />
+    <ClCompile Include="facefeaturenode.cpp" />
     <ClCompile Include="facewidget.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
@@ -177,6 +179,8 @@
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\fat\moc_emotiondelegate.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="facedatasetmodel.h" />
+    <ClInclude Include="facefeatureedge.h" />
+    <ClInclude Include="facefeaturenode.h" />
     <CustomBuild Include="facewidget.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">facewidget.h;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore facewidget.h -o ..\release\tmp\fat\moc_facewidget.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>

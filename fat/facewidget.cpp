@@ -30,6 +30,9 @@
 const double f3::FaceWidget::ZOOM_IN_STEP = 1.25;
 const double f3::FaceWidget::ZOOM_OUT_STEP = 0.80;
 
+// Number of face features edited by the widget
+const int f3::FaceWidget::NUM_FACE_FEATURES = 2;
+
 // +-----------------------------------------------------------
 f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
 {
@@ -42,16 +45,33 @@ f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
     setRenderHint(QPainter::Antialiasing);
     setTransformationAnchor(AnchorUnderMouse);
 
-    scale(qreal(1.0), qreal(1.0));
+    scale(1.0, 1.0);
+	m_dScaleFactor = 1.0;
 
 	setBackgroundBrush(QApplication::palette().dark());
 
+	// Add the image item
 	QPixmap oPixmap(":/images/noface");
 	m_pPixmapItem = m_pScene->addPixmap(oPixmap);
 	m_pPixmapItem->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
 	m_pScene->setSceneRect(0, 0, oPixmap.width(), oPixmap.height());
 
-	m_dScaleFactor = 1.0;
+	// Add the face feature items
+	FaceFeatureNode *pNode1, *pNode2;
+	//for(int i = 0; i < NUM_FACE_FEATURES; i++)
+	//m_lFaceFeatures.append(pNode);
+
+	pNode1 = new FaceFeatureNode(this);
+	m_pScene->addItem(pNode1);
+
+	pNode2 = new FaceFeatureNode(this);
+	m_pScene->addItem(pNode2);
+
+	m_pScene->addItem(new FaceFeatureEdge(pNode1, pNode2));
+
+	pNode1->setPos(100, 100);
+	pNode1->setPos(100, 150);
+
 }
 
 // +-----------------------------------------------------------

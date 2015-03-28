@@ -34,14 +34,18 @@ SOURCES += main.cpp \
            aboutwindow.cpp \
            facewidget.cpp \
            facedatasetmodel.cpp \
-           emotiondelegate.cpp
+           emotiondelegate.cpp \
+           facefeaturenode.cpp \
+           facefeatureedge.cpp
            
 HEADERS += mainwindow.h \
            childwindow.h \
            aboutwindow.h \
            facewidget.h \
            facedatasetmodel.h \
-           emotiondelegate.h
+           emotiondelegate.h \
+           facefeaturenode.h \
+           facefeatureedge.h
 
 FORMS += mainwindow.ui \
          aboutwindow.ui
