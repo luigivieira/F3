@@ -28,8 +28,7 @@
 namespace f3
 {
 	/**
-	 * Model class that encapsulates the access to the Log Control data for the view
-	 * classes in Qt (such as QListView).
+	 * Item delegate used to allow editing the log level directly from ModelViews.
 	 */
 	class LevelDelegate : public QItemDelegate
 	{
