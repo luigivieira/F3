@@ -540,6 +540,8 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 		{
 			// Image file path
 			ui->textFileName->setText(oCurrent.data(Qt::UserRole).toString());
+			ui->textFileName->moveCursor(QTextCursor::End);
+			ui->textFileName->ensureCursorVisible();
 			
 			// Emotion label
 			EmotionLabel eLabel;
