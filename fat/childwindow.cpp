@@ -215,3 +215,39 @@ void f3::ChildWindow::onModelUpdated(const bool bModified)
 	setWindowModified(bModified);
 	emit onDataModified();
 }
+
+
+// +-----------------------------------------------------------
+bool f3::ChildWindow::displayFaceFeatureNodes() const
+{
+	return m_pFaceWidget->displayFaceFeatureNodes();
+}
+// +-----------------------------------------------------------
+void f3::ChildWindow::setDisplayFaceFeatureNodes(const bool bValue)
+{
+	m_pFaceWidget->setDisplayFaceFeatureNodes(bValue);
+}
+
+// +-----------------------------------------------------------
+bool f3::ChildWindow::displayFaceFeatureEdges() const
+{
+	return m_pFaceWidget->displayFaceFeatureEdges();
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::setDisplayFaceFeatureEdges(const bool bValue)
+{
+	m_pFaceWidget->setDisplayFaceFeatureEdges(bValue);
+}
+
+// +-----------------------------------------------------------
+bool f3::ChildWindow::displayIDs() const
+{
+	return m_pFaceWidget->displayIDs();
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::setDisplayIDs(const bool bValue)
+{
+	m_pFaceWidget->setDisplayIDs(bValue);
+}

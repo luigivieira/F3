@@ -49,15 +49,12 @@ namespace f3
 		 * Gets the second point of the edge.
 		 * @return An instance of FaceFeatureNode with the second point of the edge.
 		 */
-		FaceFeatureNode *destNode() const;
+		FaceFeatureNode *targetNode() const;
 
 		/**
 		 * Forces the edge to adjust its coordinates based on the first (source) and second (target) face feature nodes.
 		 */
 		void adjust();
-
-		enum { Type = UserType + 2 };
-		int type() const Q_DECL_OVERRIDE { return Type; }
 
 	protected:
 

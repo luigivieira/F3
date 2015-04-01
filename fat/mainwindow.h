@@ -58,6 +58,12 @@ namespace f3
 		void closeEvent(QCloseEvent *pEvent);
 
 		/**
+		 * Captures the show event of the main window.
+		 * @param pEvent Instance of the QShowEvent with the show event data.
+		 */
+		void showEvent(QShowEvent *pEvent);
+
+		/**
 		 * Helper method to request the saving of the current face annotation dataset opened
 		 * to the user.
 		 * @param bAskForFileName Boolean indicating if the UI should ask the user for a file
@@ -158,6 +164,31 @@ namespace f3
 		 * Slot for the button Add Image trigger event.
 		 */
 		void on_actionRemoveImage_triggered();
+
+		/**
+		 * Slot for the menu Show Image List trigger event.
+		 */
+		void on_actionImagesList_triggered(bool bChecked);
+
+		/**
+		 * Slot for the menu Show Image Properties trigger event.
+		 */
+		void on_actionImageProperties_triggered(bool bChecked);
+
+		/**
+		 * Slot for the menu Show Face Feature Nodes trigger event.
+		 */
+		void on_actionNodes_triggered(bool bChecked);
+
+		/**
+		 * Slot for the menu Show Face Feature Edges trigger event.
+		 */
+		void on_actionEdges_triggered(bool bChecked);
+
+		/**
+		 * Slot for the menu Show Ids of Face Feature Nodes trigger event.
+		 */
+		void on_actionIDs_triggered(bool bChecked);
 
 		/**
 		 * Define the view to be used for the list of images (icons, a list view, or "details", a tree view).

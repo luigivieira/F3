@@ -86,9 +86,6 @@ f3::MainWindow::MainWindow(QWidget *pParent) :
 	m_pViewButton->setIcon(QIcon(":/icons/viewicons")); // By default display the image thumbnails
 	ui->treeImages->setVisible(false);
 
-	// Update the statuses of UI elements
-	updateUI();
-
 	// Initialize other variables
 	m_sDocumentsPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)) + QDir::separator();
 
@@ -188,6 +185,17 @@ void f3::MainWindow::closeEvent(QCloseEvent *pEvent)
 	}
 
 	pEvent->accept();
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::showEvent(QShowEvent *pEvent)
+{
+	Q_UNUSED(pEvent);
+	// Update the statuses of UI elements
+	updateUI();
+
+	ui->actionImagesList->setChecked(ui->dockImages->isVisible());
+	ui->actionImageProperties->setChecked(ui->dockProperties->isVisible());
 }
 
 // +-----------------------------------------------------------
@@ -401,6 +409,39 @@ void f3::MainWindow::on_actionRemoveImage_triggered()
 }
 
 // +-----------------------------------------------------------
+void f3::MainWindow::on_actionImagesList_triggered(bool bChecked)
+{
+	ui->dockImages->setVisible(bChecked);
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionImageProperties_triggered(bool bChecked)
+{
+	ui->dockProperties->setVisible(bChecked);
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionNodes_triggered(bool bChecked)
+{
+	Q_UNUSED(bChecked);
+	updateUI();
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionEdges_triggered(bool bChecked)
+{
+	Q_UNUSED(bChecked);
+	updateUI();
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionIDs_triggered(bool bChecked)
+{
+	Q_UNUSED(bChecked);
+	updateUI();
+}
+
+// +-----------------------------------------------------------
 void f3::MainWindow::showStatusMessage(const QString &sMsg, const int iTimeout)
 {
 	ui->statusBar->showMessage(sMsg, iTimeout);
@@ -520,6 +561,11 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 	// Update the properties, the tab text and tooltip and the image in display (if needed)
 	if(bFileOpened)
 	{
+		// Display of face features
+		pChild->setDisplayFaceFeatureNodes(ui->actionNodes->isChecked());
+		pChild->setDisplayFaceFeatureEdges(ui->actionEdges->isChecked());
+		pChild->setDisplayIDs(ui->actionIDs->isChecked());
+
 		// Tab title and tooltip
 		QString sTitle = QFileInfo(pChild->windowFilePath()).baseName() + (pChild->isWindowModified() ? "*" : "");
 		ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), sTitle);

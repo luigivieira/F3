@@ -145,6 +145,42 @@ namespace f3
 		 */
 		bool setEmotionLabel(const int iIndex, const EmotionLabel eLabel);
 
+		/**
+		 * Indicates if the face feature nodes are on display.
+		 * @return Boolean indicating if the face feature nodes are being displayed or not.
+		 */
+		bool displayFaceFeatureNodes() const;
+
+		/**
+		 * Updates the indication on if the face feature nodes shall be displayed or not.
+		 * @param bValue Boolean with the new value (true means show, false means hide).
+		 */
+		void setDisplayFaceFeatureNodes(const bool bValue);
+
+		/**
+		 * Indicates if the face feature edges are on display.
+		 * @return Boolean indicating if the face feature edges are being displayed or not.
+		 */
+		bool displayFaceFeatureEdges() const;
+
+		/**
+		 * Updates the indication on if the face feature edges shall be displayed or not.
+		 * @param bValue Boolean with the new value (true means show, false means hide).
+		 */
+		void setDisplayFaceFeatureEdges(const bool bValue);
+
+		/**
+		 * Indicates if the identifiers of the face feature nodes are on display.
+		 * @return Boolean indicating if the identifiers of the face feature nodes are being displayed or not.
+		 */
+		bool displayIDs() const;
+
+		/**
+		 * Updates the indication on if the identifiers of the face feature nodes shall be displayed or not.
+		 * @param bValue Boolean with the new value (true means show, false means hide).
+		 */
+		void setDisplayIDs(const bool bValue);
+
 	protected slots:
 
 		/**

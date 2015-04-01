@@ -51,17 +51,24 @@ namespace f3
 		void addEdge(FaceFeatureEdge *pEdge);
 
 		/**
+		 * Removes an existing edge from the face feature node.
+		 * @param pEdge Instance of the FaceFeatureEdge to be removed from the face feature.
+		 */
+		void removeEdge(FaceFeatureEdge *pEdge);
+
+		/**
 		 * Queries the list of face feature edges connected to this node.
 		 * @return Q QList<FaceFeatureEdge*> with the list of edges connected to this node.
 		 */
 		QList<FaceFeatureEdge *> edges() const;
 
-		enum { Type = UserType + 1 };
-		int type() const Q_DECL_OVERRIDE { return Type; }
-
+		/**
+		 * Queries the bounding rectangle of the face feature node.
+		 * @return A QRectF with the coordinates and size of the bounding rect of the node.
+		 */
 		QRectF boundingRect() const Q_DECL_OVERRIDE;
 
-		QPainterPath shape() const Q_DECL_OVERRIDE;
+	public:
 
 		/** Constant with the radius of the node drawn, in pixels. */
 		const static int RADIUS;
@@ -83,10 +90,6 @@ namespace f3
 		 */
 		QVariant itemChange(GraphicsItemChange eChange, const QVariant &oValue) Q_DECL_OVERRIDE;
 
-		void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-
-		void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-
 	private:
 
 		/** Reference to the parent face widget. */
@@ -94,6 +97,14 @@ namespace f3
 
 		/** List of edges added to the node. */
 		QList<FaceFeatureEdge *> m_pEdges;
+
+		/** Next available identifier for a new face feature node. */
+		static int m_siNextID;
+
+		/** Identifier of the face feature node. */
+		int m_iID;
+
+		bool m_bShowID;
 	};
 };
 

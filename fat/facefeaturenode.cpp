@@ -25,9 +25,13 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QStyleOption>
+#include <QApplication>
 
 // Radius of the drawn node, in pixels
 const int f3::FaceFeatureNode::RADIUS = 4;
+
+// Next available identifier for a new face feature node
+int f3::FaceFeatureNode::m_siNextID = 1;
 
 // +-----------------------------------------------------------
 f3::FaceFeatureNode::FaceFeatureNode(FaceWidget *pFaceWidget)
@@ -36,7 +40,13 @@ f3::FaceFeatureNode::FaceFeatureNode(FaceWidget *pFaceWidget)
 
     setFlag(ItemIsMovable);
     setFlag(ItemSendsGeometryChanges);
+	setFlag(ItemIsSelectable);
+	setFlag(ItemIsFocusable);
     setCacheMode(DeviceCoordinateCache);
+
+	setSelected(false);
+
+	m_iID = m_siNextID++;
 }
 
 // +-----------------------------------------------------------
@@ -46,6 +56,11 @@ void f3::FaceFeatureNode::addEdge(FaceFeatureEdge *pEdge)
     pEdge->adjust();
 }
 
+// +-----------------------------------------------------------
+void f3::FaceFeatureNode::removeEdge(FaceFeatureEdge *pEdge)
+{
+	m_pEdges.removeOne(pEdge);
+}
 
 // +-----------------------------------------------------------
 QList<f3::FaceFeatureEdge *> f3::FaceFeatureNode::edges() const
@@ -56,42 +71,68 @@ QList<f3::FaceFeatureEdge *> f3::FaceFeatureNode::edges() const
 // +-----------------------------------------------------------
 QRectF f3::FaceFeatureNode::boundingRect() const
 {
-    return QRectF(-RADIUS, -RADIUS, 2 * RADIUS, 2 * RADIUS);
-}
-
-// +-----------------------------------------------------------
-QPainterPath f3::FaceFeatureNode::shape() const
-{
-    QPainterPath oPath;
-	oPath.addEllipse(boundingRect());
-    return oPath;
+	if(m_pFaceWidget->displayIDs())
+	{
+		QString sID = QString::number(m_iID);
+		int iHeight = m_pFaceWidget->fontMetrics().height();
+		int iWidth = m_pFaceWidget->fontMetrics().width(sID);
+		return QRectF(-(iWidth + RADIUS), -(iHeight + RADIUS), 2 * RADIUS + iWidth, 2 * RADIUS + iHeight);
+	}
+	else
+		return QRectF(-RADIUS, -RADIUS, 2 * RADIUS, 2 * RADIUS);
 }
 
 // +-----------------------------------------------------------
 void f3::FaceFeatureNode::paint(QPainter *pPainter, const QStyleOptionGraphicsItem *pOption, QWidget *pWidget)
 {
+	Q_UNUSED(pOption);
 	Q_UNUSED(pWidget);
+
 	QBrush oBrush;
 	oBrush.setStyle(Qt::SolidPattern);
-    if(pOption->state & QStyle::State_Sunken)
+	if(isSelected())
+	{
+	    pPainter->setPen(QPen(Qt::red, 0));
 		oBrush.setColor(QColor(Qt::red));
+	}
 	else
+	{
+	    pPainter->setPen(QPen(Qt::yellow, 0));
 		oBrush.setColor(QColor(Qt::yellow));
+	}
+
+	QRectF oBounds;
+	if(m_pFaceWidget->displayIDs())
+	{
+		QString sID = QString::number(m_iID);
+		int iHeight = m_pFaceWidget->fontMetrics().height();
+		int iWidth = m_pFaceWidget->fontMetrics().width(sID);
+		oBounds = QRectF(-(iWidth + RADIUS), -(iHeight + RADIUS), iWidth, iHeight);
+		pPainter->drawText(oBounds, sID);
+
+		oBounds = QRectF(-RADIUS, -RADIUS, 2 * RADIUS, 2 * RADIUS);
+	}
+	else
+		oBounds = boundingRect();
 
     pPainter->setBrush(oBrush);
-    pPainter->setPen(QPen(Qt::black, 0));
-	pPainter->drawEllipse(boundingRect());
+	pPainter->drawEllipse(oBounds);
 }
 
 // +-----------------------------------------------------------
 QVariant f3::FaceFeatureNode::itemChange(GraphicsItemChange eChange, const QVariant &oValue)
 {
+	QString sTooltip;
     switch(eChange)
 	{
 		case ItemPositionHasChanged:
+			sTooltip = QString("#%1: (%2, %3)").arg(m_iID).arg(QString::number(pos().x(), 'f', 2)).arg(QString::number(pos().y(), 'f', 2));
+			setToolTip(sTooltip);
+
 			foreach(FaceFeatureEdge *pEdge, m_pEdges)
 				pEdge->adjust();
-			//m_pFaceWidget->itemMoved();
+
+			m_pFaceWidget->faceFeatureMoved(this);
 			break;
 	
 		default:
@@ -99,18 +140,4 @@ QVariant f3::FaceFeatureNode::itemChange(GraphicsItemChange eChange, const QVari
     };
 
     return QGraphicsItem::itemChange(eChange, oValue);
-}
-
-// +-----------------------------------------------------------
-void f3::FaceFeatureNode::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    update();
-    QGraphicsItem::mousePressEvent(event);
-}
-
-// +-----------------------------------------------------------
-void f3::FaceFeatureNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
 }

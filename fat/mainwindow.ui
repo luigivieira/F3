@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>845</width>
-    <height>598</height>
+    <height>625</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,7 +92,31 @@
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuShow">
+    <property name="title">
+     <string>&amp;Exibir</string>
+    </property>
+    <widget class="QMenu" name="menuWindows">
+     <property name="title">
+      <string>&amp;Janelas</string>
+     </property>
+     <addaction name="actionImageProperties"/>
+     <addaction name="actionImagesList"/>
+    </widget>
+    <widget class="QMenu" name="menu_Marcas_Faciais">
+     <property name="title">
+      <string>&amp;Marcas Faciais</string>
+     </property>
+     <addaction name="actionNodes"/>
+     <addaction name="actionEdges"/>
+     <addaction name="actionIDs"/>
+    </widget>
+    <addaction name="menuWindows"/>
+    <addaction name="separator"/>
+    <addaction name="menu_Marcas_Faciais"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuShow"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="fileToolBar">
@@ -117,24 +141,6 @@
    <addaction name="actionSave"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QToolBar" name="helpToolBar">
-   <property name="windowTitle">
-    <string>Ajuda</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionProject"/>
-  </widget>
   <widget class="QDockWidget" name="dockProperties">
    <property name="windowTitle">
     <string>Propriedades da Imagem</string>
@@ -660,6 +666,44 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QToolBar" name="viewToolbar">
+   <property name="windowTitle">
+    <string>&amp;Exibir</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNodes"/>
+   <addaction name="actionEdges"/>
+   <addaction name="actionIDs"/>
+  </widget>
+  <widget class="QToolBar" name="helpToolbar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionProject"/>
+  </widget>
   <action name="actionExit">
    <property name="text">
     <string>Sai&amp;r</string>
@@ -780,6 +824,108 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Del</string>
+   </property>
+  </action>
+  <action name="actionImagesList">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/image-list.png</normaloff>:/icons/resources/icons/image-list.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Lista de Imagens</string>
+   </property>
+   <property name="toolTip">
+    <string>Esconde/exibe a janela de Lista de Imagens</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+  </action>
+  <action name="actionImageProperties">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/image-properties.png</normaloff>:/icons/resources/icons/image-properties.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Propriedades da Imagem</string>
+   </property>
+   <property name="toolTip">
+    <string>Esconde/exibe a janela de Propriedades da Imagem</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
+  </action>
+  <action name="actionNodes">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/facefeaturenodes.png</normaloff>:/icons/resources/icons/facefeaturenodes.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Nós</string>
+   </property>
+   <property name="toolTip">
+    <string>Esconde/exibe as marcas faciais</string>
+   </property>
+   <property name="shortcut">
+    <string>F4</string>
+   </property>
+  </action>
+  <action name="actionEdges">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/facefeatureedges.png</normaloff>:/icons/resources/icons/facefeatureedges.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Conexões</string>
+   </property>
+   <property name="toolTip">
+    <string>Esconde/exibe as conexões entre as marcas faciais</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="actionIDs">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/facefeaturenodesids.png</normaloff>:/icons/resources/icons/facefeaturenodesids.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Rótulos</string>
+   </property>
+   <property name="toolTip">
+    <string>Esconde/exibe os rótulos com os identificadores das marcas faciais</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
    </property>
   </action>
  </widget>

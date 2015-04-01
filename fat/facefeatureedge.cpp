@@ -48,7 +48,7 @@ f3::FaceFeatureNode* f3::FaceFeatureEdge::sourceNode() const
 }
 
 // +-----------------------------------------------------------
-f3::FaceFeatureNode* f3::FaceFeatureEdge::destNode() const
+f3::FaceFeatureNode* f3::FaceFeatureEdge::targetNode() const
 {
     return m_pTargetNode;
 }
@@ -88,9 +88,6 @@ void f3::FaceFeatureEdge::paint(QPainter *pPainter, const QStyleOptionGraphicsIt
         return;
 
     QLineF oLine(m_oSourcePoint, m_oTargetPoint);
-    /*if(qFuzzyCompare(oLine.length(), 0.0))
-        return;*/
-
     pPainter->setPen(QPen(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     pPainter->drawLine(oLine);
 }

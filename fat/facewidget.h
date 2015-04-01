@@ -87,6 +87,83 @@ namespace f3
 		 */
 		void zoomOut();
 
+		/**
+		 * Queries the list of existing face feature nodes.
+		 * @param Const reference to the QList of existing nodes.
+		 */
+		const QList<FaceFeatureNode*>& getFaceFeatureNodes() const;
+
+		/**
+		 * Adds a new face feature node in the given position.
+		 * @param oPos A QPointF with the coordinates for the new node. If not provided, (0, 0) is assumed.
+		 * @return Pointer to the instance of the newly added face feature node.
+		 */
+		FaceFeatureNode* addFaceFeatureNode(const QPointF &oPos = QPointF());
+
+		/**
+		 * Removes an existing face feature node.
+		 * @param pNode Pointer to the instance of the face feature node to remove.
+		 */
+		void removeFaceFeatureNode(FaceFeatureNode* pNode);
+
+		/**
+		 * Adds a new face feature edge connecting two existing nodes.
+		 * @param pSource Pointer to the instance of the first face feature node.
+		 * @param pTarget Pointer to the instance of the second face feature node.
+		 * @return Pointer to the instance of the newly added face feature edge connecting the two nodes.
+		 */
+		FaceFeatureEdge* addFaceFeatureEdge(FaceFeatureNode* pSource, FaceFeatureNode* pTarget);
+
+		/**
+		 * Removes an existing face feature edge.
+		 * @param pEdge Pointer to the instance of the face feature edge to remove.
+		 */
+		void removeFaceFeatureEdge(FaceFeatureEdge* pEdge);
+
+		/**
+		 * Captures the indication that a face feature node has been moved by the user.
+		 * @param pNode Instance of the Face Feature Node that has been moved.
+		 */
+		void faceFeatureMoved(FaceFeatureNode *pNode);
+
+		/**
+		 * Indicates if the face feature nodes are on display.
+		 * @return Boolean indicating if the face feature nodes are being displayed or not.
+		 */
+		bool displayFaceFeatureNodes() const;
+
+		/**
+		 * Updates the indication on if the face feature nodes shall be displayed or not.
+		 * @param bValue Boolean with the new value (true means show, false means hide).
+		 */
+		void setDisplayFaceFeatureNodes(const bool bValue);
+
+		/**
+		 * Indicates if the face feature edges are on display.
+		 * @return Boolean indicating if the face feature edges are being displayed or not.
+		 */
+		bool displayFaceFeatureEdges() const;
+
+		/**
+		 * Updates the indication on if the face feature edges shall be displayed or not.
+		 * @param bValue Boolean with the new value (true means show, false means hide).
+		 */
+		void setDisplayFaceFeatureEdges(const bool bValue);
+
+		/**
+		 * Indicates if the identifiers of the face feature nodes are on display.
+		 * @return Boolean indicating if the identifiers of the face feature nodes are being displayed or not.
+		 */
+		bool displayIDs() const;
+
+		/**
+		 * Updates the indication on if the identifiers of the face feature nodes shall be displayed or not.
+		 * @param bValue Boolean with the new value (true means show, false means hide).
+		 */
+		void setDisplayIDs(const bool bValue);
+
+	public:
+
 		/** Constant with the number of face features. */
 		const static int NUM_FACE_FEATURES;
 
@@ -98,6 +175,12 @@ namespace f3
 		 * @param dScaleFactor Double with the new scale factor.
 		 */
 		void onScaleFactorChanged(const double dScaleFactor);
+
+		/**
+		 * Signal to indicate that the face features changed somehow: a face feature node was added, removed or moved
+		 * or a connection between two face feature nodes was created or removed.
+		 */
+		void onFaceFeaturesChanged();
 
 	protected:
 
@@ -115,6 +198,11 @@ namespace f3
 		 */
 		void scaleViewBy(double dFactorBy);
 
+		/**
+		 * Creates the face feature nodes and edges to be used by the face features editor.
+		 */
+		void createFaceFeatures();
+
 	private:
 		/** The scene used to render the widget contents. */
 		QGraphicsScene *m_pScene;
@@ -125,8 +213,20 @@ namespace f3
 		/** The current applied scale factor. */
 		double m_dScaleFactor;
 
-		/** List of visual nodes used to edit the facial features. */
-		QList<FaceFeatureNode*> m_lFaceFeatures;
+		/** List of nodes used to edit the coordinates of facial features. */
+		QList<FaceFeatureNode*> m_lFaceFeatureNodes;
+
+		/** List of edges connecting two feature nodes. */
+		QList<FaceFeatureEdge*> m_lFaceFeatureEdges;
+
+		/** Indicates if the face feature nodes should be displayed or not. */
+		bool m_bDisplayFaceFeatureNodes;
+
+		/** Indicates if the face feature edges should be displayed or not. */
+		bool m_bDisplayFaceFeatureEdges;
+
+		/** Indicates if the IDs of the face feature nodes should be displayed or not. */
+		bool m_bDisplayIDs;
 	};
 };
 
