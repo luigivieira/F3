@@ -20,7 +20,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "aboutwindow.h"
-#include "childwindow.h"
 #include "utils.h"
 #include "application.h"
 #include "emotiondelegate.h"
@@ -194,23 +193,14 @@ void f3::MainWindow::showEvent(QShowEvent *pEvent)
 	// Update the statuses of UI elements
 	updateUI();
 
-	ui->actionImagesList->setChecked(ui->dockImages->isVisible());
-	ui->actionImageProperties->setChecked(ui->dockProperties->isVisible());
+	ui->actionShowImagesList->setChecked(ui->dockImages->isVisible());
+	ui->actionShowImageProperties->setChecked(ui->dockProperties->isVisible());
 }
 
 // +-----------------------------------------------------------
 void f3::MainWindow::on_actionNew_triggered()
 {
-    ChildWindow *pChild = new ChildWindow(this);
-	connect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
-	connect(pChild, SIGNAL(onDataModified()), this, SLOT(onDataModified()));
-
-	pChild->setWindowFilePath(QString(tr("%1novo banco de faces anotadas.afd")).arg(m_sDocumentsPath));
-	pChild->setWindowModified(true);
-	pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
-
-	int iIndex = ui->tabWidget->addTab(pChild, pChild->windowIcon(), "");
-	ui->tabWidget->setCurrentIndex(iIndex);
+    createChildWindow();
 }
 
 // +-----------------------------------------------------------
@@ -228,23 +218,15 @@ void f3::MainWindow::on_actionOpen_triggered()
 		}
 		else
 		{
-			ChildWindow *pChild = new ChildWindow(this);
-
-			pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
+			ChildWindow *pChild = createChildWindow(sFile, false);
 
 			QString sMsg;
 			if(!pChild->loadFromFile(sFile, sMsg))
 			{
-				delete pChild;
+				destroyChildWindow(pChild);
 				QMessageBox::warning(this, tr("Erro carregando banco de faces anotadas"), tr("Não foi possível abrir o banco de faces anotadas:\n%1").arg(sMsg), QMessageBox::Ok);
 				return;
 			}
-
-			connect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
-			connect(pChild, SIGNAL(onDataModified()), this, SLOT(onDataModified()));
-
-			int iIndex = ui->tabWidget->addTab(pChild, pChild->windowIcon(), "");
-			ui->tabWidget->setCurrentIndex(iIndex);
 
 			if(pChild->getModel()->rowCount() > 0)
 				pChild->getSelectionModel()->setCurrentIndex(pChild->getModel()->index(0, 0), QItemSelectionModel::Select);
@@ -343,10 +325,7 @@ void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
 			return;
 	}
 
-	ui->tabWidget->removeTab(iTabIndex);
-	disconnect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
-	disconnect(pChild, SIGNAL(onDataModified()), this, SLOT(onDataModified()));
-	delete pChild;
+	destroyChildWindow(pChild);
 
 	if(ui->tabWidget->count() == 0) // no more tabs
 	{
@@ -409,35 +388,41 @@ void f3::MainWindow::on_actionRemoveImage_triggered()
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_actionImagesList_triggered(bool bChecked)
+void f3::MainWindow::on_actionShowImagesList_triggered(bool bChecked)
 {
 	ui->dockImages->setVisible(bChecked);
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_actionImageProperties_triggered(bool bChecked)
+void f3::MainWindow::on_actionShowImageProperties_triggered(bool bChecked)
 {
 	ui->dockProperties->setVisible(bChecked);
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_actionNodes_triggered(bool bChecked)
+void f3::MainWindow::on_actionShowFeatures_triggered(bool bChecked)
 {
-	Q_UNUSED(bChecked);
+	if(!bChecked)
+	{
+		ui->actionShowConnections->setChecked(false);
+		ui->actionShowFeatureIDs->setChecked(false);
+	}
 	updateUI();
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_actionEdges_triggered(bool bChecked)
+void f3::MainWindow::on_actionShowConnections_triggered(bool bChecked)
 {
-	Q_UNUSED(bChecked);
+	if(bChecked && !ui->actionShowFeatures->isChecked())
+		ui->actionShowFeatures->setChecked(true);
 	updateUI();
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::on_actionIDs_triggered(bool bChecked)
+void f3::MainWindow::on_actionShowFeatureIDs_triggered(bool bChecked)
 {
-	Q_UNUSED(bChecked);
+	if(bChecked && !ui->actionShowFeatures->isChecked())
+		ui->actionShowFeatures->setChecked(true);
 	updateUI();
 }
 
@@ -550,10 +535,27 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 	bool bItemsSelected = bFileOpened && (pChild->getSelectionModel()->currentIndex().isValid() || pChild->getSelectionModel()->selectedIndexes().size() > 0);
 	bool bFileNotNew = bFileOpened && !pChild->property("new").toBool();
 
+	QList<FaceFeatureNode*> lFeats;
+	QList<FaceFeatureEdge*> lConns;
+	if(bFileOpened)
+	{
+		lFeats = pChild->getSelectedFeatures();
+		lConns = pChild->getSelectedConnections();
+	}
+
+	bool bFeaturesSelected = lFeats.size() > 0;
+	bool bConnectionsSelected = lConns.size() > 0;
+	bool bFeaturesConnectable = lFeats.size() == 2 && lConns.size() == 0;
+
 	ui->actionSave->setEnabled(bFileChanged);
 	ui->actionSaveAs->setEnabled(bFileNotNew);
 	ui->actionAddImage->setEnabled(bFileOpened);
 	ui->actionRemoveImage->setEnabled(bItemsSelected);
+	ui->actionAddFeature->setEnabled(bFileOpened);
+	ui->actionRemoveFeature->setEnabled(bFeaturesSelected);
+	ui->actionConnectFeatures->setEnabled(bFeaturesConnectable);
+	ui->actionDisconnectFeatures->setEnabled(bConnectionsSelected);
+
 	m_pViewButton->setEnabled(bFileOpened);
 	ui->groupEmotions->setEnabled(bItemsSelected);
 	ui->zoomSlider->setEnabled(bFileOpened);
@@ -562,9 +564,9 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 	if(bFileOpened)
 	{
 		// Display of face features
-		pChild->setDisplayFaceFeatureNodes(ui->actionNodes->isChecked());
-		pChild->setDisplayFaceFeatureEdges(ui->actionEdges->isChecked());
-		pChild->setDisplayIDs(ui->actionIDs->isChecked());
+		pChild->setDisplayFaceFeatures(ui->actionShowFeatures->isChecked());
+		pChild->setDisplayConnections(ui->actionShowFeatures->isChecked() && ui->actionShowConnections->isChecked());
+		pChild->setDisplayFeatureIDs(ui->actionShowFeatures->isChecked() && ui->actionShowFeatureIDs->isChecked());
 
 		// Tab title and tooltip
 		QString sTitle = QFileInfo(pChild->windowFilePath()).baseName() + (pChild->isWindowModified() ? "*" : "");
@@ -618,7 +620,7 @@ void f3::MainWindow::onZoomLevelChanged(int iValue)
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::onDataModified()
+void f3::MainWindow::onUpdateUI()
 {
 	updateUI();
 }
@@ -672,4 +674,48 @@ void f3::MainWindow::onEmotionToggled(bool bValue)
 
 	QModelIndex oIndex = pChild->getSelectionModel()->currentIndex();
 	pChild->setEmotionLabel(oIndex.row(), eLabel);
+}
+
+// +-----------------------------------------------------------
+f3::ChildWindow* f3::MainWindow::createChildWindow(QString sFileName, bool bModified)
+{
+	ChildWindow *pChild = new ChildWindow(this);
+
+	// Define the window attributes
+	if(!sFileName.length())
+	{
+		sFileName = QString(tr("%1novo banco de faces anotadas.afd")).arg(m_sDocumentsPath);
+		bModified = true;
+	}
+
+	pChild->setWindowIcon(QIcon(":/icons/face-dataset"));
+	pChild->setWindowFilePath(sFileName);
+	pChild->setWindowModified(bModified);
+
+	// Connect to its signals
+	connect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
+	connect(pChild, SIGNAL(onDataModified()), this, SLOT(onUpdateUI()));
+	connect(pChild, SIGNAL(onFeaturesSelectionChanged()), this, SLOT(onUpdateUI()));
+
+	// Create the context menus for it
+	//QMenu *pFaceEditorMenu = new QMenu(pChild);
+
+	// Add the window to the tab widget
+	int iIndex = ui->tabWidget->addTab(pChild, pChild->windowIcon(), "");
+	ui->tabWidget->setCurrentIndex(iIndex);
+
+	return pChild;
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::destroyChildWindow(ChildWindow *pChild)
+{
+	int iTabIndex = ui->tabWidget->indexOf(pChild);
+	ui->tabWidget->removeTab(iTabIndex);
+
+	disconnect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
+	disconnect(pChild, SIGNAL(onDataModified()), this, SLOT(onUpdateUI()));
+	disconnect(pChild, SIGNAL(onFeaturesSelectionChanged()), this, SLOT(onUpdateUI()));
+
+	delete pChild;
 }

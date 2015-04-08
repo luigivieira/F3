@@ -23,6 +23,7 @@
 #include <QMainWindow>
 
 #include "aboutwindow.h"
+#include "childwindow.h"
 
 namespace Ui {
     class MainWindow;
@@ -96,6 +97,18 @@ namespace f3
 		 */
 		void keyPressEvent(QKeyEvent *pEvent) Q_DECL_OVERRIDE;
 
+		/**
+		 * Creates a new child window instance.
+		 * @return Instance of the newly created ChildWindow.
+		 */
+		ChildWindow *createChildWindow(QString sFileName = QString(), bool bModified = true);
+
+		/**
+		 * Destroys the given child window instance.
+		 * @param pChild Instance of the ChildWindow to be destroyed.
+		 */
+		void destroyChildWindow(ChildWindow *pChild);
+
 	public slots:
 
 		/**
@@ -168,27 +181,27 @@ namespace f3
 		/**
 		 * Slot for the menu Show Image List trigger event.
 		 */
-		void on_actionImagesList_triggered(bool bChecked);
+		void on_actionShowImagesList_triggered(bool bChecked);
 
 		/**
 		 * Slot for the menu Show Image Properties trigger event.
 		 */
-		void on_actionImageProperties_triggered(bool bChecked);
+		void on_actionShowImageProperties_triggered(bool bChecked);
 
 		/**
 		 * Slot for the menu Show Face Feature Nodes trigger event.
 		 */
-		void on_actionNodes_triggered(bool bChecked);
+		void on_actionShowFeatures_triggered(bool bChecked);
 
 		/**
 		 * Slot for the menu Show Face Feature Edges trigger event.
 		 */
-		void on_actionEdges_triggered(bool bChecked);
+		void on_actionShowConnections_triggered(bool bChecked);
 
 		/**
 		 * Slot for the menu Show Ids of Face Feature Nodes trigger event.
 		 */
-		void on_actionIDs_triggered(bool bChecked);
+		void on_actionShowFeatureIDs_triggered(bool bChecked);
 
 		/**
 		 * Define the view to be used for the list of images (icons, a list view, or "details", a tree view).
@@ -221,9 +234,10 @@ namespace f3
 		void onZoomLevelChanged(int iValue);
 
 		/**
-		 * Captures indications that the data in the child window was updated (so the UI can be updated accordingly).
+		 * Captures indications that the UI needs to be updated due to changes in the data model
+		 * or selection in the features editor.
 		 */
-		void onDataModified();
+		void onUpdateUI();
 
 		/**
 		 * Captures the selection events of the emotion radio buttons. This slot is connected to all radio

@@ -24,6 +24,7 @@
 
 namespace f3
 {
+	class FaceWidget;
 	class FaceFeatureNode;
 
 	/**
@@ -34,10 +35,11 @@ namespace f3
 	public:
 		/**
 		 * Class constructor.
+		 * @param pFaceWidget Instance of the FaceWidget to be the parent of the face feature edge.
 		 * @param pSourceFeat Instance of the FaceFeatureNode that acts as the first point of the edge.
 		 * @param pTargetNode Instance of the FaceFeatureNode that acts as the second point of the edge.
 		 */
-		FaceFeatureEdge(FaceFeatureNode *pSourceNode, FaceFeatureNode *pTargetNode);
+		FaceFeatureEdge(FaceWidget *pFaceWidget, FaceFeatureNode *pSourceNode, FaceFeatureNode *pTargetNode);
 
 		/**
 		 * Gets the first point of the edge.
@@ -72,7 +74,16 @@ namespace f3
 		 */
 		void paint(QPainter *pPainter, const QStyleOptionGraphicsItem *pOption, QWidget *pWidget) Q_DECL_OVERRIDE;
 
+		/**
+		 * Captures the context menu event on the node.
+		 * @param pEvent Intance of a QGraphicsSceneContextMenuEvent with the event data.
+		 */
+		void contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent) Q_DECL_OVERRIDE;
+
 	private:
+
+		/** Reference to the parent face widget. */
+		FaceWidget *m_pFaceWidget;
 
 		/** The first (source) face feature node of the edge. */
 		FaceFeatureNode *m_pSourceNode;

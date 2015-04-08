@@ -49,6 +49,8 @@ f3::ChildWindow::ChildWindow(QWidget *pParent) :
 	m_pFaceWidget = new FaceWidget(this);
 	pLayout->addWidget(m_pFaceWidget);
 	connect(m_pFaceWidget, SIGNAL(onScaleFactorChanged(const double)), this, SLOT(onScaleFactorChanged(const double)));
+	connect(m_pFaceWidget, SIGNAL(onFaceFeaturesChanged()), this, SLOT(onFaceFeaturesChanged()));
+	connect(m_pFaceWidget, SIGNAL(onFaceFeaturesSelectionChanged()), this, SLOT(onFaceFeaturesSelectionChanged()));
 
 	showImage(-1);
 
@@ -216,38 +218,74 @@ void f3::ChildWindow::onModelUpdated(const bool bModified)
 	emit onDataModified();
 }
 
-
 // +-----------------------------------------------------------
-bool f3::ChildWindow::displayFaceFeatureNodes() const
+void f3::ChildWindow::onFaceFeaturesChanged()
 {
-	return m_pFaceWidget->displayFaceFeatureNodes();
-}
-// +-----------------------------------------------------------
-void f3::ChildWindow::setDisplayFaceFeatureNodes(const bool bValue)
-{
-	m_pFaceWidget->setDisplayFaceFeatureNodes(bValue);
+	setWindowModified(true);
+	emit onDataModified();
 }
 
 // +-----------------------------------------------------------
-bool f3::ChildWindow::displayFaceFeatureEdges() const
+void f3::ChildWindow::onFaceFeaturesSelectionChanged()
 {
-	return m_pFaceWidget->displayFaceFeatureEdges();
+	emit onFeaturesSelectionChanged();
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::setDisplayFaceFeatureEdges(const bool bValue)
+bool f3::ChildWindow::displayFaceFeatures() const
 {
-	m_pFaceWidget->setDisplayFaceFeatureEdges(bValue);
+	return m_pFaceWidget->displayFaceFeatures();
+}
+// +-----------------------------------------------------------
+void f3::ChildWindow::setDisplayFaceFeatures(const bool bValue)
+{
+	m_pFaceWidget->setDisplayFaceFeatures(bValue);
 }
 
 // +-----------------------------------------------------------
-bool f3::ChildWindow::displayIDs() const
+bool f3::ChildWindow::displayConnections() const
 {
-	return m_pFaceWidget->displayIDs();
+	return m_pFaceWidget->displayConnections();
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::setDisplayIDs(const bool bValue)
+void f3::ChildWindow::setDisplayConnections(const bool bValue)
 {
-	m_pFaceWidget->setDisplayIDs(bValue);
+	m_pFaceWidget->setDisplayConnections(bValue);
+}
+
+// +-----------------------------------------------------------
+bool f3::ChildWindow::displayFeatureIDs() const
+{
+	return m_pFaceWidget->displayFeatureIDs();
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::setDisplayFeatureIDs(const bool bValue)
+{
+	m_pFaceWidget->setDisplayFeatureIDs(bValue);
+}
+
+// +-----------------------------------------------------------
+const QList<f3::FaceFeatureNode*>& f3::ChildWindow::getFaceFeatures() const
+{
+	return m_pFaceWidget->getFaceFeatures();
+}
+
+// +-----------------------------------------------------------
+QList<f3::FaceFeatureNode*> f3::ChildWindow::getSelectedFeatures() const
+{
+	return m_pFaceWidget->getSelectedFeatures();
+}
+
+// +-----------------------------------------------------------
+QList<f3::FaceFeatureEdge*> f3::ChildWindow::getSelectedConnections() const
+{
+	return m_pFaceWidget->getSelectedConnections();
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::setContextMenus(QMenu *pEditorMenu, QMenu *pFeaturesMenu, QMenu *pConnectionsMenu)
+{
+	m_pFaceWidget->setContextMenus(pEditorMenu, pFeaturesMenu, pConnectionsMenu);
 }

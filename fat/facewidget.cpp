@@ -25,6 +25,7 @@
 #include <QGraphicsEffect>
 #include <QScrollBar>
 #include <QtMath>
+#include <QGraphicsSceneMouseEvent>
 
 // Scale values for zoom in and out steps
 const double f3::FaceWidget::ZOOM_IN_STEP = 1.25;
@@ -41,6 +42,8 @@ f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
 	m_pScene = new QGraphicsScene(this);
 	m_pScene->setItemIndexMethod(QGraphicsScene::NoIndex);
 	setScene(m_pScene);
+	connect(m_pScene, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+	connect(m_pScene, SIGNAL(contextMenuEvent(QGraphicsSceneContextMenuEvent*)), this, SLOT(showContextMenu(QGraphicsSceneContextMenuEvent*)));
 
 	setCacheMode(CacheBackground);
     setViewportUpdateMode(BoundingRectViewportUpdate);
@@ -59,9 +62,13 @@ f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
 	m_pScene->setSceneRect(0, 0, oPixmap.width(), oPixmap.height());
 
 	// Setup the face features editor
-	m_bDisplayFaceFeatureNodes = true;
-	m_bDisplayFaceFeatureEdges = true;
-	m_bDisplayIDs = false;
+	m_bDisplayFaceFeatures = true;
+	m_bDisplayConnections = true;
+	m_bDisplayFeatureIDs = false;
+
+	m_pFeaturesContextMenu = NULL;
+	m_pConnectionsContextMenu = NULL;
+	m_pEditorContextMenu = NULL;
 
 	createFaceFeatures();
 }
@@ -227,66 +234,100 @@ void f3::FaceWidget::createFaceFeatures()
 	};
 
 	// Add the face feature nodes
-	FaceFeatureNode *pPrevNode = NULL;
-	FaceFeatureNode *pCurNode = NULL;
+	FaceFeatureNode *pPrevFeat = NULL;
+	FaceFeatureNode *pCurFeat = NULL;
 	for(int i = 0; i < NUM_FACE_FEATURES; i++)
 	{
-		pCurNode = addFaceFeatureNode(QPointF(aFaceModel[i][0], aFaceModel[i][1]));
-		if(!pPrevNode)
-			pPrevNode = pCurNode;
+		pCurFeat = addFaceFeature(QPointF(aFaceModel[i][0], aFaceModel[i][1]));
+		if(!pPrevFeat)
+			pPrevFeat = pCurFeat;
 		else
 		{
-			addFaceFeatureEdge(pPrevNode, pCurNode);
-			pPrevNode = pCurNode;
+			connectFaceFeatures(pPrevFeat, pCurFeat);
+			pPrevFeat = pCurFeat;
 		}
 	}
 }
 
 // +-----------------------------------------------------------
-const QList<f3::FaceFeatureNode*>& f3::FaceWidget::getFaceFeatureNodes() const
+const QList<f3::FaceFeatureNode*>& f3::FaceWidget::getFaceFeatures() const
 {
-	return m_lFaceFeatureNodes;
+	return m_lFaceFeatures;
 }
 
 // +-----------------------------------------------------------
-f3::FaceFeatureNode* f3::FaceWidget::addFaceFeatureNode(const QPointF &oPos)
+QList<f3::FaceFeatureNode*> f3::FaceWidget::getSelectedFeatures() const
+{
+	QList<FaceFeatureNode*> lSelected;
+	foreach(QGraphicsItem *pItem, m_pScene->selectedItems())
+		lSelected.append((FaceFeatureNode*) pItem);
+	return lSelected;
+}
+
+// +-----------------------------------------------------------
+QList<f3::FaceFeatureEdge*> f3::FaceWidget::getSelectedConnections() const
+{
+	QList<FaceFeatureNode*> lFeatures = getSelectedFeatures();
+	QList<FaceFeatureEdge*> lSelected;
+
+	QList<FaceFeatureNode*>::iterator oFirst, oSecond;
+	FaceFeatureEdge *pEdge;
+
+	for(oFirst = lFeatures.begin(); oFirst != lFeatures.end(); ++oFirst)
+	{
+		for(oSecond = oFirst + 1; oSecond != lFeatures.end(); ++oSecond)
+		{
+			pEdge = (*oFirst)->getEdgeTo(*oSecond);
+			if(pEdge)
+			{
+				lSelected.append(pEdge);
+				break;
+			}
+		}
+	}
+
+	return lSelected;
+}
+
+// +-----------------------------------------------------------
+f3::FaceFeatureNode* f3::FaceWidget::addFaceFeature(const QPointF &oPos)
 {
 	FaceFeatureNode *pNode = new FaceFeatureNode(this);
 	m_pScene->addItem(pNode);
-	m_lFaceFeatureNodes.append(pNode);
+	m_lFaceFeatures.append(pNode);
 	pNode->setPos(oPos);
 	return pNode;
 }
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::removeFaceFeatureNode(FaceFeatureNode* pNode)
+void f3::FaceWidget::removeFaceFeature(FaceFeatureNode* pNode)
 {
 	// First, remove all edges connected to the node
 	QList<FaceFeatureEdge*> lEdges = pNode->edges();
 	for(int i = 0; i < lEdges.size(); i++)
-		removeFaceFeatureEdge(lEdges[i]);
+		removeConnection(lEdges[i]);
 
 	// Then, remove the node
-	m_lFaceFeatureNodes.removeOne(pNode);
+	m_lFaceFeatures.removeOne(pNode);
 	m_pScene->removeItem(pNode);
 	delete pNode;
 }
 
 // +-----------------------------------------------------------
-f3::FaceFeatureEdge* f3::FaceWidget::addFaceFeatureEdge(FaceFeatureNode* pSource, FaceFeatureNode* pTarget)
+f3::FaceFeatureEdge* f3::FaceWidget::connectFaceFeatures(FaceFeatureNode* pSource, FaceFeatureNode* pTarget)
 {
-	FaceFeatureEdge* pEdge = new FaceFeatureEdge(pSource, pTarget);
+	FaceFeatureEdge* pEdge = new FaceFeatureEdge(this, pSource, pTarget);
 	m_pScene->addItem(pEdge);
-	m_lFaceFeatureEdges.append(pEdge);
+	m_lConnections.append(pEdge);
 	return pEdge;
 }
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::removeFaceFeatureEdge(FaceFeatureEdge* pEdge)
+void f3::FaceWidget::removeConnection(FaceFeatureEdge* pEdge)
 {
 	pEdge->sourceNode()->removeEdge(pEdge);
 	pEdge->targetNode()->removeEdge(pEdge);
-	m_lFaceFeatureEdges.removeOne(pEdge);
+	m_lConnections.removeOne(pEdge);
 	m_pScene->removeItem(pEdge);
 	delete pEdge;
 }
@@ -299,51 +340,88 @@ void f3::FaceWidget::faceFeatureMoved(FaceFeatureNode *pNode)
 }
 
 // +-----------------------------------------------------------
-bool f3::FaceWidget::displayFaceFeatureNodes() const
+void f3::FaceWidget::onSelectionChanged()
 {
-	return m_bDisplayFaceFeatureNodes;
+	emit onFaceFeaturesSelectionChanged();
+}
+
+// +-----------------------------------------------------------
+bool f3::FaceWidget::displayFaceFeatures() const
+{
+	return m_bDisplayFaceFeatures;
 }
 // +-----------------------------------------------------------
-void f3::FaceWidget::setDisplayFaceFeatureNodes(const bool bValue)
+void f3::FaceWidget::setDisplayFaceFeatures(const bool bValue)
 {
-	if(bValue == m_bDisplayFaceFeatureNodes)
+	if(bValue == m_bDisplayFaceFeatures)
 		return;
 
-	m_bDisplayFaceFeatureNodes = bValue;
-	foreach(FaceFeatureNode *pNode, m_lFaceFeatureNodes)
+	m_bDisplayFaceFeatures = bValue;
+	foreach(FaceFeatureNode *pNode, m_lFaceFeatures)
 		pNode->setVisible(bValue);
 	update();
 }
 
 // +-----------------------------------------------------------
-bool f3::FaceWidget::displayFaceFeatureEdges() const
+bool f3::FaceWidget::displayConnections() const
 {
-	return m_bDisplayFaceFeatureEdges;
+	return m_bDisplayConnections;
 }
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::setDisplayFaceFeatureEdges(const bool bValue)
+void f3::FaceWidget::setDisplayConnections(const bool bValue)
 {
-	if(bValue == m_bDisplayFaceFeatureEdges)
+	if(bValue == m_bDisplayConnections)
 		return;
 
-	m_bDisplayFaceFeatureEdges = bValue;
-	foreach(FaceFeatureEdge *pEdge, m_lFaceFeatureEdges)
+	m_bDisplayConnections = bValue;
+	foreach(FaceFeatureEdge *pEdge, m_lConnections)
 		pEdge->setVisible(bValue);
 	update();
 }
 
 // +-----------------------------------------------------------
-bool f3::FaceWidget::displayIDs() const
+bool f3::FaceWidget::displayFeatureIDs() const
 {
-	return m_bDisplayIDs;
+	return m_bDisplayFeatureIDs;
 }
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::setDisplayIDs(const bool bValue)
+void f3::FaceWidget::setDisplayFeatureIDs(const bool bValue)
 {
-	m_bDisplayIDs = bValue;
-	foreach(FaceFeatureNode *pNode, m_lFaceFeatureNodes)
+	m_bDisplayFeatureIDs = bValue;
+	foreach(FaceFeatureNode *pNode, m_lFaceFeatures)
 		pNode->update();
 	update();
+}
+
+// +-----------------------------------------------------------
+void f3::FaceWidget::showContextMenu(QGraphicsSceneContextMenuEvent *pEvent)
+{
+	if(m_pEditorContextMenu)
+		m_pEditorContextMenu->exec(pEvent->screenPos());
+}
+
+// +-----------------------------------------------------------
+void f3::FaceWidget::showContextMenu(QGraphicsSceneContextMenuEvent *pEvent, FaceFeatureNode *pNode)
+{
+	Q_UNUSED(pNode);
+	if(m_pFeaturesContextMenu)
+		m_pFeaturesContextMenu->exec(pEvent->screenPos());
+}
+
+// +-----------------------------------------------------------
+void f3::FaceWidget::showContextMenu(QGraphicsSceneContextMenuEvent *pEvent, FaceFeatureEdge *pEdge)
+{
+	Q_UNUSED(pEdge);
+	if(m_pConnectionsContextMenu)
+		m_pConnectionsContextMenu->exec(pEvent->screenPos());
+}
+
+// +-----------------------------------------------------------
+void f3::FaceWidget::setContextMenus(QMenu *pEditorMenu, QMenu *pFeaturesMenu, QMenu *pConnectionsMenu)
+{
+	m_pEditorContextMenu = pEditorMenu;
+	m_pFeaturesContextMenu = pFeaturesMenu;
+	m_pConnectionsContextMenu = pConnectionsMenu;
 }

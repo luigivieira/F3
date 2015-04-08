@@ -149,37 +149,64 @@ namespace f3
 		 * Indicates if the face feature nodes are on display.
 		 * @return Boolean indicating if the face feature nodes are being displayed or not.
 		 */
-		bool displayFaceFeatureNodes() const;
+		bool displayFaceFeatures() const;
 
 		/**
 		 * Updates the indication on if the face feature nodes shall be displayed or not.
 		 * @param bValue Boolean with the new value (true means show, false means hide).
 		 */
-		void setDisplayFaceFeatureNodes(const bool bValue);
+		void setDisplayFaceFeatures(const bool bValue);
 
 		/**
 		 * Indicates if the face feature edges are on display.
 		 * @return Boolean indicating if the face feature edges are being displayed or not.
 		 */
-		bool displayFaceFeatureEdges() const;
+		bool displayConnections() const;
 
 		/**
 		 * Updates the indication on if the face feature edges shall be displayed or not.
 		 * @param bValue Boolean with the new value (true means show, false means hide).
 		 */
-		void setDisplayFaceFeatureEdges(const bool bValue);
+		void setDisplayConnections(const bool bValue);
 
 		/**
 		 * Indicates if the identifiers of the face feature nodes are on display.
 		 * @return Boolean indicating if the identifiers of the face feature nodes are being displayed or not.
 		 */
-		bool displayIDs() const;
+		bool displayFeatureIDs() const;
 
 		/**
 		 * Updates the indication on if the identifiers of the face feature nodes shall be displayed or not.
 		 * @param bValue Boolean with the new value (true means show, false means hide).
 		 */
-		void setDisplayIDs(const bool bValue);
+		void setDisplayFeatureIDs(const bool bValue);
+
+		/**
+		 * Queries the list of existing face feature nodes.
+		 * @param Const reference to the QList of existing nodes.
+		 */
+		const QList<FaceFeatureNode*>& getFaceFeatures() const;
+
+		/**
+		 * Queries the selected face feature nodes.
+		 * @return QList with the pointers to the selected face feature nodes.
+		 */
+		QList<FaceFeatureNode*> getSelectedFeatures() const;
+
+		/**
+		 * Queries the selected face feature edges.
+		 * @return QList with the pointers to the selected face feature edges.
+		 */
+		QList<FaceFeatureEdge*> getSelectedConnections() const;
+
+		/**
+		 * Sets the menus to be displayed upon events of context menu on the face features editor.
+		 * The actions used in the menus must be controlled by the caller.
+		 * @param pEditorMenu Instance of the QMenu to be used for the context of the whole editor.
+		 * @param pFeaturesMenu Instance of the QMenu to be used for the context of feature nodes.
+		 * @param pConnectionsMenu Instance of the QMenu to be used for the context of feature edges.
+		 */
+		void setContextMenus(QMenu *pEditorMenu, QMenu *pFeaturesMenu, QMenu *pConnectionsMenu);
 
 	protected slots:
 
@@ -188,6 +215,17 @@ namespace f3
 		 * @param dScaleFactor Double with the new scale factor for the image.
 		 */
 		void onScaleFactorChanged(const double dScaleFactor);
+
+		/**
+		 * Captures the indication that the face features changed somehow: a face feature node was added, removed or moved
+		 * or a connection between two face feature nodes was created or removed.
+		 */
+		void onFaceFeaturesChanged();
+
+		/**
+		 * Captures the indication that face features were selected or unselected in the editor.
+		 */
+		void onFaceFeaturesSelectionChanged();
 
 		/**
 		 * Captures indications of changes in the data model (so the UI can be updated accordingly).
@@ -208,6 +246,12 @@ namespace f3
 		 * Signal to indicate changes in the data model (so the UI can be updated accordingly).
 		 */
 		void onDataModified();
+
+		/**
+		 * Signal to indicate that the selection of face features changed in the editor.
+		 * The selection can be queried through getSelectedFeatures() and getSelectedConnections().
+		 */
+		void onFeaturesSelectionChanged();
 
 	private:
 

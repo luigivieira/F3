@@ -18,18 +18,20 @@
  */
 
 #include "facefeatureedge.h"
+#include "facewidget.h"
 #include "facefeaturenode.h"
 
 #include <math.h>
 
 #include <QPainter>
-
-static const double Pi = 3.14159265358979323846264338327950288419717;
-static double TwoPi = 2.0 * Pi;
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
 
 // +-----------------------------------------------------------
-f3::FaceFeatureEdge::FaceFeatureEdge(FaceFeatureNode *pSourceNode, FaceFeatureNode *pTargetNode)
+f3::FaceFeatureEdge::FaceFeatureEdge(FaceWidget *pFaceWidget, FaceFeatureNode *pSourceNode, FaceFeatureNode *pTargetNode)
 {
+	m_pFaceWidget = pFaceWidget;
+
     setAcceptedMouseButtons(0);
 
     m_pSourceNode = pSourceNode;
@@ -90,4 +92,11 @@ void f3::FaceFeatureEdge::paint(QPainter *pPainter, const QStyleOptionGraphicsIt
     QLineF oLine(m_oSourcePoint, m_oTargetPoint);
     pPainter->setPen(QPen(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     pPainter->drawLine(oLine);
+}
+
+// +-----------------------------------------------------------
+void f3::FaceFeatureEdge::contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent)
+{
+	pEvent->accept();
+	m_pFaceWidget->showContextMenu(pEvent, this);
 }

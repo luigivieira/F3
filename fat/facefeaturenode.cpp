@@ -24,8 +24,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
-#include <QStyleOption>
-#include <QApplication>
 
 // Radius of the drawn node, in pixels
 const int f3::FaceFeatureNode::RADIUS = 4;
@@ -52,26 +50,40 @@ f3::FaceFeatureNode::FaceFeatureNode(FaceWidget *pFaceWidget)
 // +-----------------------------------------------------------
 void f3::FaceFeatureNode::addEdge(FaceFeatureEdge *pEdge)
 {
-	m_pEdges.append(pEdge);
+	m_lEdges.append(pEdge);
     pEdge->adjust();
 }
 
 // +-----------------------------------------------------------
 void f3::FaceFeatureNode::removeEdge(FaceFeatureEdge *pEdge)
 {
-	m_pEdges.removeOne(pEdge);
+	m_lEdges.removeOne(pEdge);
 }
 
 // +-----------------------------------------------------------
 QList<f3::FaceFeatureEdge *> f3::FaceFeatureNode::edges() const
 {
-    return m_pEdges;
+    return m_lEdges;
+}
+
+// +-----------------------------------------------------------
+f3::FaceFeatureEdge *f3::FaceFeatureNode::getEdgeTo(const FaceFeatureNode *pNode) const
+{
+	foreach(FaceFeatureEdge *pEdge, m_lEdges)
+	{
+		if((pEdge->sourceNode() == this && pEdge->targetNode() == pNode) ||
+		   (pEdge->sourceNode() == pNode && pEdge->targetNode() == this))
+		{
+			return pEdge;
+		}
+	}
+	return NULL;
 }
 
 // +-----------------------------------------------------------
 QRectF f3::FaceFeatureNode::boundingRect() const
 {
-	if(m_pFaceWidget->displayIDs())
+	if(m_pFaceWidget->displayFeatureIDs())
 	{
 		QString sID = QString::number(m_iID);
 		int iHeight = m_pFaceWidget->fontMetrics().height();
@@ -102,7 +114,7 @@ void f3::FaceFeatureNode::paint(QPainter *pPainter, const QStyleOptionGraphicsIt
 	}
 
 	QRectF oBounds;
-	if(m_pFaceWidget->displayIDs())
+	if(m_pFaceWidget->displayFeatureIDs())
 	{
 		QString sID = QString::number(m_iID);
 		int iHeight = m_pFaceWidget->fontMetrics().height();
@@ -129,7 +141,7 @@ QVariant f3::FaceFeatureNode::itemChange(GraphicsItemChange eChange, const QVari
 			sTooltip = QString("#%1: (%2, %3)").arg(m_iID).arg(QString::number(pos().x(), 'f', 2)).arg(QString::number(pos().y(), 'f', 2));
 			setToolTip(sTooltip);
 
-			foreach(FaceFeatureEdge *pEdge, m_pEdges)
+			foreach(FaceFeatureEdge *pEdge, m_lEdges)
 				pEdge->adjust();
 
 			m_pFaceWidget->faceFeatureMoved(this);
@@ -140,4 +152,11 @@ QVariant f3::FaceFeatureNode::itemChange(GraphicsItemChange eChange, const QVari
     };
 
     return QGraphicsItem::itemChange(eChange, oValue);
+}
+
+// +-----------------------------------------------------------
+void f3::FaceFeatureNode::contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent)
+{
+	pEvent->accept();
+	m_pFaceWidget->showContextMenu(pEvent, this);
 }

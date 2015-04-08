@@ -23,10 +23,6 @@
 #include <QGraphicsItem>
 #include <QList>
 
-QT_BEGIN_NAMESPACE
-class QGraphicsSceneMouseEvent;
-QT_END_NAMESPACE
-
 namespace f3
 {
 	class FaceWidget;
@@ -40,7 +36,7 @@ namespace f3
 	public:
 		/**
 		 * Class constructor.
-		 * @param pFaceWidget Instance of the FaceWidget to be the parent of the face feature.
+		 * @param pFaceWidget Instance of the FaceWidget to be the parent of the face feature node.
 		 */
 		FaceFeatureNode(FaceWidget *pFaceWidget);
 
@@ -61,6 +57,14 @@ namespace f3
 		 * @return Q QList<FaceFeatureEdge*> with the list of edges connected to this node.
 		 */
 		QList<FaceFeatureEdge *> edges() const;
+
+		/**
+		 * Queries the edge that connects this node to the given node.
+		 * @param pNode Instance of the other FaceFeatureNode that might be connected to this node.
+		 * @return An instance of the FaceFeatureEdge with the edge connecting the two nodes, or NULL
+		 * if there is no edge connecting the nodes.
+		 */
+		FaceFeatureEdge *getEdgeTo(const FaceFeatureNode *pNode) const;
 
 		/**
 		 * Queries the bounding rectangle of the face feature node.
@@ -90,21 +94,25 @@ namespace f3
 		 */
 		QVariant itemChange(GraphicsItemChange eChange, const QVariant &oValue) Q_DECL_OVERRIDE;
 
+		/**
+		 * Captures the context menu event on the node.
+		 * @param pEvent Intance of a QGraphicsSceneContextMenuEvent with the event data.
+		 */
+		void contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent) Q_DECL_OVERRIDE;
+
 	private:
 
 		/** Reference to the parent face widget. */
 		FaceWidget *m_pFaceWidget;
 
 		/** List of edges added to the node. */
-		QList<FaceFeatureEdge *> m_pEdges;
+		QList<FaceFeatureEdge *> m_lEdges;
 
 		/** Next available identifier for a new face feature node. */
 		static int m_siNextID;
 
 		/** Identifier of the face feature node. */
 		int m_iID;
-
-		bool m_bShowID;
 	};
 };
 

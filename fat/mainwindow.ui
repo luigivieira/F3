@@ -94,28 +94,54 @@
    </widget>
    <widget class="QMenu" name="menuShow">
     <property name="title">
-     <string>&amp;Exibir</string>
+     <string>E&amp;xibir</string>
     </property>
     <widget class="QMenu" name="menuWindows">
      <property name="title">
       <string>&amp;Janelas</string>
      </property>
-     <addaction name="actionImageProperties"/>
-     <addaction name="actionImagesList"/>
+     <addaction name="actionShowImageProperties"/>
+     <addaction name="actionShowImagesList"/>
     </widget>
     <widget class="QMenu" name="menu_Marcas_Faciais">
      <property name="title">
       <string>&amp;Marcas Faciais</string>
      </property>
-     <addaction name="actionNodes"/>
-     <addaction name="actionEdges"/>
-     <addaction name="actionIDs"/>
+     <addaction name="actionShowFeatures"/>
+     <addaction name="actionShowConnections"/>
+     <addaction name="actionShowFeatureIDs"/>
     </widget>
     <addaction name="menuWindows"/>
     <addaction name="separator"/>
     <addaction name="menu_Marcas_Faciais"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>&amp;Editar</string>
+    </property>
+    <widget class="QMenu" name="menu_Imagens">
+     <property name="title">
+      <string>&amp;Imagens</string>
+     </property>
+     <addaction name="actionAddImage"/>
+     <addaction name="actionRemoveImage"/>
+    </widget>
+    <widget class="QMenu" name="menu_Marcas_Faciais_2">
+     <property name="title">
+      <string>&amp;Marcas Faciais</string>
+     </property>
+     <addaction name="actionAddFeature"/>
+     <addaction name="actionRemoveFeature"/>
+     <addaction name="separator"/>
+     <addaction name="actionConnectFeatures"/>
+     <addaction name="actionDisconnectFeatures"/>
+    </widget>
+    <addaction name="menu_Imagens"/>
+    <addaction name="separator"/>
+    <addaction name="menu_Marcas_Faciais_2"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuShow"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -666,9 +692,9 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QToolBar" name="viewToolbar">
+  <widget class="QToolBar" name="editToolBar">
    <property name="windowTitle">
-    <string>&amp;Exibir</string>
+    <string>Editar</string>
    </property>
    <property name="iconSize">
     <size>
@@ -682,13 +708,35 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNodes"/>
-   <addaction name="actionEdges"/>
-   <addaction name="actionIDs"/>
+   <addaction name="actionAddFeature"/>
+   <addaction name="actionRemoveFeature"/>
+   <addaction name="separator"/>
+   <addaction name="actionConnectFeatures"/>
+   <addaction name="actionDisconnectFeatures"/>
   </widget>
-  <widget class="QToolBar" name="helpToolbar">
+  <widget class="QToolBar" name="viewToolBar">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Exibir</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionShowFeatures"/>
+   <addaction name="actionShowConnections"/>
+   <addaction name="actionShowFeatureIDs"/>
+  </widget>
+  <widget class="QToolBar" name="helpToolBar">
+   <property name="windowTitle">
+    <string>Ajuda</string>
    </property>
    <property name="iconSize">
     <size>
@@ -826,7 +874,7 @@
     <string>Ctrl+Del</string>
    </property>
   </action>
-  <action name="actionImagesList">
+  <action name="actionShowImagesList">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -847,7 +895,7 @@
     <string>F2</string>
    </property>
   </action>
-  <action name="actionImageProperties">
+  <action name="actionShowImageProperties">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -868,7 +916,7 @@
     <string>F3</string>
    </property>
   </action>
-  <action name="actionNodes">
+  <action name="actionShowFeatures">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -877,7 +925,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/resources/icons/facefeaturenodes.png</normaloff>:/icons/resources/icons/facefeaturenodes.png</iconset>
+     <normaloff>:/icons/resources/icons/features.png</normaloff>:/icons/resources/icons/features.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Nós</string>
@@ -889,7 +937,7 @@
     <string>F4</string>
    </property>
   </action>
-  <action name="actionEdges">
+  <action name="actionShowConnections">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -898,7 +946,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/resources/icons/facefeatureedges.png</normaloff>:/icons/resources/icons/facefeatureedges.png</iconset>
+     <normaloff>:/icons/resources/icons/links.png</normaloff>:/icons/resources/icons/links.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Conexões</string>
@@ -910,13 +958,13 @@
     <string>F5</string>
    </property>
   </action>
-  <action name="actionIDs">
+  <action name="actionShowFeatureIDs">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/resources/icons/facefeaturenodesids.png</normaloff>:/icons/resources/icons/facefeaturenodesids.png</iconset>
+     <normaloff>:/icons/resources/icons/feature-ids.png</normaloff>:/icons/resources/icons/feature-ids.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Rótulos</string>
@@ -926,6 +974,66 @@
    </property>
    <property name="shortcut">
     <string>F6</string>
+   </property>
+  </action>
+  <action name="actionAddFeature">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/add-feature.png</normaloff>:/icons/resources/icons/add-feature.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Adicionar</string>
+   </property>
+   <property name="toolTip">
+    <string>Adiciona uma nova marca facial ao banco de faces anotadas</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+A</string>
+   </property>
+  </action>
+  <action name="actionRemoveFeature">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/remove-feature.png</normaloff>:/icons/resources/icons/remove-feature.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Remover</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove as marcas faciais selecionadas (e suas conexões) do banco de faces anotadas</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+R</string>
+   </property>
+  </action>
+  <action name="actionConnectFeatures">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/connect.png</normaloff>:/icons/resources/icons/connect.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Conectar</string>
+   </property>
+   <property name="toolTip">
+    <string>Conecta as duas marcas faciais selecionadas</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+C</string>
+   </property>
+  </action>
+  <action name="actionDisconnectFeatures">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/icons/disconnect.png</normaloff>:/icons/resources/icons/disconnect.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Disconectar</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove todas as conexões entre as marcas faciais selecionadas</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+D</string>
    </property>
   </action>
  </widget>

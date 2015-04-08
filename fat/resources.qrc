@@ -20,11 +20,15 @@
         <file>resources/icons/emotion-surprise.png</file>
         <file>resources/icons/emotion-undefined.png</file>
         <file>resources/icons/information.png</file>
-        <file>resources/icons/facefeaturenodes.png</file>
-        <file>resources/icons/facefeatureedges.png</file>
-        <file>resources/icons/facefeaturenodesids.png</file>
         <file>resources/icons/image-list.png</file>
         <file>resources/icons/image-properties.png</file>
+        <file>resources/icons/remove-feature.png</file>
+        <file>resources/icons/add-feature.png</file>
+        <file>resources/icons/feature-ids.png</file>
+        <file>resources/icons/features.png</file>
+        <file>resources/icons/disconnect.png</file>
+        <file>resources/icons/connect.png</file>
+        <file>resources/icons/links.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="noface">resources/images/noface.png</file>
