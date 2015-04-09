@@ -71,6 +71,8 @@ f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
 	m_pEditorContextMenu = NULL;
 
 	createFaceFeatures();
+	m_bFeaturesMoved = false;
+	m_bSelectionChanged = false;
 }
 
 // +-----------------------------------------------------------
@@ -144,6 +146,24 @@ void f3::FaceWidget::wheelEvent(QWheelEvent *pEvent)
 		scaleViewBy(qPow(dBase, iSteps));
 }
 #endif
+
+// +-----------------------------------------------------------
+void f3::FaceWidget::mouseReleaseEvent(QMouseEvent *pEvent)
+{
+	if(m_bFeaturesMoved)
+	{
+		emit onFaceFeaturesChanged();
+		m_bFeaturesMoved = false;
+	}
+
+	if(m_bSelectionChanged)
+	{
+		emit onFaceFeaturesSelectionChanged();
+		m_bSelectionChanged = false;
+	}
+
+	QGraphicsView::mouseReleaseEvent(pEvent);
+}
 
 // +-----------------------------------------------------------
 void f3::FaceWidget::zoomIn()
@@ -336,13 +356,13 @@ void f3::FaceWidget::removeConnection(FaceFeatureEdge* pEdge)
 void f3::FaceWidget::faceFeatureMoved(FaceFeatureNode *pNode)
 {
 	Q_UNUSED(pNode);
-	emit onFaceFeaturesChanged();
+	m_bFeaturesMoved = true;
 }
 
 // +-----------------------------------------------------------
 void f3::FaceWidget::onSelectionChanged()
 {
-	emit onFaceFeaturesSelectionChanged();
+	m_bSelectionChanged = true;
 }
 
 // +-----------------------------------------------------------

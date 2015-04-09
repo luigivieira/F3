@@ -242,6 +242,12 @@ namespace f3
 	#endif
 
 		/**
+		 * Captures the release of the mouse button to notify changes in the face feature editor.
+		 * @param pEvent Instance of the QMouseEvent with the event data.
+		 */
+		void mouseReleaseEvent(QMouseEvent *pEvent);
+
+		/**
 		 * Scales the widget view to emulate a zoom behaviour by the given factor.
 		 * @param dFactorBy Double with the scale to be added/removed.
 		 */
@@ -260,6 +266,13 @@ namespace f3
 		void onSelectionChanged();
 
 	private:
+
+		/** Indication about the feature nodes being moved. */
+		bool m_bFeaturesMoved;
+
+		/** Indication about the selection of feature nodes being changed. */
+		bool m_bSelectionChanged;
+
 		/** The scene used to render the widget contents. */
 		QGraphicsScene *m_pScene;
 
