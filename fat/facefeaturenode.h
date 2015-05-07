@@ -96,9 +96,21 @@ namespace f3
 
 		/**
 		 * Captures the context menu event on the node.
-		 * @param pEvent Intance of a QGraphicsSceneContextMenuEvent with the event data.
+		 * @param pEvent Instance of a QGraphicsSceneContextMenuEvent with the event data.
 		 */
 		void contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent) Q_DECL_OVERRIDE;
+
+		/**
+		 * Captures the mouse enter event on the feature node.
+		 * @param pEvent Instance of a QGraphicsSceneHoverEvent with the event data.
+		 */
+		void hoverEnterEvent(QGraphicsSceneHoverEvent *pEvent) Q_DECL_OVERRIDE;
+
+		/**
+		 * Captures the mouse exit event on the feature node.
+		 * @param pEvent Instance of a QGraphicsSceneHoverEvent with the event data.
+		 */
+		void hoverLeaveEvent(QGraphicsSceneHoverEvent *pEvent) Q_DECL_OVERRIDE;
 
 	private:
 

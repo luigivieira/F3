@@ -20,6 +20,7 @@
 #include "facefeaturenode.h"
 #include "facewidget.h"
 #include "facefeatureedge.h"
+#include "application.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -43,6 +44,7 @@ f3::FaceFeatureNode::FaceFeatureNode(FaceWidget *pFaceWidget)
     setCacheMode(DeviceCoordinateCache);
 
 	setSelected(false);
+	setAcceptHoverEvents(true);
 
 	m_iID = m_siNextID++;
 }
@@ -134,15 +136,15 @@ void f3::FaceFeatureNode::paint(QPainter *pPainter, const QStyleOptionGraphicsIt
 // +-----------------------------------------------------------
 QVariant f3::FaceFeatureNode::itemChange(GraphicsItemChange eChange, const QVariant &oValue)
 {
-	QString sTooltip;
+	QString sText;
     switch(eChange)
 	{
 		case ItemPositionHasChanged:
-			sTooltip = QString("#%1: (%2, %3)").arg(m_iID).arg(QString::number(pos().x(), 'f', 2)).arg(QString::number(pos().y(), 'f', 2));
-			setToolTip(sTooltip);
-
 			foreach(FaceFeatureEdge *pEdge, m_lEdges)
 				pEdge->adjust();
+
+			sText = QApplication::translate("FaceFeatureNode", "Nó: %1 Posição: (%2, %3)").arg(m_iID).arg(QString::number(pos().x(), 'f', 2)).arg(QString::number(pos().y(), 'f', 2));
+			F3Application::instance()->showStatusMessage(sText, 0);
 
 			m_pFaceWidget->faceFeatureMoved(this);
 			break;
@@ -152,6 +154,21 @@ QVariant f3::FaceFeatureNode::itemChange(GraphicsItemChange eChange, const QVari
     };
 
     return QGraphicsItem::itemChange(eChange, oValue);
+}
+
+// +-----------------------------------------------------------
+void f3::FaceFeatureNode::hoverEnterEvent(QGraphicsSceneHoverEvent *pEvent)
+{
+	QString sText = QApplication::translate("FaceFeatureNode", "Nó: %1 Posição: (%2, %3)").arg(m_iID).arg(QString::number(pos().x(), 'f', 2)).arg(QString::number(pos().y(), 'f', 2));
+	F3Application::instance()->showStatusMessage(sText, 0);
+	QGraphicsItem::hoverEnterEvent(pEvent);
+}
+
+// +-----------------------------------------------------------
+void f3::FaceFeatureNode::hoverLeaveEvent(QGraphicsSceneHoverEvent *pEvent)
+{
+	F3Application::instance()->showStatusMessage("");
+	QGraphicsItem::hoverLeaveEvent(pEvent);
 }
 
 // +-----------------------------------------------------------
