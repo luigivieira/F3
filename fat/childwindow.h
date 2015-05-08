@@ -200,13 +200,11 @@ namespace f3
 		QList<FaceFeatureEdge*> getSelectedConnections() const;
 
 		/**
-		 * Sets the menus to be displayed upon events of context menu on the face features editor.
-		 * The actions used in the menus must be controlled by the caller.
-		 * @param pEditorMenu Instance of the QMenu to be used for the context of the whole editor.
-		 * @param pFeaturesMenu Instance of the QMenu to be used for the context of feature nodes.
-		 * @param pConnectionsMenu Instance of the QMenu to be used for the context of feature edges.
+		 * Sets the menu to be displayed upon events of context menu on the face features editor.
+		 * The actions used in the menu must be controlled by the caller.
+		 * @param pMenu Instance of the QMenu to be used for the context of the editor.
 		 */
-		void setContextMenus(QMenu *pEditorMenu, QMenu *pFeaturesMenu, QMenu *pConnectionsMenu);
+		void setContextMenu(QMenu *pMenu);
 
 	protected slots:
 

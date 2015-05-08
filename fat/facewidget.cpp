@@ -18,9 +18,9 @@
  */
 
 #include "facewidget.h"
+#include "facewidgetscene.h"
 
 #include <QApplication>
-#include <QGraphicsScene>
 #include <QPixmap>
 #include <QGraphicsEffect>
 #include <QScrollBar>
@@ -39,11 +39,10 @@ f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
 {
 	setDragMode(RubberBandDrag);
 
-	m_pScene = new QGraphicsScene(this);
+	m_pScene = (QGraphicsScene*) new FaceWidgetScene(this);
 	m_pScene->setItemIndexMethod(QGraphicsScene::NoIndex);
 	setScene(m_pScene);
 	connect(m_pScene, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
-	connect(m_pScene, SIGNAL(contextMenuEvent(QGraphicsSceneContextMenuEvent*)), this, SLOT(showContextMenu(QGraphicsSceneContextMenuEvent*)));
 
 	setCacheMode(CacheBackground);
     setViewportUpdateMode(BoundingRectViewportUpdate);
@@ -66,9 +65,7 @@ f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
 	m_bDisplayConnections = true;
 	m_bDisplayFeatureIDs = false;
 
-	m_pFeaturesContextMenu = NULL;
-	m_pConnectionsContextMenu = NULL;
-	m_pEditorContextMenu = NULL;
+	m_pContextMenu = NULL;
 
 	createFaceFeatures();
 	m_bFeaturesMoved = false;
@@ -416,32 +413,14 @@ void f3::FaceWidget::setDisplayFeatureIDs(const bool bValue)
 }
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::showContextMenu(QGraphicsSceneContextMenuEvent *pEvent)
+void f3::FaceWidget::contextMenuEvent(QContextMenuEvent *pEvent)
 {
-	if(m_pEditorContextMenu)
-		m_pEditorContextMenu->exec(pEvent->screenPos());
+	if(m_pContextMenu)
+		m_pContextMenu->exec(pEvent->globalPos());
 }
 
 // +-----------------------------------------------------------
-void f3::FaceWidget::showContextMenu(QGraphicsSceneContextMenuEvent *pEvent, FaceFeatureNode *pNode)
+void f3::FaceWidget::setContextMenu(QMenu *pMenu)
 {
-	Q_UNUSED(pNode);
-	if(m_pFeaturesContextMenu)
-		m_pFeaturesContextMenu->exec(pEvent->screenPos());
-}
-
-// +-----------------------------------------------------------
-void f3::FaceWidget::showContextMenu(QGraphicsSceneContextMenuEvent *pEvent, FaceFeatureEdge *pEdge)
-{
-	Q_UNUSED(pEdge);
-	if(m_pConnectionsContextMenu)
-		m_pConnectionsContextMenu->exec(pEvent->screenPos());
-}
-
-// +-----------------------------------------------------------
-void f3::FaceWidget::setContextMenus(QMenu *pEditorMenu, QMenu *pFeaturesMenu, QMenu *pConnectionsMenu)
-{
-	m_pEditorContextMenu = pEditorMenu;
-	m_pFeaturesContextMenu = pFeaturesMenu;
-	m_pConnectionsContextMenu = pConnectionsMenu;
+	m_pContextMenu = pMenu;
 }

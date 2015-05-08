@@ -74,12 +74,6 @@ namespace f3
 		 */
 		void paint(QPainter *pPainter, const QStyleOptionGraphicsItem *pOption, QWidget *pWidget) Q_DECL_OVERRIDE;
 
-		/**
-		 * Captures the context menu event on the node.
-		 * @param pEvent Intance of a QGraphicsSceneContextMenuEvent with the event data.
-		 */
-		void contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent) Q_DECL_OVERRIDE;
-
 	private:
 
 		/** Reference to the parent face widget. */

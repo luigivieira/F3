@@ -177,33 +177,11 @@ namespace f3
 		void setDisplayFeatureIDs(const bool bValue);
 
 		/**
-		 * Sets the menus to be displayed upon events of context menu on the face features editor.
-		 * The actions used in the menus must be controlled by the caller.
-		 * @param pEditorMenu Instance of the QMenu to be used for the context of the whole editor.
-		 * @param pFeaturesMenu Instance of the QMenu to be used for the context of feature nodes.
-		 * @param pConnectionsMenu Instance of the QMenu to be used for the context of feature edges.
+		 * Sets the menu to be displayed upon events of context menu on the face features editor.
+		 * The actions used in the menu must be controlled by the caller.
+		 * @param pMenu Instance of the QMenu to be used for the context of the editor.
 		 */
-		void setContextMenus(QMenu *pEditorMenu, QMenu *pFeaturesMenu, QMenu *pConnectionsMenu);
-
-		/**
-		 * Indicates that the context menu must be displayed for the given face feature node.
-		 * @param pEvent Instance with the event data.
-		 * @param pNode Instance of the node for which the event happened.
-		 */
-		void showContextMenu(QGraphicsSceneContextMenuEvent *pEvent, FaceFeatureNode *pNode);
-
-		/**
-		 * Indicates that the context menu must be displayed for the given face feature edge.
-		 * @param pEvent Instance with the event data.
-		 * @param pEdge Instance of the edge for which the event happened.
-		 */
-		void showContextMenu(QGraphicsSceneContextMenuEvent *pEvent, FaceFeatureEdge *pEdge);
-
-		/**
-		 * Indicates that the context menu must be displayed for the face feature editor (the whole scene).
-		 * @param pEvent Instance with the event data.
-		 */
-		void showContextMenu(QGraphicsSceneContextMenuEvent *pEvent);
+		void setContextMenu(QMenu *pMenu);
 
 	public:
 
@@ -258,6 +236,12 @@ namespace f3
 		 */
 		void createFaceFeatures();
 
+		/**
+		 * Captures the context menu event.
+		 * @param pEvent Instance of a QContextMenuEvent with the event data.
+		 */
+		void contextMenuEvent(QContextMenuEvent *pEvent) Q_DECL_OVERRIDE;
+
 	protected slots:
 
 		/**
@@ -297,14 +281,8 @@ namespace f3
 		/** Indicates if the IDs of the face feature nodes should be displayed or not. */
 		bool m_bDisplayFeatureIDs;
 
-		/** Context menu for face feature editor. */
-		QMenu *m_pEditorContextMenu;
-
-		/** Context menu for face feature nodes. */
-		QMenu *m_pFeaturesContextMenu;
-
-		/** Context menu for face feature edges. */
-		QMenu *m_pConnectionsContextMenu;
+		/** Context menu for the face feature editor. */
+		QMenu *m_pContextMenu;
 	};
 };
 

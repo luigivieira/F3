@@ -144,6 +144,7 @@
     <ClCompile Include="facefeatureedge.cpp" />
     <ClCompile Include="facefeaturenode.cpp" />
     <ClCompile Include="facewidget.cpp" />
+    <ClCompile Include="facewidgetscene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
   </ItemGroup>
@@ -191,6 +192,7 @@
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC facewidget.h</Message>
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\fat\moc_facewidget.cpp;%(Outputs)</Outputs>
     </CustomBuild>
+    <ClInclude Include="facewidgetscene.h" />
     <CustomBuild Include="mainwindow.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/fat -IC:/opencv-2.4.10/build/include -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore mainwindow.h -o ..\release\tmp\fat\moc_mainwindow.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
@@ -277,10 +279,13 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <None Include="resources\icons\add-feature.png" />
     <None Include="resources\icons\add.png" />
     <None Include="resources\images\brokenimage.png" />
+    <None Include="resources\icons\connect.png" />
     <None Include="resources\icons\database.png" />
     <None Include="resources\icons\delete.png" />
+    <None Include="resources\icons\disconnect.png" />
     <None Include="resources\icons\emotion-anger.png" />
     <None Include="resources\icons\emotion-contempt.png" />
     <None Include="resources\icons\emotion-disgust.png" />
@@ -290,19 +295,25 @@
     <None Include="resources\icons\emotion-surprise.png" />
     <None Include="resources\icons\emotion-undefined.png" />
     <None Include="resources\icons\fat.png" />
+    <None Include="resources\icons\feature-ids.png" />
+    <None Include="resources\icons\features.png" />
     <None Include="resources\icons\help.png" />
+    <None Include="resources\icons\image-list.png" />
+    <None Include="resources\icons\image-properties.png" />
     <None Include="resources\images\imagemissing.png" />
     <None Include="resources\icons\information.png" />
+    <None Include="resources\icons\links.png" />
     <None Include="resources\icons\new.png" />
     <None Include="resources\images\noface.png" />
     <None Include="resources\icons\open.png" />
+    <None Include="resources\icons\remove-feature.png" />
     <CustomBuild Include="resources.qrc">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">resources.qrc;resources\images\brokenimage.png;resources\images\noface.png;resources\images\imagemissing.png;resources\icons\viewdetails.png;resources\icons\viewicons.png;resources\icons\fat.png;resources\icons\save.png;resources\icons\emotion-anger.png;resources\icons\emotion-contempt.png;resources\icons\open.png;resources\icons\emotion-undefined.png;resources\icons\help.png;resources\icons\database.png;resources\icons\add.png;resources\icons\emotion-disgust.png;resources\icons\emotion-surprise.png;resources\icons\information.png;resources\icons\saveas.png;resources\icons\delete.png;resources\icons\emotion-happiness.png;resources\icons\emotion-sadness.png;resources\icons\emotion-fear.png;resources\icons\new.png;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">resources.qrc;resources\images\brokenimage.png;resources\images\noface.png;resources\images\imagemissing.png;resources\icons\viewdetails.png;resources\icons\viewicons.png;resources\icons\fat.png;resources\icons\add-feature.png;resources\icons\help.png;resources\icons\open.png;resources\icons\feature-ids.png;resources\icons\links.png;resources\icons\emotion-happiness.png;resources\icons\disconnect.png;resources\icons\delete.png;resources\icons\emotion-undefined.png;resources\icons\emotion-surprise.png;resources\icons\saveas.png;resources\icons\emotion-anger.png;resources\icons\database.png;resources\icons\add.png;resources\icons\information.png;resources\icons\features.png;resources\icons\emotion-contempt.png;resources\icons\emotion-disgust.png;resources\icons\remove-feature.png;resources\icons\save.png;resources\icons\connect.png;resources\icons\emotion-fear.png;resources\icons\new.png;resources\icons\image-list.png;resources\icons\image-properties.png;resources\icons\emotion-sadness.png;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\release\tmp\fat\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">RCC resources.qrc</Message>
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\fat\qrc_resources.cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">resources.qrc;resources\images\brokenimage.png;resources\images\noface.png;resources\images\imagemissing.png;resources\icons\viewdetails.png;resources\icons\viewicons.png;resources\icons\fat.png;resources\icons\save.png;resources\icons\emotion-anger.png;resources\icons\emotion-contempt.png;resources\icons\open.png;resources\icons\emotion-undefined.png;resources\icons\help.png;resources\icons\database.png;resources\icons\add.png;resources\icons\emotion-disgust.png;resources\icons\emotion-surprise.png;resources\icons\information.png;resources\icons\saveas.png;resources\icons\delete.png;resources\icons\emotion-happiness.png;resources\icons\emotion-sadness.png;resources\icons\emotion-fear.png;resources\icons\new.png;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">resources.qrc;resources\images\brokenimage.png;resources\images\noface.png;resources\images\imagemissing.png;resources\icons\viewdetails.png;resources\icons\viewicons.png;resources\icons\fat.png;resources\icons\add-feature.png;resources\icons\help.png;resources\icons\open.png;resources\icons\feature-ids.png;resources\icons\links.png;resources\icons\emotion-happiness.png;resources\icons\disconnect.png;resources\icons\delete.png;resources\icons\emotion-undefined.png;resources\icons\emotion-surprise.png;resources\icons\saveas.png;resources\icons\emotion-anger.png;resources\icons\database.png;resources\icons\add.png;resources\icons\information.png;resources\icons\features.png;resources\icons\emotion-contempt.png;resources\icons\emotion-disgust.png;resources\icons\remove-feature.png;resources\icons\save.png;resources\icons\connect.png;resources\icons\emotion-fear.png;resources\icons\new.png;resources\icons\image-list.png;resources\icons\image-properties.png;resources\icons\emotion-sadness.png;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\rcc.exe -name resources resources.qrc -o ..\debug\tmp\fat\qrc_resources.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">RCC resources.qrc</Message>
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\fat\qrc_resources.cpp;%(Outputs)</Outputs>

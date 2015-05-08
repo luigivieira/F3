@@ -697,8 +697,13 @@ f3::ChildWindow* f3::MainWindow::createChildWindow(QString sFileName, bool bModi
 	connect(pChild, SIGNAL(onDataModified()), this, SLOT(onUpdateUI()));
 	connect(pChild, SIGNAL(onFeaturesSelectionChanged()), this, SLOT(onUpdateUI()));
 
-	// Create the context menus for it
-	//QMenu *pFaceEditorMenu = new QMenu(pChild);
+	// Create the context menu for the features editor, using the same actions from the main window
+	QMenu *pContextMenu = new QMenu(pChild);
+	pContextMenu->addAction(ui->actionAddFeature);
+	pContextMenu->addAction(ui->actionRemoveFeature);
+	pContextMenu->addAction(ui->actionConnectFeatures);
+	pContextMenu->addAction(ui->actionDisconnectFeatures);
+	pChild->setContextMenu(pContextMenu);
 
 	// Add the window to the tab widget
 	int iIndex = ui->tabWidget->addTab(pChild, pChild->windowIcon(), "");

@@ -36,7 +36,8 @@ SOURCES += main.cpp \
            facedatasetmodel.cpp \
            emotiondelegate.cpp \
            facefeaturenode.cpp \
-           facefeatureedge.cpp
+           facefeatureedge.cpp \
+           facewidgetscene.cpp
            
 HEADERS += mainwindow.h \
            childwindow.h \
@@ -45,7 +46,8 @@ HEADERS += mainwindow.h \
            facedatasetmodel.h \
            emotiondelegate.h \
            facefeaturenode.h \
-           facefeatureedge.h
+           facefeatureedge.h \
+           facewidgetscene.h
 
 FORMS += mainwindow.ui \
          aboutwindow.ui

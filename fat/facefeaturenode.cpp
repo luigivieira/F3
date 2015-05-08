@@ -40,7 +40,6 @@ f3::FaceFeatureNode::FaceFeatureNode(FaceWidget *pFaceWidget)
     setFlag(ItemIsMovable);
     setFlag(ItemSendsGeometryChanges);
 	setFlag(ItemIsSelectable);
-	setFlag(ItemIsFocusable);
     setCacheMode(DeviceCoordinateCache);
 
 	setSelected(false);
@@ -169,11 +168,4 @@ void f3::FaceFeatureNode::hoverLeaveEvent(QGraphicsSceneHoverEvent *pEvent)
 {
 	F3Application::instance()->showStatusMessage("");
 	QGraphicsItem::hoverLeaveEvent(pEvent);
-}
-
-// +-----------------------------------------------------------
-void f3::FaceFeatureNode::contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent)
-{
-	pEvent->accept();
-	m_pFaceWidget->showContextMenu(pEvent, this);
 }

@@ -285,7 +285,7 @@ QList<f3::FaceFeatureEdge*> f3::ChildWindow::getSelectedConnections() const
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::setContextMenus(QMenu *pEditorMenu, QMenu *pFeaturesMenu, QMenu *pConnectionsMenu)
+void f3::ChildWindow::setContextMenu(QMenu *pMenu)
 {
-	m_pFaceWidget->setContextMenus(pEditorMenu, pFeaturesMenu, pConnectionsMenu);
+	m_pFaceWidget->setContextMenu(pMenu);
 }

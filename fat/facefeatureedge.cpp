@@ -93,10 +93,3 @@ void f3::FaceFeatureEdge::paint(QPainter *pPainter, const QStyleOptionGraphicsIt
     pPainter->setPen(QPen(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     pPainter->drawLine(oLine);
 }
-
-// +-----------------------------------------------------------
-void f3::FaceFeatureEdge::contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent)
-{
-	pEvent->accept();
-	m_pFaceWidget->showContextMenu(pEvent, this);
-}

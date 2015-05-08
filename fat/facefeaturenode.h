@@ -95,12 +95,6 @@ namespace f3
 		QVariant itemChange(GraphicsItemChange eChange, const QVariant &oValue) Q_DECL_OVERRIDE;
 
 		/**
-		 * Captures the context menu event on the node.
-		 * @param pEvent Instance of a QGraphicsSceneContextMenuEvent with the event data.
-		 */
-		void contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent) Q_DECL_OVERRIDE;
-
-		/**
 		 * Captures the mouse enter event on the feature node.
 		 * @param pEvent Instance of a QGraphicsSceneHoverEvent with the event data.
 		 */
