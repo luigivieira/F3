@@ -67,7 +67,7 @@ f3::FaceWidget::FaceWidget(QWidget *pParent) : QGraphicsView(pParent)
 
 	m_pContextMenu = NULL;
 
-	createFaceFeatures();
+	//createFaceFeatures();
 	m_bFeaturesMoved = false;
 	m_bSelectionChanged = false;
 }
@@ -255,7 +255,7 @@ void f3::FaceWidget::createFaceFeatures()
 	FaceFeatureNode *pCurFeat = NULL;
 	for(int i = 0; i < NUM_FACE_FEATURES; i++)
 	{
-		pCurFeat = addFaceFeature(QPointF(aFaceModel[i][0], aFaceModel[i][1]));
+		pCurFeat = addFaceFeature(QPoint(aFaceModel[i][0], aFaceModel[i][1]));
 		if(!pPrevFeat)
 			pPrevFeat = pCurFeat;
 		else
@@ -307,12 +307,16 @@ QList<f3::FaceFeatureEdge*> f3::FaceWidget::getSelectedConnections() const
 }
 
 // +-----------------------------------------------------------
-f3::FaceFeatureNode* f3::FaceWidget::addFaceFeature(const QPointF &oPos)
+f3::FaceFeatureNode* f3::FaceWidget::addFaceFeature(const QPoint &oPos, bool bGlobal)
 {
-	FaceFeatureNode *pNode = new FaceFeatureNode(this);
+	int iID = m_lFaceFeatures.size() + 1;
+	FaceFeatureNode *pNode = new FaceFeatureNode(iID, this);
 	m_pScene->addItem(pNode);
 	m_lFaceFeatures.append(pNode);
-	pNode->setPos(oPos);
+	if(bGlobal)
+		pNode->setPos(mapToScene(mapFromGlobal(oPos)));
+	else
+		pNode->setPos(oPos);
 	return pNode;
 }
 
@@ -328,15 +332,32 @@ void f3::FaceWidget::removeFaceFeature(FaceFeatureNode* pNode)
 	m_lFaceFeatures.removeOne(pNode);
 	m_pScene->removeItem(pNode);
 	delete pNode;
+
+	// And adjust the IDs of the remaining features
+	int iID = 1;
+	foreach(FaceFeatureNode *pNode, m_lFaceFeatures)
+		pNode->setID(iID++);
 }
 
 // +-----------------------------------------------------------
 f3::FaceFeatureEdge* f3::FaceWidget::connectFaceFeatures(FaceFeatureNode* pSource, FaceFeatureNode* pTarget)
 {
-	FaceFeatureEdge* pEdge = new FaceFeatureEdge(this, pSource, pTarget);
+	FaceFeatureEdge* pEdge = pSource->getEdgeTo(pTarget);
+	if(pEdge)
+		return pEdge;
+
+	pEdge = new FaceFeatureEdge(this, pSource, pTarget);
 	m_pScene->addItem(pEdge);
 	m_lConnections.append(pEdge);
 	return pEdge;
+}
+
+// +-----------------------------------------------------------
+void f3::FaceWidget::disconnectFaceFeatures(FaceFeatureNode* pSource, FaceFeatureNode* pTarget)
+{
+	FaceFeatureEdge *pEdge = pSource->getEdgeTo(pTarget);
+	if(pEdge)
+		removeConnection(pEdge);
 }
 
 // +-----------------------------------------------------------
@@ -416,7 +437,18 @@ void f3::FaceWidget::setDisplayFeatureIDs(const bool bValue)
 void f3::FaceWidget::contextMenuEvent(QContextMenuEvent *pEvent)
 {
 	if(m_pContextMenu)
+	{
+		// Set the context menu mouse position as the user data of the
+		// first action (the 'add feature' action), so it can be used
+		// as the position of the new feature point
+		m_pContextMenu->actions()[0]->setData(pEvent->globalPos());
+
+		// call the context menu
 		m_pContextMenu->exec(pEvent->globalPos());
+
+		// After the menu is closed, empty the data to avoid using it wrongly in the future
+		m_pContextMenu->actions()[0]->setData(QVariant::Invalid);
+	}
 }
 
 // +-----------------------------------------------------------

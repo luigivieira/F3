@@ -289,3 +289,39 @@ void f3::ChildWindow::setContextMenu(QMenu *pMenu)
 {
 	m_pFaceWidget->setContextMenu(pMenu);
 }
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::addFeature(const QPoint &oPos)
+{
+	m_pFaceWidget->addFaceFeature(oPos, true);
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::removeSelectedFeatures()
+{
+	QList<FaceFeatureNode*> lsFeats = m_pFaceWidget->getSelectedFeatures();
+	foreach(FaceFeatureNode *pNode, lsFeats)
+		m_pFaceWidget->removeFaceFeature(pNode);
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::connectFeatures()
+{
+	QList<FaceFeatureNode*> lsFeats = m_pFaceWidget->getSelectedFeatures();
+	QList<FaceFeatureNode*>::iterator oFirst, oSecond;
+
+	for(oFirst = lsFeats.begin(); oFirst != lsFeats.end(); oFirst++)
+		for(oSecond = oFirst + 1; oSecond != lsFeats.end(); oSecond++)
+			m_pFaceWidget->connectFaceFeatures(*oFirst, *oSecond);
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::disconnectFeatures()
+{
+	QList<FaceFeatureNode*> lsFeats = m_pFaceWidget->getSelectedFeatures();
+	QList<FaceFeatureNode*>::iterator oFirst, oSecond;
+
+	for(oFirst = lsFeats.begin(); oFirst != lsFeats.end(); oFirst++)
+		for(oSecond = oFirst + 1; oSecond != lsFeats.end(); oSecond++)
+			m_pFaceWidget->disconnectFaceFeatures(*oFirst, *oSecond);
+}

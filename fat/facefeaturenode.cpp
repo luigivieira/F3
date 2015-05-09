@@ -29,11 +29,8 @@
 // Radius of the drawn node, in pixels
 const int f3::FaceFeatureNode::RADIUS = 4;
 
-// Next available identifier for a new face feature node
-int f3::FaceFeatureNode::m_siNextID = 1;
-
 // +-----------------------------------------------------------
-f3::FaceFeatureNode::FaceFeatureNode(FaceWidget *pFaceWidget)
+f3::FaceFeatureNode::FaceFeatureNode(int iID, FaceWidget *pFaceWidget)
 {
 	m_pFaceWidget = pFaceWidget;
 
@@ -45,7 +42,7 @@ f3::FaceFeatureNode::FaceFeatureNode(FaceWidget *pFaceWidget)
 	setSelected(false);
 	setAcceptHoverEvents(true);
 
-	m_iID = m_siNextID++;
+	m_iID = iID;
 }
 
 // +-----------------------------------------------------------
@@ -168,4 +165,10 @@ void f3::FaceFeatureNode::hoverLeaveEvent(QGraphicsSceneHoverEvent *pEvent)
 {
 	F3Application::instance()->showStatusMessage("");
 	QGraphicsItem::hoverLeaveEvent(pEvent);
+}
+
+// +-----------------------------------------------------------
+void f3::FaceFeatureNode::setID(int iID)
+{
+	m_iID = iID;
 }

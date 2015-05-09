@@ -204,6 +204,26 @@ namespace f3
 		void on_actionShowFeatureIDs_triggered(bool bChecked);
 
 		/**
+		 * Slot for the menu Add Feature trigger event.
+		 */
+		void on_actionAddFeature_triggered();
+
+		/**
+		 * Slot for the menu Remove Feature trigger event.
+		 */
+		void on_actionRemoveFeature_triggered();
+
+		/**
+		 * Slot for the menu Connect Features trigger event.
+		 */
+		void on_actionConnectFeatures_triggered();
+
+		/**
+		 * Slot for the menu Disconnect Features trigger event.
+		 */
+		void on_actionDisconnectFeatures_triggered();
+
+		/**
 		 * Define the view to be used for the list of images (icons, a list view, or "details", a tree view).
 		 * @param sType String with the type to be used (either "icons" or "details").
 		 */

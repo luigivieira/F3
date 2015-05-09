@@ -206,6 +206,27 @@ namespace f3
 		 */
 		void setContextMenu(QMenu *pMenu);
 
+		/**
+		 * Adds a new feature to the face feature editor, in the given position.
+		 * @param oPos QPoint with the position (x, y) of the new feature.
+		 */
+		void addFeature(const QPoint &oPos);
+
+		/**
+		 * Removes the selected features and all their connections.
+		 */
+		void removeSelectedFeatures();
+
+		/**
+		 * Connects the selected features among themselves.
+		 */
+		void connectFeatures();
+
+		/**
+		 * Disconnects the selected features.
+		 */
+		void disconnectFeatures();
+
 	protected slots:
 
 		/**

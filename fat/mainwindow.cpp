@@ -427,6 +427,56 @@ void f3::MainWindow::on_actionShowFeatureIDs_triggered(bool bChecked)
 }
 
 // +-----------------------------------------------------------
+void f3::MainWindow::on_actionAddFeature_triggered()
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+		return;
+
+	// The position of the mouse  is stored in this action data
+	// if the action is called from a context menu in the face features
+	// editor (see method FaceWidget::contextMenuEvent)
+	QVariant vPos = ui->actionAddFeature->data();
+	QPoint oPos;
+	if(vPos.isValid())
+		oPos = vPos.value<QPoint>();
+	else
+		oPos = QCursor::pos();
+
+	pChild->addFeature(oPos);
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionRemoveFeature_triggered()
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+		return;
+
+	pChild->removeSelectedFeatures();
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionConnectFeatures_triggered()
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+		return;
+
+	pChild->connectFeatures();
+}
+
+// +-----------------------------------------------------------
+void f3::MainWindow::on_actionDisconnectFeatures_triggered()
+{
+	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+	if(!pChild)
+		return;
+
+	pChild->disconnectFeatures();
+}
+
+// +-----------------------------------------------------------
 void f3::MainWindow::showStatusMessage(const QString &sMsg, const int iTimeout)
 {
 	ui->statusBar->showMessage(sMsg, iTimeout);

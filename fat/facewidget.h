@@ -109,10 +109,13 @@ namespace f3
 
 		/**
 		 * Adds a new face feature node in the given position.
-		 * @param oPos A QPointF with the coordinates for the new node. If not provided, (0, 0) is assumed.
+		 * @param oPos A QPoint with the coordinates for the new node. If not provided, (0, 0) is assumed.
+		 * @param bGlobal Bool indicating if the coordinate of the position is referenced to the global
+		 * coordinate system or to the scene coordinate system. The default is false (indicating that is related
+		 * to the scene coordinate system).
 		 * @return Pointer to the instance of the newly added face feature node.
 		 */
-		FaceFeatureNode* addFaceFeature(const QPointF &oPos = QPointF());
+		FaceFeatureNode* addFaceFeature(const QPoint &oPos = QPoint(), bool bGlobal = false);
 
 		/**
 		 * Removes an existing face feature node.
@@ -127,6 +130,13 @@ namespace f3
 		 * @return Pointer to the instance of the newly added face feature edge connecting the two nodes.
 		 */
 		FaceFeatureEdge* connectFaceFeatures(FaceFeatureNode* pSource, FaceFeatureNode* pTarget);
+
+		/**
+		 * Removes the face feature edge connecting two existing nodes.
+		 * @param pSource Pointer to the instance of the first face feature node.
+		 * @param pTarget Pointer to the instance of the second face feature node.
+		 */
+		void disconnectFaceFeatures(FaceFeatureNode* pSource, FaceFeatureNode* pTarget);
 
 		/**
 		 * Removes an existing face feature edge.

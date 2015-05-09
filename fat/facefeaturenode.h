@@ -36,9 +36,10 @@ namespace f3
 	public:
 		/**
 		 * Class constructor.
+		 * @param iID Integer with the ID of the feature node.
 		 * @param pFaceWidget Instance of the FaceWidget to be the parent of the face feature node.
 		 */
-		FaceFeatureNode(FaceWidget *pFaceWidget);
+		FaceFeatureNode(int iID, FaceWidget *pFaceWidget);
 
 		/**
 		 * Adds a new edge to the face feature node.
@@ -71,6 +72,12 @@ namespace f3
 		 * @return A QRectF with the coordinates and size of the bounding rect of the node.
 		 */
 		QRectF boundingRect() const Q_DECL_OVERRIDE;
+
+		/**
+		 * Updates the identifier of the feature node.
+		 * @param iID Integer with the new identifier for the feature node.
+		 */
+		void setID(int iID);
 
 	public:
 
@@ -113,9 +120,6 @@ namespace f3
 
 		/** List of edges added to the node. */
 		QList<FaceFeatureEdge *> m_lEdges;
-
-		/** Next available identifier for a new face feature node. */
-		static int m_siNextID;
 
 		/** Identifier of the face feature node. */
 		int m_iID;
