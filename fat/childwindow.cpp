@@ -294,34 +294,57 @@ void f3::ChildWindow::setContextMenu(QMenu *pMenu)
 void f3::ChildWindow::addFeature(const QPoint &oPos)
 {
 	m_pFaceWidget->addFaceFeature(oPos, true);
+	onModelUpdated();
 }
 
 // +-----------------------------------------------------------
 void f3::ChildWindow::removeSelectedFeatures()
 {
+	bool bUpdated = false;
 	QList<FaceFeatureNode*> lsFeats = m_pFaceWidget->getSelectedFeatures();
 	foreach(FaceFeatureNode *pNode, lsFeats)
+	{
 		m_pFaceWidget->removeFaceFeature(pNode);
+		bUpdated = true;
+	}
+	if(bUpdated)
+		onModelUpdated();
 }
 
 // +-----------------------------------------------------------
 void f3::ChildWindow::connectFeatures()
 {
+	bool bUpdated = false;
 	QList<FaceFeatureNode*> lsFeats = m_pFaceWidget->getSelectedFeatures();
 	QList<FaceFeatureNode*>::iterator oFirst, oSecond;
 
 	for(oFirst = lsFeats.begin(); oFirst != lsFeats.end(); oFirst++)
+	{
 		for(oSecond = oFirst + 1; oSecond != lsFeats.end(); oSecond++)
+		{
 			m_pFaceWidget->connectFaceFeatures(*oFirst, *oSecond);
+			bUpdated = true;
+		}
+	}
+	if(bUpdated)
+		onModelUpdated();
 }
 
 // +-----------------------------------------------------------
 void f3::ChildWindow::disconnectFeatures()
 {
+	bool bUpdated = false;
 	QList<FaceFeatureNode*> lsFeats = m_pFaceWidget->getSelectedFeatures();
 	QList<FaceFeatureNode*>::iterator oFirst, oSecond;
 
 	for(oFirst = lsFeats.begin(); oFirst != lsFeats.end(); oFirst++)
+	{
 		for(oSecond = oFirst + 1; oSecond != lsFeats.end(); oSecond++)
+		{
 			m_pFaceWidget->disconnectFaceFeatures(*oFirst, *oSecond);
+			bUpdated = true;
+		}
+	}
+	if(bUpdated)
+		onModelUpdated();
 }

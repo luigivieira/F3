@@ -453,7 +453,11 @@ void f3::MainWindow::on_actionRemoveFeature_triggered()
 	if(!pChild)
 		return;
 
-	pChild->removeSelectedFeatures();
+	QString sMsg = tr("Tem certeza de que deseja remover as marcas faciais selecionadas? Essa ação não pode ser desfeita.");
+	QMessageBox::StandardButton oResp = QMessageBox::question(this, tr("Confirmação de Remoção"), sMsg, QMessageBox::Yes|QMessageBox::No);
+
+	if(oResp == QMessageBox::Yes)
+		pChild->removeSelectedFeatures();
 }
 
 // +-----------------------------------------------------------
