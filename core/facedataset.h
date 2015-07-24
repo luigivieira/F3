@@ -146,21 +146,36 @@ namespace f3
 		 */
 		bool setEmotionLabel(const int iIndex, const EmotionLabel eLabel);
 
+		/**
+		 * Queries the number of facial features in the dataset (applicable to all images).
+		 * @return Integer with the number of face features in the dataset.
+		 */
+		int numFeatures() const;
+
+		/**
+		 * Updates the number of facial features in the dataset (applicable to all images).
+		 * @param iNumFeats Integer with the new number of facial features for the dataset.
+		 */
+		void setNumFeatures(int iNumFeats);
+
 	private:
 		/** Names of the face image files. */
 		std::vector<QString> m_vFaceImages;
 
+		/** Number of face features in the dataset (i.e. applicable to all images). */
+		int m_iNumFeatures;
+
         /** 2D coordinates of the facial features in each image sample. */
         std::vector< std::vector<cv::Point2f> > m_vFeaturePoints;
+
+        /** Connections between facial features in each image sample. */
+        std::vector<cv::Vec2i> m_vFeatureEdges;
 
 		/** Emotion labels for each image sample. */
 		std::vector<EmotionLabel> m_vEmotionLabels;
 
-        /** Information about the symmetry of facial features. */
+        /** Information about the symmetry of facial features in each image sample. */
         std::vector<int> m_vFeatureSymmetry;
-
-        /** Information about the connectivity between the facial features. */
-        std::vector<cv::Vec2i> m_vFeatureConnectivity;
 	};
 
 }

@@ -24,12 +24,17 @@
 
 #include <opencv2/highgui/highgui.hpp>
 
+#define FACE_IMAGES_LABEL    "FaceImages"
+#define NUM_FEATURES_LABEL   "NumberOfFeatures"
+#define FEATURE_POINTS_LABEL "FeaturePoints"
+
 using namespace std;
 using namespace cv;
 
 // +-----------------------------------------------------------
 f3::FaceDataset::FaceDataset()
 {
+	m_iNumFeatures = 0;
 }
 
 // +-----------------------------------------------------------
@@ -54,10 +59,11 @@ bool f3::FaceDataset::loadFromFile(const QString &sFileName, QString &sMsgError)
 		return false;
     }
 
-    FileNode oNode = oFS["FaceImages"];
+	// Read the image list
+    FileNode oNode = oFS[FACE_IMAGES_LABEL];
     if(oNode.type() != FileNode::SEQ)
     {
-		sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("SampleImages", sFileName);
+		sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]) no arquivo [%2]")).arg(FACE_IMAGES_LABEL, sFileName);
         return false;
     }
 
@@ -65,10 +71,21 @@ bool f3::FaceDataset::loadFromFile(const QString &sFileName, QString &sMsgError)
     for(FileNodeIterator it = oNode.begin(); it != oNode.end(); ++it)
         vImages.push_back(QString::fromStdString(*it));
 
-    oNode = oFS["FeaturePoints"];
+	// Read the number of feature points
+    FileNode oNode = oFS[NUM_FEATURES_LABEL];
+    if(oNode.type() != FileNode::INT)
+    {
+		sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]) no arquivo [%2]")).arg(NUM_FEATURES_LABEL, sFileName);
+        return false;
+    }
+
+	setNumFeatures(oNode);
+
+	// Read the feature points
+    oNode = oFS[FEATURE_POINTS_LABEL];
     if(oNode.type() != FileNode::SEQ)
     {
-		sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints", sFileName);
+		sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]) no arquivo [%2]")).arg(FEATURE_POINTS_LABEL, sFileName);
         return false;
     }
 
@@ -80,7 +97,7 @@ bool f3::FaceDataset::loadFromFile(const QString &sFileName, QString &sMsgError)
 
         if(oSubNode.type() != FileNode::SEQ)
         {
-			sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints/subnode", sFileName);
+			sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]/subnode) no arquivo [%2]")).arg(FEATURE_POINTS_LABEL, sFileName);
             return false;
         }
 
@@ -94,7 +111,7 @@ bool f3::FaceDataset::loadFromFile(const QString &sFileName, QString &sMsgError)
             ++it2;
             if(it2 == oSubNode.end())
             {
-				sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturePoints/points", sFileName);
+				sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]/points) no arquivo [%2]")).arg(FEATURE_POINTS_LABEL, sFileName);
                 return false;
             }
             y = *it2;
@@ -108,7 +125,8 @@ bool f3::FaceDataset::loadFromFile(const QString &sFileName, QString &sMsgError)
         vPoints.push_back(vMarks);
     }
 
-    oNode = oFS["FeaturesConnectivity"];
+	// Read the feature edges
+    oNode = oFS["FeatureEdges"];
     if(oNode.type() != FileNode::SEQ)
     {
 		sMsgError = QString(QApplication::translate("FaceDataset", "há um erro estrutural (campo [%1]) no arquivo [%2]")).arg("FeaturesConnectivity", sFileName);
@@ -145,7 +163,7 @@ bool f3::FaceDataset::loadFromFile(const QString &sFileName, QString &sMsgError)
     m_vFaceImages = vImages;
     m_vFeaturePoints = vPoints;
     m_vFeatureSymmetry = vSymmetry;
-    m_vFeatureConnectivity = vConnectivity;
+    m_vFeatureEdges = vConnectivity;
 	m_vEmotionLabels = vEmotionLabels;
 
 	return true;
@@ -162,7 +180,7 @@ bool f3::FaceDataset::saveToFile(const QString &sFileName, QString &sMsgError) c
         return false;
     }
 
-    oFS << "FaceImages" << "[";
+    oFS << FACE_IMAGES_LABEL << "[";
     for(unsigned int i = 0; i < m_vFaceImages.size(); i++)
         oFS << m_vFaceImages[i].toStdString();
     oFS << "]";
@@ -181,9 +199,9 @@ bool f3::FaceDataset::saveToFile(const QString &sFileName, QString &sMsgError) c
     }
     oFS << "]";
 
-    oFS << "FeaturesConnectivity" << "[:";
-    for(unsigned int i = 0; i < m_vFeatureConnectivity.size(); i++)
-        oFS << m_vFeatureConnectivity[i];
+    oFS << "FeatureEdges" << "[:";
+    for(unsigned int i = 0; i < m_vFeatureEdges.size(); i++)
+        oFS << m_vFeatureEdges[i];
     oFS << "]";
 
     oFS << "FeaturesSymmetry" << "[:";
@@ -207,7 +225,9 @@ void f3::FaceDataset::clear()
 	m_vEmotionLabels.clear();
 
     m_vFeatureSymmetry.clear();
-    m_vFeatureConnectivity.clear();
+    m_vFeatureEdges.clear();
+
+	m_iNumFeatures = 0;
 }
 
 // +-----------------------------------------------------------
@@ -290,6 +310,19 @@ bool f3::FaceDataset::setEmotionLabel(const int iIndex, const EmotionLabel eLabe
 
 	m_vEmotionLabels[iIndex] = eLabel;
 	return true;
+}
+
+// +-----------------------------------------------------------
+int f3::FaceDataset::numFeatures() const
+{
+	return m_iNumFeatures;
+}
+
+
+// +-----------------------------------------------------------
+void f3::FaceDataset::setNumFeatures(int iNumFeats)
+{
+	m_iNumFeatures = iNumFeats;
 }
 
 /*
