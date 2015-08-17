@@ -57,7 +57,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\release\tmp\core&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtXml&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\release\tmp\core&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>..\release\tmp\core\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -65,7 +65,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>..\release\tmp\core\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_XML_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName></ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -75,7 +75,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_core2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_imgproc2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_highgui2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_ml2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_video2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_features2d2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_calib3d2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_objdetect2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_contrib2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_legacy2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_flann2410.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgets.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Gui.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_core2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_imgproc2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_highgui2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_ml2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_video2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_features2d2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_calib3d2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_objdetect2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_contrib2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_legacy2410.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_flann2410.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgets.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Gui.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Xml.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\opencv-2.4.10\build\x86\vc11\lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -93,12 +93,12 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_XML_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\debug\tmp\core&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>&quot;C:\opencv-2.4.10\build\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtWidgets&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtGui&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtXml&quot;;&quot;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\include\QtCore&quot;;&quot;..\debug\tmp\core&quot;;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>..\debug\tmp\core\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -106,7 +106,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>..\debug\tmp\core\</ObjectFileName>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_WIDGETS_LIB;QT_GUI_LIB;QT_XML_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -115,7 +115,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_core2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_imgproc2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_highgui2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_ml2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_video2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_features2d2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_calib3d2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_objdetect2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_contrib2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_legacy2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_flann2410d.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgetsd.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Guid.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;gdi32.lib;user32.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_core2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_imgproc2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_highgui2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_ml2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_video2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_features2d2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_calib3d2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_objdetect2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_contrib2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_legacy2410d.lib;C:\opencv-2.4.10\build\x86\vc11\lib\opencv_flann2410d.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Widgetsd.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Guid.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Xmld.lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\opencv-2.4.10\build\x86\vc11\lib;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -133,30 +133,34 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;CORE_LIBRARY;QT_WIDGETS_LIB;QT_GUI_LIB;QT_XML_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
     <ClCompile Include="emotionlabel.cpp" />
     <ClCompile Include="facedataset.cpp" />
+    <ClCompile Include="facefeature.cpp" />
+    <ClCompile Include="faceimage.cpp" />
     <ClCompile Include="logcontrol.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="application.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">application.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DCORE_LIBRARY -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/opencv-2.4.10/build/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore application.h -o ..\release\tmp\core\moc_application.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DCORE_LIBRARY -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/opencv-2.4.10/build/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtXml -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore application.h -o ..\release\tmp\core\moc_application.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC application.h</Message>
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\release\tmp\core\moc_application.cpp;%(Outputs)</Outputs>
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">application.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DCORE_LIBRARY -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/opencv-2.4.10/build/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore application.h -o ..\debug\tmp\core\moc_application.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">setlocal&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;C:\Qt\Qt5.4.0\5.4\msvc2012_opengl\bin\moc.exe  -DUNICODE -DWIN32 -DCORE_LIBRARY -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Users/Luiz/Documents/GitHub/F3/core -IC:/opencv-2.4.10/build/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtXml -IC:/Qt/Qt5.4.0/5.4/msvc2012_opengl/include/QtCore application.h -o ..\debug\tmp\core\moc_application.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;endlocal</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC application.h</Message>
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\debug\tmp\core\moc_application.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="core_global.h" />
     <ClInclude Include="emotionlabel.h" />
     <ClInclude Include="facedataset.h" />
+    <ClInclude Include="facefeature.h" />
+    <ClInclude Include="faceimage.h" />
     <ClInclude Include="logcontrol.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>

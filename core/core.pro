@@ -17,7 +17,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-QT += core gui
+QT += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,6 +33,8 @@ win32 {
 CONFIG += lib
 
 SOURCES += application.cpp \
+           faceimage.cpp \
+           facefeature.cpp \
            facedataset.cpp \
            emotionlabel.cpp \
            logcontrol.cpp \
@@ -40,6 +42,8 @@ SOURCES += application.cpp \
 
 HEADERS += core_global.h \
            application.h \
+           faceimage.h \
+           facefeature.h \
            facedataset.h \
            emotionlabel.h \
            logcontrol.h \

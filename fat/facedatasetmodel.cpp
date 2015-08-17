@@ -68,9 +68,11 @@ QVariant f3::FaceDatasetModel::headerData(int iSection, Qt::Orientation eOrienta
 // +-----------------------------------------------------------
 QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 {
-	QPixmap oImage;
-	QString sFileName;
-	EmotionLabel eLabel;
+	FaceImage *pImage = m_pFaceDataset->getImage(oIndex.row());
+	if(!pImage)
+		return QVariant();
+
+	QPixmap oPixmap;
 
 	switch(iRole)
 	{
@@ -79,14 +81,10 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 			switch(oIndex.column())
 			{
 				case 0: // [Image Name]
-					if(!m_pFaceDataset->getImageFileName(oIndex.row(), sFileName))
-						return QVariant();
-					else
-						return QFileInfo(sFileName).baseName();
+					return QFileInfo(pImage->fileName()).baseName();
 
 				case 1: // [Emotion Label Name]
-					m_pFaceDataset->getEmotionLabel(oIndex.row(), eLabel);
-					return eLabel.getName();
+					return pImage->emotionLabel().getName();
 
 				default:
 					return QVariant();
@@ -104,19 +102,16 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 			switch(oIndex.column())
 			{
 				case 0: // The complete image file name+path
-					if(!m_pFaceDataset->getImageFileName(oIndex.row(), sFileName))
-						return QVariant();
-					else
-						return sFileName;
+					return pImage->fileName();
 
 				case 1: // The emotion label
-					m_pFaceDataset->getEmotionLabel(oIndex.row(), eLabel);
-					return eLabel.getValue();
+					pImage->emotionLabel().getValue();
 
 				case 2: // The image data
-					if(!m_pFaceDataset->getImage(oIndex.row(), oImage))
-						oImage = QPixmap(":/images/brokenimage");
-					return oImage;
+					oPixmap = pImage->pixMap();
+					if(oPixmap.isNull())
+						oPixmap = QPixmap(":/images/brokenimage");
+					return oPixmap;
 
 				default:
 					return QVariant();
@@ -131,6 +126,10 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 // +-----------------------------------------------------------
 bool f3::FaceDatasetModel::setData(const QModelIndex &oIndex, const QVariant &oValue, int iRole)
 {
+	FaceImage *pImage = m_pFaceDataset->getImage(oIndex.row());
+	if(!pImage)
+		return false;
+
 	if(iRole == Qt::UserRole)
 	{
 		EmotionLabel eLabel;
@@ -141,8 +140,7 @@ bool f3::FaceDatasetModel::setData(const QModelIndex &oIndex, const QVariant &oV
 				return false;
 
 			case 1: // [Emotion Label]
-				eLabel = EmotionLabel::fromValue(oValue.toInt());
-				m_pFaceDataset->setEmotionLabel(oIndex.row(), eLabel);
+				pImage->setEmotionLabel(EmotionLabel::fromValue(oValue.toInt()));
 				emit dataChanged(oIndex, oIndex);
 				return true;
 
@@ -212,8 +210,11 @@ bool f3::FaceDatasetModel::removeImages(const QList<int> &lImageIndexes)
 QPixmap f3::FaceDatasetModel::buildThumbnail(const int iIndex)
 {
 	QPixmap oImage;
-	if(!m_pFaceDataset->getImage(iIndex, oImage))
+	FaceImage *pImage = m_pFaceDataset->getImage(iIndex);
+	if(!pImage)
 		oImage = QPixmap(":/images/imagemissing");
+	else
+		oImage = pImage->pixMap();
 
 	oImage = oImage.scaled(50, 50, Qt::IgnoreAspectRatio);
 	return oImage;

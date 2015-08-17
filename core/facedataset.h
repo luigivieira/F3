@@ -21,10 +21,13 @@
 #define FACEDATASET_H
 
 #include "core_global.h"
+#include "faceimage.h"
+
 #include "emotionlabel.h"
 
 #include <opencv2/core/core.hpp>
 
+#include <QDomDocument>
 #include <QPixmap>
 
 #include <vector>
@@ -82,30 +85,17 @@ namespace f3
 		 * Gets the face image for the given index. The index must be in the range [0, count - 1],
 		 * where count is the number of face images in the dataset.
 		 * @param iIndex Integer with the index of the image file to load.
-		 * @param oImage QPixmap reference for receiving the image loaded.
-		 * @return Boolean indicating if the image file could be loaded (true) or not (false, in case
-		 * the given index is out of range or the image file could not be read).
+		 * @return Pointer to a FaceImage with the face image data. If the method fails, NULL is returned. 
 		 */
-		bool getImage(const int iIndex, QPixmap &oImage) const;
-
-		/**
-		 * Gets the face image for the given index. The index must be in the range [0, count - 1],
-		 * where count is the number of face images in the dataset.
-		 * @param iIndex Integer with the index of the image file to load.
-		 * @param oImage OpenCV's Mat reference for receiving the image loaded.
-		 * @return Boolean indicating if the image file could be loaded (true) or not (false, in case
-		 * the given index is out of range or the image file could not be read).
-		 */
-		bool getImage(const int iIndex, cv::Mat &oImage) const;
+		FaceImage* getImage(const int iIndex) const;
 
 		/**
 		 * Adds a new image to the face annotation dataset. All other data (landmarks, connections, etc)
 		 * are created with default values.
 		 * @param sFileName QString with the path and filename of the image file to be added to the dataset.
-		 * @return Boolean indicating if the image was added (true) or not (false, in case it already exists in
-		 * the dataset).
+		 * @return Pointer to a FaceImage with the new image added to the dataset or NULL if failed. 
 		 */
-		bool addImage(const QString &sFileName);
+		FaceImage* addImage(const QString &sFileName);
 
 		/**
 		 * Removes an image from the face annotation dataset. All other data (landmarks, connections, etc)
@@ -115,36 +105,6 @@ namespace f3
 		 * the given index is out of range).
 		 */
 		bool removeImage(const int iIndex);
-
-		/**
-		 * Gets the name of the file for the image at the given index. The index must be in
-		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * @param iIndex Integer with the index of the image file from which to get the file name.
-		 * @param sFileName QString reference for receiving the image file name.
-		 * @return Boolean indicating if the image file name could be obtained (true) or not (false, in case
-		 * the given index is out of range).
-		 */
-		bool getImageFileName(const int iIndex, QString &sFileName) const;
-
-		/**
-		 * Gets the emotion label of the sample at the given index. The index must be in
-		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * @param iIndex Integer with the index of sample from which to get the emotion label.
-		 * @param eLabel EmotionLabel reference to receive the emotion label for the given image.
-		 * @return Boolean indicating if the method call was successful (true) or not (false, in case
-		 * the given index is out of range).
-		 */
-		bool getEmotionLabel(const int iIndex, EmotionLabel &eLabel) const;
-
-		/**
-		 * Updates the emotion label of the sample at the given index. The index must be in
-		 * the range [0, count - 1], where count is the number of face images in the dataset.
-		 * @param iIndex Integer with the index of sample from which to update the emotion label.
-		 * @param eLabel EmotionLabel with the new emotion label for the given image.
-		 * @return Boolean indicating if the method call was successful (true) or not (false, in case
-		 * the given index is out of range).
-		 */
-		bool setEmotionLabel(const int iIndex, const EmotionLabel eLabel);
 
 		/**
 		 * Queries the number of facial features in the dataset (applicable to all images).
@@ -159,25 +119,13 @@ namespace f3
 		void setNumFeatures(int iNumFeats);
 
 	private:
-		/** Names of the face image files. */
-		std::vector<QString> m_vFaceImages;
+
+		/** Vector of sample face images. */
+		std::vector<FaceImage*> m_vSamples;
 
 		/** Number of face features in the dataset (i.e. applicable to all images). */
 		int m_iNumFeatures;
-
-        /** 2D coordinates of the facial features in each image sample. */
-        std::vector< std::vector<cv::Point2f> > m_vFeaturePoints;
-
-        /** Connections between facial features in each image sample. */
-        std::vector<cv::Vec2i> m_vFeatureEdges;
-
-		/** Emotion labels for each image sample. */
-		std::vector<EmotionLabel> m_vEmotionLabels;
-
-        /** Information about the symmetry of facial features in each image sample. */
-        std::vector<int> m_vFeatureSymmetry;
 	};
-
 }
 
 #endif // FACEDATASET_H
