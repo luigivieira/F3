@@ -33,6 +33,20 @@ f3::FaceImage::FaceImage(const QString &sFileName, const EmotionLabel eEmotionLa
 }
 
 // +-----------------------------------------------------------
+f3::FaceImage::~FaceImage()
+{
+	clear();
+}
+
+// +-----------------------------------------------------------
+void f3::FaceImage::clear()
+{
+	foreach(FaceFeature *pFeature, m_vFeatures)
+		delete pFeature;
+	m_vFeatures.clear();
+}
+
+// +-----------------------------------------------------------
 QString f3::FaceImage::fileName() const
 {
 	return m_sFileName;
@@ -51,12 +65,6 @@ void f3::FaceImage::setEmotionLabel(const EmotionLabel eEmotionLabel)
 }
 
 // +-----------------------------------------------------------
-bool f3::FaceImage::isEmpty() const
-{
-	return m_sFileName.isEmpty();
-}
-
-// +-----------------------------------------------------------
 bool f3::FaceImage::loadFromXML(const QDomElement &oElement, QString &sMsgError)
 {
 	// Check the element name
@@ -66,6 +74,7 @@ bool f3::FaceImage::loadFromXML(const QDomElement &oElement, QString &sMsgError)
 		return false;
 	}
 
+	// Read the file name
 	QString sFile = oElement.attribute("fileName");
 	if(sFile == "")
 	{
@@ -73,6 +82,7 @@ bool f3::FaceImage::loadFromXML(const QDomElement &oElement, QString &sMsgError)
 		return false;
 	}
 
+	// Read the emotion label
 	int iEmotion = oElement.attribute("emotionLabel", "-1").toInt();
 	if(iEmotion < EmotionLabel::UNDEFINED.getValue() || iEmotion > EmotionLabel::SURPRISE.getValue())
 	{
@@ -80,9 +90,31 @@ bool f3::FaceImage::loadFromXML(const QDomElement &oElement, QString &sMsgError)
 		return false;
 	}
 
+	// Read the face features
+	// Sample images
+	QDomElement oFeatures = oElement.firstChildElement("Features");
+	if(!oFeatures.isNull())
+	{
+		vector<FaceFeature*> vFeatures;
+		for(QDomElement oElement = oFeatures.firstChildElement(); !oElement.isNull(); oElement = oElement.nextSiblingElement())
+		{
+			FaceFeature *pFeature = new FaceFeature();
+			if(!pFeature->loadFromXML(oElement, sMsgError))
+			{
+				foreach(FaceFeature *pFeat, vFeatures)
+					delete(pFeat);
+				delete pFeature;
+
+				return false;
+			}
+			vFeatures.push_back(pFeature);
+		}
+	}
+
+	clear();
 	m_sFileName = sFile;
 	m_eEmotionLabel = EmotionLabel::fromValue(iEmotion);
-
+	m_vFeatures = m_vFeatures;
 	return true;
 }
 
@@ -102,8 +134,8 @@ void f3::FaceImage::saveToXML(QDomElement &oParent) const
 	oSample.appendChild(oFeatures);
 
 	// Add the nodes for the features
-	foreach(FaceFeature oFeat, m_vFeatures)
-		oFeat.saveToXML(oFeatures);
+	foreach(FaceFeature *pFeat, m_vFeatures)
+		pFeat->saveToXML(oFeatures);
 }
 
 // +-----------------------------------------------------------
@@ -119,4 +151,33 @@ Mat f3::FaceImage::mat() const
 {
 	Mat oRet = imread(m_sFileName.toStdString());
 	return oRet;
+}
+
+// +-----------------------------------------------------------
+f3::FaceFeature* f3::FaceImage::addFeature(float x, float y)
+{
+	FaceFeature *pFeat = new FaceFeature(x, y);
+	m_vFeatures.push_back(pFeat);
+	return pFeat;
+}
+
+// +-----------------------------------------------------------
+f3::FaceFeature* f3::FaceImage::getFeature(const int iIndex) const
+{
+	if(iIndex < 0 || iIndex >= (int) m_vFeatures.size())
+		return NULL;
+	return m_vFeatures[iIndex];
+}
+
+// +-----------------------------------------------------------
+bool f3::FaceImage::removeFeature(const int iIndex)
+{
+	if(iIndex < 0 || iIndex >= (int) m_vFeatures.size())
+		return false;
+
+	FaceFeature *pFeat = m_vFeatures[iIndex];
+	m_vFeatures.erase(m_vFeatures.begin() + iIndex);
+	delete pFeat;
+
+	return true;
 }

@@ -22,6 +22,18 @@
 #include <QApplication>
 
 // +-----------------------------------------------------------
+f3::FaceFeature::FaceFeature():
+	cv::Point2f()
+{
+}
+
+// +-----------------------------------------------------------
+f3::FaceFeature::FaceFeature(float x, float y):
+	cv::Point2f(x, y)
+{
+}
+
+// +-----------------------------------------------------------
 bool f3::FaceFeature::loadFromXML(const QDomElement &oElement, QString &sMsgError)
 {
 // Check the element name
@@ -47,7 +59,7 @@ bool f3::FaceFeature::loadFromXML(const QDomElement &oElement, QString &sMsgErro
 
 	x = sValueX.toFloat();
 	y = sValueY.toFloat();
-
+	
 	return true;
 }
 

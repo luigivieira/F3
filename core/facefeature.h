@@ -34,6 +34,19 @@ namespace f3
 	class CORE_EXPORT FaceFeature : public cv::Point2f
     {
 	public:
+
+		/**
+		 * Class constructor.
+		 */
+		FaceFeature();
+
+		/**
+		 * Class constructor.
+		 * @param x Float with the x coordinate of the face feature.
+		 * @param y Float with the y coordinate of the face feature.
+		 */
+		FaceFeature(float x, float y);
+
 		/**
 		 * Loads (unserializes) the face feature data from the given xml element.
 		 * @param oElement QDomElement from where to read the feature data (the feature node in the xml).

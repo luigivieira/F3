@@ -22,10 +22,7 @@
 #include <QFileInfo>
 #include <QApplication>
 
-#include <opencv2/highgui/highgui.hpp>
-
 using namespace std;
-using namespace cv;
 
 // +-----------------------------------------------------------
 f3::FaceDataset::FaceDataset()
@@ -104,6 +101,10 @@ bool f3::FaceDataset::loadFromFile(const QString &sFileName, QString &sMsgError)
 		FaceImage *pSample = new FaceImage();
 		if(!pSample->loadFromXML(oElement, sError))
 		{
+			foreach(FaceImage *pSamp, vSamples)
+				delete(pSamp);
+			delete pSample;
+
 			sMsgError = QString(QApplication::translate("FaceDataset", "erro no conteúdo do arquivo [%1]: %2")).arg(sFileName, sError);
 			return false;
 		}
@@ -213,4 +214,12 @@ int f3::FaceDataset::numFeatures() const
 void f3::FaceDataset::setNumFeatures(int iNumFeats)
 {
 	m_iNumFeatures = iNumFeats;
+}
+
+// +-----------------------------------------------------------
+void f3::FaceDataset::addFeature(float x, float y)
+{
+	FaceFeature *pFeat;
+	foreach(FaceImage *pSample, m_vSamples)
+		pFeat = pSample->addFeature(x, y);
 }

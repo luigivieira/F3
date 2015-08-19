@@ -235,11 +235,12 @@ namespace f3
 		void toggleImageListView();
 
 		/**
-		 * Slot for the selection of an image thumbnail in either the list or the tree view components.
-		 * @param oIndex QModelIndex with the item selected.
-		 * @param oPrevIndex QModelIndex with the item previously selected.
+		 * Slot to capture indications of update in the UI due to changes in the child window selection model.
+		 * @param sImageName QString with the name of the current selected face image.
+		 * @param eEmotion EmotionLabel with the emotion label of the current selected face image.
+		 * @param iZoomLevel Current level of zoom in the face image displayed.
 		 */
-		void onthumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex);
+		void onChildUIUpdated(const QString sImageName, const EmotionLabel eEmotion, const int iZoomLevel);
 
 		/**
 		 * Captures the updates in the zoom slider by user interaction.

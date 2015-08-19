@@ -79,6 +79,15 @@ namespace f3
 		QVariant headerData(int iSection, Qt::Orientation eOrientation, int iRole = Qt::DisplayRole) const;
 
 		/**
+		 * Updates the face data stored under the given role for the item referred by the index.
+		 * @param oIndex A QModelIndex with the index of the data to be updated.
+		 * param oValue A QVariant with the new value for the data under the index.
+		 * @param iRole A DisplayRole identifying the role of the data to be updated.
+		 * @return A boolean indicating if the update was successful (true) or not (false).
+		 */
+		bool setData(const QModelIndex &oIndex, const QVariant &oValue, int iRole = Qt::EditRole);
+
+		/**
 		 * Loads the data from the given text file in the YAML format
 		 * (YAML Ain't Markup Language - http://en.wikipedia.org/wiki/YAML).
 		 * @param sFileName QString with the name of the file to read the data from.
@@ -111,13 +120,13 @@ namespace f3
 		bool removeImages(const QList<int> &lImageIndexes);
 
 		/**
-		 * Updates the face data stored under the given role for the item referred by the index.
-		 * @param oIndex A QModelIndex with the index of the data to be updated.
-		 * param oValue A QVariant with the new value for the data under the index.
-		 * @param iRole A DisplayRole identifying the role of the data to be updated.
-		 * @return A boolean indicating if the update was successful (true) or not (false).
+		 * Adds a new feature to the face dataset. A new feature is added to all
+		 * face images in the dataset in the same coordinates.
+		 * @param x Float with the x coordinate for the face features.
+		 * @param y Float with the y coordinate for the face features.
 		 */
-		bool setData(const QModelIndex &oIndex, const QVariant &oValue, int iRole = Qt::EditRole);
+		void addFeature(float x = 0.0f, float y = 0.0f);
+
 
 	protected:
 

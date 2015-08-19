@@ -48,16 +48,18 @@ f3::ChildWindow::ChildWindow(QWidget *pParent) :
 
 	m_pFaceWidget = new FaceWidget(this);
 	pLayout->addWidget(m_pFaceWidget);
-	connect(m_pFaceWidget, SIGNAL(onScaleFactorChanged(const double)), this, SLOT(onScaleFactorChanged(const double)));
-	connect(m_pFaceWidget, SIGNAL(onFaceFeaturesChanged()), this, SLOT(onFaceFeaturesChanged()));
-	connect(m_pFaceWidget, SIGNAL(onFaceFeaturesSelectionChanged()), this, SLOT(onFaceFeaturesSelectionChanged()));
 
-	showImage(-1);
+	m_pFaceWidget->setPixmap(QPixmap(":/images/noface"));
 
 	m_pFaceDatasetModel = new FaceDatasetModel();
 	m_pFaceSelectionModel = new QItemSelectionModel(m_pFaceDatasetModel);
 
-	connect(m_pFaceDatasetModel, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), this, SLOT(onModelUpdated()));
+	// Capture of relevant signals
+	connect(m_pFaceWidget, SIGNAL(onScaleFactorChanged(const double)), this, SLOT(onScaleFactorChanged(const double)));
+	connect(m_pFaceWidget, SIGNAL(onFaceFeaturesSelectionChanged()), this, SLOT(onFaceFeaturesSelectionChanged()));
+	connect(m_pFaceWidget, SIGNAL(onFaceFeaturesChanged()), this, SLOT(onDataChanged()));
+	connect(m_pFaceDatasetModel, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), this, SLOT(onDataChanged()));
+	connect(m_pFaceSelectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onCurrentChanged(const QModelIndex &, const QModelIndex &)));
 
 	// Indicate that it is a brand new dataset (i.e. not yet saved to a file)
 	setProperty("new", true);
@@ -71,45 +73,15 @@ f3::ChildWindow::~ChildWindow()
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::addImages(const QStringList &lsFiles)
-{
-	if(m_pFaceDatasetModel->addImages(lsFiles))
-		onModelUpdated();
-}
-
-// +-----------------------------------------------------------
-void f3::ChildWindow::removeImages(const QList<int> &lIndexes)
-{
-	if(m_pFaceDatasetModel->removeImages(lIndexes))
-		onModelUpdated();
-}
-
-// +-----------------------------------------------------------
-QAbstractListModel* f3::ChildWindow::getModel() const
+f3::FaceDatasetModel* f3::ChildWindow::dataModel() const
 {
 	return m_pFaceDatasetModel;
 }
 
 // +-----------------------------------------------------------
-QItemSelectionModel* f3::ChildWindow::getSelectionModel() const
+QItemSelectionModel* f3::ChildWindow::selectionModel() const
 {
 	return m_pFaceSelectionModel;
-}
-
-
-// +-----------------------------------------------------------
-void f3::ChildWindow::showImage(const int iIndex)
-{
-	if(iIndex == -1)
-		m_pFaceWidget->setPixmap(QPixmap(":/images/noface"));
-	else
-	{
-		QVariant oData = m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(iIndex, 2), Qt::UserRole);
-		if(oData.isValid())
-			m_pFaceWidget->setPixmap(oData.value<QPixmap>());
-		else
-			m_pFaceWidget->setPixmap(QPixmap(":/images/brokenimage"));
-	}
 }
 
 // +-----------------------------------------------------------
@@ -118,7 +90,7 @@ bool f3::ChildWindow::save(QString &sMsgError)
 	if(!m_pFaceDatasetModel->saveToFile(windowFilePath(), sMsgError))
 		return false;
 
-	onModelUpdated(false);
+	onDataChanged(false);
 	setProperty("new", QVariant()); // No longer a new dataset
 	return true;
 }
@@ -130,7 +102,7 @@ bool f3::ChildWindow::saveToFile(const QString &sFileName, QString &sMsgError)
 		return false;
 
 	setWindowFilePath(sFileName);
-	onModelUpdated(false);
+	onDataChanged(false);
 	setProperty("new", QVariant()); // No longer a new dataset
 	return true;
 }
@@ -142,7 +114,7 @@ bool f3::ChildWindow::loadFromFile(const QString &sFileName, QString &sMsgError)
 		return false;
 
 	setWindowFilePath(sFileName);
-	onModelUpdated(false);
+	onDataChanged(false);
 	setProperty("new", QVariant()); // No longer a new dataset
 	return true;
 }
@@ -186,43 +158,49 @@ void f3::ChildWindow::zoomOut()
 void f3::ChildWindow::onScaleFactorChanged(const double dScaleFactor)
 {
 	Q_UNUSED(dScaleFactor);
-	emit onZoomLevelChanged(getZoomLevel());
+
+	QModelIndex oCurrent = m_pFaceSelectionModel->currentIndex();
+	QString sImageName = m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(oCurrent.row(), 0), Qt::UserRole).toString();
+	EmotionLabel eEmotion = EmotionLabel::fromValue(m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(oCurrent.row(), 1), Qt::UserRole).toInt());
+	emit onUIUpdated(sImageName, eEmotion, getZoomLevel());
 }
 
 // +-----------------------------------------------------------
-bool f3::ChildWindow::getEmotionLabel(const int iIndex, EmotionLabel &eLabel) const
+void f3::ChildWindow::updateEmotionLabel(const EmotionLabel eLabel)
 {
-	QModelIndex oIndex = m_pFaceDatasetModel->index(iIndex, 1);
-	QVariant oValue = m_pFaceDatasetModel->data(oIndex, Qt::UserRole);
-	if(oValue.isValid())
-	{
-		eLabel = EmotionLabel::fromValue(oValue.toInt());
-		return true;
-	}
-	else
-		return false;
+	QModelIndex oIndex = m_pFaceSelectionModel->currentIndex();
+    m_pFaceDatasetModel->setData(m_pFaceDatasetModel->index(oIndex.row(), 1), QVariant(eLabel.getValue()), Qt::UserRole);
 }
 
 // +-----------------------------------------------------------
-bool f3::ChildWindow::setEmotionLabel(const int iIndex, const EmotionLabel eLabel)
-{
-    bool bRet = m_pFaceDatasetModel->setData(m_pFaceDatasetModel->index(iIndex, 1), QVariant(eLabel.getValue()), Qt::UserRole);
-	// No need to manually call onModelUpdated() since the model will do it automatically through the call to setData
-	return bRet;
-}
-
-// +-----------------------------------------------------------
-void f3::ChildWindow::onModelUpdated(const bool bModified)
+void f3::ChildWindow::onDataChanged(const bool bModified)
 {
 	setWindowModified(bModified);
 	emit onDataModified();
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::onFaceFeaturesChanged()
+void f3::ChildWindow::onCurrentChanged(const QModelIndex &oCurrent, const QModelIndex &oPrevious)
 {
-	setWindowModified(true);
-	emit onDataModified();
+	Q_UNUSED(oPrevious);
+
+	if(!oCurrent.isValid())
+	{
+		m_pFaceWidget->setPixmap(QPixmap(":/images/noface"));
+		emit onUIUpdated("", EmotionLabel::UNDEFINED, 0);
+	}
+	else
+	{
+		QVariant oData = m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(oCurrent.row(), 2), Qt::UserRole);
+		if(oData.isValid())
+			m_pFaceWidget->setPixmap(oData.value<QPixmap>());
+		else
+			m_pFaceWidget->setPixmap(QPixmap(":/images/brokenimage"));
+
+		QString sImageName = oCurrent.data(Qt::UserRole).toString();
+		EmotionLabel eEmotion = EmotionLabel::fromValue(m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(oCurrent.row(), 1), Qt::UserRole).toInt());
+		emit onUIUpdated(sImageName, eEmotion, getZoomLevel());
+	}
 }
 
 // +-----------------------------------------------------------
@@ -294,7 +272,8 @@ void f3::ChildWindow::setContextMenu(QMenu *pMenu)
 void f3::ChildWindow::addFeature(const QPoint &oPos)
 {
 	m_pFaceWidget->addFaceFeature(oPos, true);
-	onModelUpdated();
+	m_pFaceDatasetModel->addFeature(oPos.x(), oPos.y());
+	onDataChanged();
 }
 
 // +-----------------------------------------------------------
@@ -308,7 +287,7 @@ void f3::ChildWindow::removeSelectedFeatures()
 		bUpdated = true;
 	}
 	if(bUpdated)
-		onModelUpdated();
+		onDataChanged();
 }
 
 // +-----------------------------------------------------------
@@ -327,7 +306,7 @@ void f3::ChildWindow::connectFeatures()
 		}
 	}
 	if(bUpdated)
-		onModelUpdated();
+		onDataChanged();
 }
 
 // +-----------------------------------------------------------
@@ -346,5 +325,5 @@ void f3::ChildWindow::disconnectFeatures()
 		}
 	}
 	if(bUpdated)
-		onModelUpdated();
+		onDataChanged();
 }

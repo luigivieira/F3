@@ -105,7 +105,7 @@ QVariant f3::FaceDatasetModel::data(const QModelIndex &oIndex, int iRole) const
 					return pImage->fileName();
 
 				case 1: // The emotion label
-					pImage->emotionLabel().getValue();
+					return pImage->emotionLabel().getValue();
 
 				case 2: // The image data
 					oPixmap = pImage->pixMap();
@@ -204,6 +204,12 @@ bool f3::FaceDatasetModel::removeImages(const QList<int> &lImageIndexes)
 	}
 	endRemoveRows();
 	return true;
+}
+
+// +-----------------------------------------------------------
+void f3::FaceDatasetModel::addFeature(float x, float y)
+{
+	m_pFaceDataset->addFeature(x, y);
 }
 
 // +-----------------------------------------------------------

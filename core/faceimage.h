@@ -51,6 +51,11 @@ namespace f3
 		FaceImage(const QString &sFileName = QString(), const EmotionLabel eEmotionLabel = EmotionLabel::UNDEFINED);
 
 		/**
+		 * Class destructor.
+		 */
+		virtual ~FaceImage();
+
+		/**
 		 * Gets the file name of the face image.
 		 * @return QString with the complete file name of the face image.
 		 */
@@ -69,9 +74,28 @@ namespace f3
 		void setEmotionLabel(const EmotionLabel eEmotionLabel);
 
 		/**
-		 * Indicates if the face image is empty (i.e. it contains no data).
+		 * Adds a new face feature to the face image.
+		 * @param x Float with the x coordinate of the face feature.
+		 * @param y Float with the y coordinate of the face feature.
+		 * @return Instance of a FaceFeature with the new feature created.
 		 */
-		bool isEmpty() const;
+		FaceFeature *addFeature(float x = 0.0f, float y = 0.0f);
+
+		/**
+		 * Gets the face feature at the given index.
+		 * @param iIndex Integer with the index of the feature to be obtained.
+		 * @return Instance of the face feature at the index or NULL if the index 
+		 * is out of bounds.
+		 */
+		FaceFeature *getFeature(const int iIndex) const;
+
+		/**
+		 * Removes the face feature at the given index.
+		 * @param iIndex Integer with the index of the feature to be removed.
+		 * @return Boolean indicating if the face feature was successfully
+		 * removed (true) or not (false).
+		 */
+		bool removeFeature(const int iIndex);
 
 		/**
 		 * Loads (unserializes) the face image data from the given xml element.
@@ -101,13 +125,20 @@ namespace f3
 		 */
 		cv::Mat mat() const;
 
+	protected:
+
+		/**
+		 * Clears the internal data (like face features).
+		 */
+		void clear();
+
 	private:
 
 		/** Name of the file with the face image. */
 		QString m_sFileName;
 
 		/** Vector of the face features in this face image. */
-		std::vector<FaceFeature> m_vFeatures;
+		std::vector<FaceFeature*> m_vFeatures;
 
 		/** Label of the emotion expressed in this face image. */
 		EmotionLabel m_eEmotionLabel;

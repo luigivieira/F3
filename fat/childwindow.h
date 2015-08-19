@@ -47,24 +47,12 @@ namespace f3
 		virtual ~ChildWindow();
 
 		/**
-		 * Adds the given images to the face annotation dataset.
-		 * @param lsFiles QStringList with the list of files (including paths) to be added.
-		 */
-		void addImages(const QStringList &lsFiles);
-
-		/**
-		 * Removes the given images from the face annotation dataset.
-		 * @param lIndexes QList with the indexes of the files to be removed.
-		 */
-		void removeImages(const QList<int> &lIndexes);
-
-		/**
 		 * Gets the list model used to display information about the contents of the
 		 * face annotation dataset handled by this window.
 		 * @return An instance of a QAbstractListModel that can be used with any subclass of QAbstractItemView
 		 * to display lists, icons or trees with the face annotation dataset contents.
 		 */
-		QAbstractListModel* getModel() const;
+		FaceDatasetModel* dataModel() const;
 
 		/**
 		 * Gets the list selection model used to display selection information about the contents of the
@@ -72,15 +60,7 @@ namespace f3
 		 * @return An instance of a QItemSelectionModel that can be used with any subclass of QAbstractItemView
 		 * to display lists, icons or tress with the face annotation dataset contents.
 		 */
-		QItemSelectionModel* getSelectionModel() const;
-
-		/**
-		 * Requests the window to display the face image of the given index (in range [-1, count-1], where
-		 * count is the number of images in the face annotation dataset). If the valur of iIndex is -1 (a 
-		 * especial value), the empty watermark image is displayed instead.
-		 * @param iIndex Integer with the index of the image to be displayed.
-		 */
-		void showImage(const int iIndex);
+		QItemSelectionModel* selectionModel() const;
 
 		/**
 		 * Saves the contents of the face annotation dataset in this window to the current file
@@ -128,22 +108,10 @@ namespace f3
 		void zoomOut();
 
 		/**
-		 * Gets the emotion label of the face at the given index.
-		 * @param iIndex Integer with the index of face from which to get the emotion label.
-		 * @param eLabel EmotionLabel reference to receive the emotion label for the given image.
-		 * @return Boolean indicating if the method call was successful (true) or not (false, in case
-		 * the given index is out of range).
+		 * Updates the emotion label of the face current selected.
+		 * @param eLabel EmotionLabel with the new emotion label for the current face image.
 		 */
-		bool getEmotionLabel(const int iIndex, EmotionLabel &eLabel) const;
-
-		/**
-		 * Updates the emotion label of the face at the given index.
-		 * @param iIndex Integer with the index of sample from which to update the emotion label.
-		 * @param eLabel EmotionLabel with the new emotion label for the given image.
-		 * @return Boolean indicating if the method call was successful (true) or not (false, in case
-		 * the given index is out of range).
-		 */
-		bool setEmotionLabel(const int iIndex, const EmotionLabel eLabel);
+		void updateEmotionLabel(const EmotionLabel eLabel);
 
 		/**
 		 * Indicates if the face feature nodes are on display.
@@ -236,30 +204,24 @@ namespace f3
 		void onScaleFactorChanged(const double dScaleFactor);
 
 		/**
-		 * Captures the indication that the face features changed somehow: a face feature node was added, removed or moved
-		 * or a connection between two face feature nodes was created or removed.
-		 */
-		void onFaceFeaturesChanged();
-
-		/**
 		 * Captures the indication that face features were selected or unselected in the editor.
 		 */
 		void onFaceFeaturesSelectionChanged();
 
 		/**
-		 * Captures indications of changes in the data model (so the UI can be updated accordingly).
+		 * Captures indications of changes in the data model or the face widget
+		 * (so the UI can be updated accordingly).
 		 * @param bModified Boolean indicating if the child window shall be marked as modified or not.
 		 * The default is true.
 		 */
-		void onModelUpdated(const bool bModified = true);
-
-	signals:
+		void onDataChanged(const bool bModified = true);
 
 		/**
-		 * Signal to indicate that the zoom level has changed.
-		 * @param iLevel Integer with the new level of zoom.
+		 * Captures indication of changes in the current selected image on the selection model.
 		 */
-		void onZoomLevelChanged(const int iLevel);
+		void onCurrentChanged(const QModelIndex &oCurrent, const QModelIndex &oPrevious);
+
+	signals:
 
 		/**
 		 * Signal to indicate changes in the data model (so the UI can be updated accordingly).
@@ -271,6 +233,14 @@ namespace f3
 		 * The selection can be queried through getSelectedFeatures() and getSelectedConnections().
 		 */
 		void onFeaturesSelectionChanged();
+
+		/**
+		 * Signal to indicate an update in the UI due to changes in the selection model.
+		 * @param sImageName QString with the name of the current selected face image.
+		 * @param eEmotion EmotionLabel with the emotion label of the current selected face image.
+		 * @param iZoomLevel Current level of zoom in the face image widget.
+		 */
+		void onUIUpdated(const QString sImageName, const EmotionLabel eEmotion, const int iZoomLevel);
 
 	private:
 

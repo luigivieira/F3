@@ -228,8 +228,8 @@ void f3::MainWindow::on_actionOpen_triggered()
 				return;
 			}
 
-			if(pChild->getModel()->rowCount() > 0)
-				pChild->getSelectionModel()->setCurrentIndex(pChild->getModel()->index(0, 0), QItemSelectionModel::Select);
+			if(pChild->dataModel()->rowCount() > 0)
+				pChild->selectionModel()->setCurrentIndex(pChild->dataModel()->index(0, 0), QItemSelectionModel::Select);
 			updateUI();
 		}
 	}
@@ -356,9 +356,9 @@ void f3::MainWindow::on_actionAddImage_triggered()
     QStringList lsFiles = QFileDialog::getOpenFileNames(this, tr("Selecionar imagens de faces..."), m_sDocumentsPath, tr("Arquivos comuns de imagens (*.bmp *.png *.jpg *.gif);; Todos os arquivos (*.*)"));
 	if(lsFiles.size())
 	{
-		pChild->addImages(lsFiles);
-		if(!pChild->getSelectionModel()->currentIndex().isValid())
-			pChild->getSelectionModel()->setCurrentIndex(pChild->getModel()->index(0, 0), QItemSelectionModel::Select);
+		pChild->dataModel()->addImages(lsFiles);
+		if(!pChild->selectionModel()->currentIndex().isValid())
+			pChild->selectionModel()->setCurrentIndex(pChild->dataModel()->index(0, 0), QItemSelectionModel::Select);
 	}
 }
 
@@ -369,7 +369,7 @@ void f3::MainWindow::on_actionRemoveImage_triggered()
 	if(!pChild)
 		return;
 
-	QModelIndexList lsSelected = pChild->getSelectionModel()->selectedRows();
+	QModelIndexList lsSelected = pChild->selectionModel()->selectedRows();
 	if(lsSelected.size() > 0)
 	{
 		QString sMsg;
@@ -382,7 +382,7 @@ void f3::MainWindow::on_actionRemoveImage_triggered()
 			QList<int> lIndexes;
 			for(int i = 0; i < lsSelected.size(); i++)
 				lIndexes.append(lsSelected[i].row());
-			pChild->removeImages(lIndexes);
+			pChild->dataModel()->removeImages(lIndexes);
 		}
 	}
 }
@@ -510,16 +510,16 @@ void f3::MainWindow::setImageListView(QString sType)
 		m_pViewButton->setIcon(QIcon(":/icons/viewdetails"));
 		ui->listImages->setVisible(false);
 		ui->treeImages->setVisible(true);
-		disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
-		connect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		//disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		//connect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
 	}
 	else if(sType == "icons")
 	{
 		m_pViewButton->setIcon(QIcon(":/icons/viewicons"));
 		ui->treeImages->setVisible(false);
 		ui->listImages->setVisible(true);
-		disconnect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
-		connect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		//disconnect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
+		//connect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
 	}
 }
 
@@ -533,17 +533,24 @@ void f3::MainWindow::toggleImageListView()
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::onthumbnailSelected(const QModelIndex &oIndex, const QModelIndex &oPrevIndex)
+void f3::MainWindow::onChildUIUpdated(const QString sImageName, const EmotionLabel eEmotion, const int iZoomLevel)
 {
-	Q_UNUSED(oPrevIndex);
-	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
-	if(!pChild)
-		return;
-	
-	if(oIndex.isValid())
-		pChild->showImage(oIndex.row());
-	else
-		pChild->showImage(-1);
+	// Image file name
+	ui->textFileName->setText(sImageName);
+	ui->textFileName->moveCursor(QTextCursor::End);
+	ui->textFileName->ensureCursorVisible();
+			
+	// Emotion label
+	QObjectList lsObjects = ui->groupEmotions->children();
+	QRadioButton *pRadio = qobject_cast<QRadioButton*>(lsObjects.at(eEmotion.getValue() + 1)); // The +1 is to ignore the layout widget
+	pRadio->blockSignals(true);
+	pRadio->setChecked(true);
+	pRadio->blockSignals(false);
+
+	// Zoom level
+	ui->zoomSlider->blockSignals(true);
+	ui->zoomSlider->setValue(iZoomLevel);
+	ui->zoomSlider->blockSignals(false);
 
 	updateUI();
 }
@@ -551,42 +558,12 @@ void f3::MainWindow::onthumbnailSelected(const QModelIndex &oIndex, const QModel
 // +-----------------------------------------------------------
 void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 {
+	// Setup the control variables
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();
+
 	bool bFileOpened = pChild != NULL;
-
-	// Update display of thumbnails and selection events if requested
-	if(bCompleteUpdate)
-	{
-		// Update the properties
-		if(bFileOpened)
-			ui->zoomSlider->setValue(pChild->getZoomLevel());
-
-		// Update the model (image list)
-		if(ui->listImages->selectionModel() || ui->treeImages->selectionModel())
-		{
-			disconnect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
-			disconnect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
-		}
-		ui->listImages->setModel(NULL);
-		ui->treeImages->setModel(NULL);
-
-		if(bFileOpened)
-		{
-			ui->listImages->setModel(pChild->getModel());
-			ui->listImages->setSelectionModel(pChild->getSelectionModel());
-			ui->treeImages->setModel(pChild->getModel());
-			ui->treeImages->setSelectionModel(pChild->getSelectionModel());
-
-			if(ui->listImages->isVisible())
-				connect(ui->listImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
-			else
-				connect(ui->treeImages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onthumbnailSelected(const QModelIndex &, const QModelIndex &)));
-		}
-	}
-
-	// Update actions and buttons statuses
 	bool bFileChanged = bFileOpened ? pChild->isWindowModified() : false;
-	bool bItemsSelected = bFileOpened && (pChild->getSelectionModel()->currentIndex().isValid() || pChild->getSelectionModel()->selectedIndexes().size() > 0);
+	bool bItemsSelected = bFileOpened && (pChild->selectionModel()->currentIndex().isValid() || pChild->selectionModel()->selectedIndexes().size() > 0);
 	bool bFileNotNew = bFileOpened && !pChild->property("new").toBool();
 
 	QList<FaceFeatureNode*> lFeats;
@@ -601,6 +578,21 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 	bool bConnectionsSelected = lConns.size() > 0;
 	bool bFeaturesConnectable = lFeats.size() == 2 && lConns.size() == 0;
 
+	// Update the data and selection models
+	if(bFileOpened)
+	{
+		ui->listImages->setModel(pChild->dataModel());
+		ui->listImages->setSelectionModel(pChild->selectionModel());
+		ui->treeImages->setModel(pChild->dataModel());
+		ui->treeImages->setSelectionModel(pChild->selectionModel());
+	}
+	else
+	{
+		ui->listImages->setModel(NULL);
+		ui->treeImages->setModel(NULL);
+	}
+
+	// Update the UI availability
 	ui->actionSave->setEnabled(bFileChanged);
 	ui->actionSaveAs->setEnabled(bFileNotNew);
 	ui->actionAddImage->setEnabled(bFileOpened);
@@ -609,52 +601,32 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 	ui->actionRemoveFeature->setEnabled(bFeaturesSelected);
 	ui->actionConnectFeatures->setEnabled(bFeaturesConnectable);
 	ui->actionDisconnectFeatures->setEnabled(bConnectionsSelected);
-
 	m_pViewButton->setEnabled(bFileOpened);
 	ui->groupEmotions->setEnabled(bItemsSelected);
 	ui->zoomSlider->setEnabled(bFileOpened);
 
-	// Update the properties, the tab text and tooltip and the image in display (if needed)
+	// Update the tab title and tooltip
 	if(bFileOpened)
 	{
-		// Display of face features
-		pChild->setDisplayFaceFeatures(ui->actionShowFeatures->isChecked());
-		pChild->setDisplayConnections(ui->actionShowFeatures->isChecked() && ui->actionShowConnections->isChecked());
-		pChild->setDisplayFeatureIDs(ui->actionShowFeatures->isChecked() && ui->actionShowFeatureIDs->isChecked());
-
-		// Tab title and tooltip
 		QString sTitle = QFileInfo(pChild->windowFilePath()).baseName() + (pChild->isWindowModified() ? "*" : "");
 		ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), sTitle);
 		if(bFileNotNew) // Complete file path only if the file has been saved before
 			ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), pChild->windowFilePath());
-
-		// Properties
-		QModelIndex oCurrent = pChild->getSelectionModel()->currentIndex();
-		if(!oCurrent.isValid())
-		{
-			ui->textFileName->setText("");
-			ui->radioUndefined->blockSignals(true);
-			ui->radioUndefined->setChecked(true);
-			ui->radioUndefined->blockSignals(false);
-			pChild->showImage(-1);
-		}
-		else
-		{
-			// Image file path
-			ui->textFileName->setText(oCurrent.data(Qt::UserRole).toString());
-			ui->textFileName->moveCursor(QTextCursor::End);
-			ui->textFileName->ensureCursorVisible();
-			
-			// Emotion label
-			EmotionLabel eLabel;
-			pChild->getEmotionLabel(oCurrent.row(), eLabel);
-			QObjectList lsObjects = ui->groupEmotions->children();
-			QRadioButton *pRadio = qobject_cast<QRadioButton*>(lsObjects.at(eLabel.getValue() + 1)); // The +1 is to ignore the layout widget
-			pRadio->blockSignals(true);
-			pRadio->setChecked(true);
-			pRadio->blockSignals(false);
-		}
 	}
+
+	// NLA 
+	//ui->textFileName->setText("");
+	//ui->radioUndefined->blockSignals(true);
+	//ui->radioUndefined->setChecked(true);
+	//ui->radioUndefined->blockSignals(false);
+
+	return;
+
+	// Display of face features
+	/*pChild->setDisplayFaceFeatures(ui->actionShowFeatures->isChecked());
+	pChild->setDisplayConnections(ui->actionShowFeatures->isChecked() && ui->actionShowConnections->isChecked());
+	pChild->setDisplayFeatureIDs(ui->actionShowFeatures->isChecked() && ui->actionShowFeatureIDs->isChecked());*/
+
 }
 
 // +-----------------------------------------------------------
@@ -726,8 +698,7 @@ void f3::MainWindow::onEmotionToggled(bool bValue)
 		}
 	}
 
-	QModelIndex oIndex = pChild->getSelectionModel()->currentIndex();
-	pChild->setEmotionLabel(oIndex.row(), eLabel);
+	pChild->updateEmotionLabel(eLabel);
 }
 
 // +-----------------------------------------------------------
@@ -747,7 +718,7 @@ f3::ChildWindow* f3::MainWindow::createChildWindow(QString sFileName, bool bModi
 	pChild->setWindowModified(bModified);
 
 	// Connect to its signals
-	connect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
+	connect(pChild, SIGNAL(onUIUpdated(const QString, const EmotionLabel, const int)), this, SLOT(onChildUIUpdated(const QString, const EmotionLabel, const int)));
 	connect(pChild, SIGNAL(onDataModified()), this, SLOT(onUpdateUI()));
 	connect(pChild, SIGNAL(onFeaturesSelectionChanged()), this, SLOT(onUpdateUI()));
 
@@ -772,7 +743,7 @@ void f3::MainWindow::destroyChildWindow(ChildWindow *pChild)
 	int iTabIndex = ui->tabWidget->indexOf(pChild);
 	ui->tabWidget->removeTab(iTabIndex);
 
-	disconnect(pChild, SIGNAL(onZoomLevelChanged(int)), this, SLOT(onZoomLevelChanged(int)));
+	disconnect(pChild, SIGNAL(onUIUpdated(const QString, const EmotionLabel, const int)), this, SLOT(onChildUIUpdated(const QString, const EmotionLabel, const int)));
 	disconnect(pChild, SIGNAL(onDataModified()), this, SLOT(onUpdateUI()));
 	disconnect(pChild, SIGNAL(onFeaturesSelectionChanged()), this, SLOT(onUpdateUI()));
 

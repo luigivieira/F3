@@ -22,16 +22,12 @@
 
 #include "core_global.h"
 #include "faceimage.h"
-
+#include "facefeature.h"
 #include "emotionlabel.h"
 
-#include <opencv2/core/core.hpp>
-
 #include <QDomDocument>
-#include <QPixmap>
 
 #include <vector>
-#include <string>
 
 namespace f3
 {
@@ -117,6 +113,14 @@ namespace f3
 		 * @param iNumFeats Integer with the new number of facial features for the dataset.
 		 */
 		void setNumFeatures(int iNumFeats);
+
+		/**
+		 * Adds a new feature to the face dataset. A new feature is added to all
+		 * face images in the dataset in the same coordinates.
+		 * @param x Float with the x coordinate for the face features.
+		 * @param y Float with the y coordinate for the face features.
+		 */
+		void addFeature(float x = 0.0f, float y = 0.0f);
 
 	private:
 
