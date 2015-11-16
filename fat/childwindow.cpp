@@ -200,7 +200,18 @@ void f3::ChildWindow::onCurrentChanged(const QModelIndex &oCurrent, const QModel
 		QString sImageName = oCurrent.data(Qt::UserRole).toString();
 		EmotionLabel eEmotion = EmotionLabel::fromValue(m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(oCurrent.row(), 1), Qt::UserRole).toInt());
 		emit onUIUpdated(sImageName, eEmotion, getZoomLevel());
+
+		vector<FaceFeature*> vFeats = m_pFaceDatasetModel->getFeatures(oCurrent.row());
+		refreshFeaturesInWidget(vFeats);
 	}
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::refreshFeaturesInWidget(std::vector<f3::FaceFeature*> vFeats)
+{
+	QList<FaceFeatureNode*> lsNodes = m_pFaceWidget->getFaceFeatures(m_pFaceDatasetModel->numFeatures());
+	for(int i = 0; i < (int) vFeats.size(); i++)
+		lsNodes[i]->setPos(vFeats[i]->x, vFeats[i]->y);
 }
 
 // +-----------------------------------------------------------
@@ -271,8 +282,8 @@ void f3::ChildWindow::setContextMenu(QMenu *pMenu)
 // +-----------------------------------------------------------
 void f3::ChildWindow::addFeature(const QPoint &oPos)
 {
-	m_pFaceWidget->addFaceFeature(oPos, true);
-	m_pFaceDatasetModel->addFeature(oPos.x(), oPos.y());
+	FaceFeatureNode *pNode = m_pFaceWidget->addFaceFeature(oPos, true);
+	m_pFaceDatasetModel->addFeature(pNode->x(), pNode->y());
 	onDataChanged();
 }
 

@@ -99,7 +99,7 @@ bool f3::FaceDataset::loadFromFile(const QString &sFileName, QString &sMsgError)
 	for(QDomElement oElement = oSamples.firstChildElement(); !oElement.isNull(); oElement = oElement.nextSiblingElement())
 	{
 		FaceImage *pSample = new FaceImage();
-		if(!pSample->loadFromXML(oElement, sError))
+		if(!pSample->loadFromXML(oElement, sError, iNumFeats))
 		{
 			foreach(FaceImage *pSamp, vSamples)
 				delete(pSamp);
@@ -222,4 +222,27 @@ void f3::FaceDataset::addFeature(float x, float y)
 	FaceFeature *pFeat;
 	foreach(FaceImage *pSample, m_vSamples)
 		pFeat = pSample->addFeature(x, y);
+	m_iNumFeatures++;
+}
+
+// +-----------------------------------------------------------
+bool f3::FaceDataset::removeFeature(const int iIndex)
+{
+	if(iIndex < 0 || iIndex >= m_iNumFeatures)
+		return false;
+
+	foreach(FaceImage *pSample, m_vSamples)
+		pSample->removeFeature(iIndex);
+	m_iNumFeatures--;
+
+	return true;
+}
+
+// +-----------------------------------------------------------
+vector<f3::FaceFeature*> f3::FaceDataset::getImageFeatures(const int iIndex)
+{
+	if(iIndex < 0 || iIndex >= (int) m_vSamples.size())
+		return vector<FaceFeature*>();
+
+	return m_vSamples[iIndex]->getFeatures();
 }

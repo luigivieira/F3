@@ -195,6 +195,10 @@ namespace f3
 		 */
 		void disconnectFeatures();
 
+	protected:
+
+		void refreshFeaturesInWidget(std::vector<FaceFeature*> vFeats);
+
 	protected slots:
 
 		/**

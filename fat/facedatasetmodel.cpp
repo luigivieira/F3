@@ -213,6 +213,24 @@ void f3::FaceDatasetModel::addFeature(float x, float y)
 }
 
 // +-----------------------------------------------------------
+void f3::FaceDatasetModel::removeFeature(const int iIndex)
+{
+	m_pFaceDataset->removeFeature(iIndex);
+}
+
+// +-----------------------------------------------------------
+std::vector<f3::FaceFeature*> f3::FaceDatasetModel::getFeatures(const int iIndex)
+{
+	return m_pFaceDataset->getImageFeatures(iIndex);
+}
+
+// +-----------------------------------------------------------
+int f3::FaceDatasetModel::numFeatures() const
+{
+	return m_pFaceDataset->numFeatures();
+}
+
+// +-----------------------------------------------------------
 QPixmap f3::FaceDatasetModel::buildThumbnail(const int iIndex)
 {
 	QPixmap oImage;

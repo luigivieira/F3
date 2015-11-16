@@ -127,6 +127,24 @@ namespace f3
 		 */
 		void addFeature(float x = 0.0f, float y = 0.0f);
 
+		/**
+		 * Removes the feature of given index in all face images.
+		 * @param iIndex Index of the feature to remove.
+		 */
+		void removeFeature(const int iIndex);
+
+		/**
+		 * Gets all features in the given face image index.
+		 * @param iIndex Integer with the index of the face image to query.
+		 * @return Vector of FaceFeature instances with the face features in the image.
+		 */
+		std::vector<FaceFeature*> getFeatures(const int iIndex);
+
+		/**
+		 * Queries the number of facial features in the dataset (applicable to all images).
+		 * @return Integer with the number of face features in the dataset.
+		 */
+		int numFeatures() const;
 
 	protected:
 

@@ -90,10 +90,16 @@ namespace f3
 		void zoomOut();
 
 		/**
-		 * Queries the list of existing face feature nodes.
+		 * Queries the list of existing face feature nodes. Optionally, guarantee that the
+		 * correct number of face features are available in the editor.
+		 * @param iNumFeats Integer with the expected number of face features in the editor.
+		 * If -1 is provided (the default), the method simply returns the current set of 
+		 * face features without performing any checking. If the value is different than -1,
+		 * the method will create or remove face features to guarantee that given number of
+		 * features.
 		 * @param Const reference to the QList of existing nodes.
 		 */
-		const QList<FaceFeatureNode*>& getFaceFeatures() const;
+		const QList<FaceFeatureNode*>& getFaceFeatures(int iNumFeats = -1);
 
 		/**
 		 * Queries the selected face feature nodes.

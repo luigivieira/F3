@@ -65,12 +65,12 @@ void f3::FaceImage::setEmotionLabel(const EmotionLabel eEmotionLabel)
 }
 
 // +-----------------------------------------------------------
-bool f3::FaceImage::loadFromXML(const QDomElement &oElement, QString &sMsgError)
+bool f3::FaceImage::loadFromXML(const QDomElement &oElement, QString &sMsgError, int iNumExpectedFeatures)
 {
 	// Check the element name
 	if(oElement.tagName() != "Sample")
 	{
-		sMsgError = QString(QApplication::translate("FaceImage", "nome de nÛ inv·lido [%1] - era esperado o nome de nÛ '%2'").arg(oElement.tagName(), "Sample"));
+		sMsgError = QString(QApplication::translate("FaceImage", "nome de n√≥ inv√°lido [%1] - era esperado o nome de n√≥ '%2'").arg(oElement.tagName(), "Sample"));
 		return false;
 	}
 
@@ -78,7 +78,7 @@ bool f3::FaceImage::loadFromXML(const QDomElement &oElement, QString &sMsgError)
 	QString sFile = oElement.attribute("fileName");
 	if(sFile == "")
 	{
-		sMsgError = QString(QApplication::translate("FaceImage", "o atributo '%1' n„o existe ou tem valor inv·lido").arg("fileName"));
+		sMsgError = QString(QApplication::translate("FaceImage", "o atributo '%1' n√£o existe ou tem valor inv√°lido").arg("fileName"));
 		return false;
 	}
 
@@ -86,35 +86,38 @@ bool f3::FaceImage::loadFromXML(const QDomElement &oElement, QString &sMsgError)
 	int iEmotion = oElement.attribute("emotionLabel", "-1").toInt();
 	if(iEmotion < EmotionLabel::UNDEFINED.getValue() || iEmotion > EmotionLabel::SURPRISE.getValue())
 	{
-		sMsgError = QString(QApplication::translate("FaceImage", "o atributo '%1' n„o existe ou tem valor inv·lido").arg("emotionLabel"));
+		sMsgError = QString(QApplication::translate("FaceImage", "o atributo '%1' n√£o existe ou tem valor inv√°lido").arg("emotionLabel"));
 		return false;
 	}
 
 	// Read the face features
 	// Sample images
 	QDomElement oFeatures = oElement.firstChildElement("Features");
-	if(!oFeatures.isNull())
+	if(oFeatures.isNull() || oFeatures.childNodes().count() != iNumExpectedFeatures)
 	{
-		vector<FaceFeature*> vFeatures;
-		for(QDomElement oElement = oFeatures.firstChildElement(); !oElement.isNull(); oElement = oElement.nextSiblingElement())
-		{
-			FaceFeature *pFeature = new FaceFeature();
-			if(!pFeature->loadFromXML(oElement, sMsgError))
-			{
-				foreach(FaceFeature *pFeat, vFeatures)
-					delete(pFeat);
-				delete pFeature;
+		sMsgError = QString(QApplication::translate("FaceImage", "o n√≥ '%1' n√£o existe ou n√£o tem o n√∫mero esperado de n√≥s filhos").arg("Features"));
+		return false;
+	}
 
-				return false;
-			}
-			vFeatures.push_back(pFeature);
+	vector<FaceFeature*> vFeatures;
+	for(QDomElement oElement = oFeatures.firstChildElement(); !oElement.isNull(); oElement = oElement.nextSiblingElement())
+	{
+		FaceFeature *pFeature = new FaceFeature();
+		if(!pFeature->loadFromXML(oElement, sMsgError))
+		{
+			foreach(FaceFeature *pFeat, vFeatures)
+				delete(pFeat);
+			delete pFeature;
+
+			return false;
 		}
+		vFeatures.push_back(pFeature);
 	}
 
 	clear();
 	m_sFileName = sFile;
 	m_eEmotionLabel = EmotionLabel::fromValue(iEmotion);
-	m_vFeatures = m_vFeatures;
+	m_vFeatures = vFeatures;
 	return true;
 }
 
@@ -167,6 +170,12 @@ f3::FaceFeature* f3::FaceImage::getFeature(const int iIndex) const
 	if(iIndex < 0 || iIndex >= (int) m_vFeatures.size())
 		return NULL;
 	return m_vFeatures[iIndex];
+}
+
+// +-----------------------------------------------------------
+std::vector<f3::FaceFeature*> f3::FaceImage::getFeatures() const
+{
+	return m_vFeatures;
 }
 
 // +-----------------------------------------------------------

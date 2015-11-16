@@ -122,6 +122,22 @@ namespace f3
 		 */
 		void addFeature(float x = 0.0f, float y = 0.0f);
 
+		/**
+		 * Removes an existing feature from the face dataset. The feature is removed from all
+		 * face images in the dataset.
+		 * @param iIndex Integer with the index of the feature to remove.
+		 * @return Boolean indicating if the feature was successfully removed (true) or not (false).
+		 */
+		bool removeFeature(const int iIndex);
+
+		/**
+		 * Gets the list of face features in the given image index.
+		 * @param iIndex Integer with the index of the image to query the face features.
+		 * @param A vector of FaceFeature instances with the face features in the image. It returns
+		 * an empty vector if the given index is invalid.
+		 */
+		std::vector<FaceFeature*> getImageFeatures(const int iIndex);
+
 	private:
 
 		/** Vector of sample face images. */

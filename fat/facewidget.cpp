@@ -267,8 +267,24 @@ void f3::FaceWidget::createFaceFeatures()
 }
 
 // +-----------------------------------------------------------
-const QList<f3::FaceFeatureNode*>& f3::FaceWidget::getFaceFeatures() const
+const QList<f3::FaceFeatureNode*>& f3::FaceWidget::getFaceFeatures(int iNumFeats)
 {
+	if(iNumFeats != -1)
+	{
+		int iDiff = m_lFaceFeatures.size() - iNumFeats;
+
+		if(iDiff > 0)
+		{
+			while(iDiff-- > 0)
+				removeFaceFeature(m_lFaceFeatures.last());
+		}
+		else if(iDiff < 0)
+		{
+			while(iDiff++ < 0)
+				addFaceFeature();
+		}
+
+	}
 	return m_lFaceFeatures;
 }
 

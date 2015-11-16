@@ -90,6 +90,12 @@ namespace f3
 		FaceFeature *getFeature(const int iIndex) const;
 
 		/**
+		 * Gets all face features in the image.
+		 * @return Vector with all instances of face features in the image.
+		 */
+		std::vector<FaceFeature*> getFeatures() const;
+
+		/**
 		 * Removes the face feature at the given index.
 		 * @param iIndex Integer with the index of the feature to be removed.
 		 * @return Boolean indicating if the face feature was successfully
@@ -101,9 +107,10 @@ namespace f3
 		 * Loads (unserializes) the face image data from the given xml element.
 		 * @param oElement QDomElement from where to read the image data (the image node in the xml).
 		 * @param sMsgError QString to receive the error message in case the method fails.
+		 * @param iNumExpectedFeatures Integer with the number of expected features.
 		 * @return Boolean indicating if the loading was successful (true) or if it failed (false).
 		 */
-		bool loadFromXML(const QDomElement &oElement, QString &sMsgError);
+		bool loadFromXML(const QDomElement &oElement, QString &sMsgError, int iNumExpectedFeatures);
 
         /**
          * Saves the face image data into the given xml element.
