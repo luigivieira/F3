@@ -197,7 +197,15 @@ namespace f3
 
 	protected:
 
-		void refreshFeaturesInWidget(std::vector<FaceFeature*> vFeats);
+		/**
+		 * Refreshes the positions of face features in the editor based on the values in the dataset.
+		 */
+		void refreshFeaturesInWidget();
+
+		/**
+		 * Updates the positions of face features in the dataset based on the values in the editor.
+		 */
+		void updateFeaturesInDataset();
 
 	protected slots:
 
@@ -247,6 +255,9 @@ namespace f3
 		void onUIUpdated(const QString sImageName, const EmotionLabel eEmotion, const int iZoomLevel);
 
 	private:
+
+		/** Index of the current displayed face image. */
+		int m_iCurrentImage;
 
 		/** Widget used to display face images and edit facial features. */
 		FaceWidget *m_pFaceWidget;

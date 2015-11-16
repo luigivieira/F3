@@ -28,6 +28,7 @@
 #include <QGridLayout>
 #include <QApplication>
 #include <QtMath>
+#include <QDebug>
 
 #include <vector>
 
@@ -63,6 +64,7 @@ f3::ChildWindow::ChildWindow(QWidget *pParent) :
 
 	// Indicate that it is a brand new dataset (i.e. not yet saved to a file)
 	setProperty("new", true);
+	m_iCurrentImage = -1;
 }
 
 // +-----------------------------------------------------------
@@ -175,6 +177,8 @@ void f3::ChildWindow::updateEmotionLabel(const EmotionLabel eLabel)
 // +-----------------------------------------------------------
 void f3::ChildWindow::onDataChanged(const bool bModified)
 {
+	if(bModified)
+		updateFeaturesInDataset();
 	setWindowModified(bModified);
 	emit onDataModified();
 }
@@ -186,32 +190,54 @@ void f3::ChildWindow::onCurrentChanged(const QModelIndex &oCurrent, const QModel
 
 	if(!oCurrent.isValid())
 	{
+		m_iCurrentImage = -1;
 		m_pFaceWidget->setPixmap(QPixmap(":/images/noface"));
 		emit onUIUpdated("", EmotionLabel::UNDEFINED, 0);
 	}
 	else
 	{
-		QVariant oData = m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(oCurrent.row(), 2), Qt::UserRole);
+		m_iCurrentImage = oCurrent.row();
+		QVariant oData = m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(m_iCurrentImage, 2), Qt::UserRole);
 		if(oData.isValid())
 			m_pFaceWidget->setPixmap(oData.value<QPixmap>());
 		else
 			m_pFaceWidget->setPixmap(QPixmap(":/images/brokenimage"));
 
 		QString sImageName = oCurrent.data(Qt::UserRole).toString();
-		EmotionLabel eEmotion = EmotionLabel::fromValue(m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(oCurrent.row(), 1), Qt::UserRole).toInt());
+		EmotionLabel eEmotion = EmotionLabel::fromValue(m_pFaceDatasetModel->data(m_pFaceDatasetModel->index(m_iCurrentImage, 1), Qt::UserRole).toInt());
 		emit onUIUpdated(sImageName, eEmotion, getZoomLevel());
 
-		vector<FaceFeature*> vFeats = m_pFaceDatasetModel->getFeatures(oCurrent.row());
-		refreshFeaturesInWidget(vFeats);
+		refreshFeaturesInWidget();
 	}
 }
 
 // +-----------------------------------------------------------
-void f3::ChildWindow::refreshFeaturesInWidget(std::vector<f3::FaceFeature*> vFeats)
+void f3::ChildWindow::refreshFeaturesInWidget()
 {
+	vector<FaceFeature*> vFeats = m_pFaceDatasetModel->getFeatures(m_iCurrentImage);
 	QList<FaceFeatureNode*> lsNodes = m_pFaceWidget->getFaceFeatures(m_pFaceDatasetModel->numFeatures());
 	for(int i = 0; i < (int) vFeats.size(); i++)
 		lsNodes[i]->setPos(vFeats[i]->x, vFeats[i]->y);
+}
+
+// +-----------------------------------------------------------
+void f3::ChildWindow::updateFeaturesInDataset()
+{
+	QList<FaceFeatureNode*> lsNodes = m_pFaceWidget->getFaceFeatures();
+	vector<FaceFeature*> vFeats = m_pFaceDatasetModel->getFeatures(m_iCurrentImage);
+
+	FaceFeatureNode* pNode;
+	for(int i = 0; i < (int) vFeats.size(); i++)
+	{
+		if(i >= lsNodes.size()) // Sanity check (vFeats and lsNodes are supposed to have the same size, but who knows?)
+		{
+			qCritical() << tr("An update of face features in dataset was not performed due to inconsistences.");
+			continue;
+		}
+		pNode = lsNodes.at(i);
+		vFeats[i]->x = pNode->x();
+		vFeats[i]->y = pNode->y();
+	}
 }
 
 // +-----------------------------------------------------------
