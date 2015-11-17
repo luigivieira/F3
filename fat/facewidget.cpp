@@ -325,7 +325,7 @@ QList<f3::FaceFeatureEdge*> f3::FaceWidget::getSelectedConnections() const
 // +-----------------------------------------------------------
 f3::FaceFeatureNode* f3::FaceWidget::addFaceFeature(const QPoint &oPos, bool bGlobal)
 {
-	int iID = m_lFaceFeatures.size() + 1;
+	int iID = m_lFaceFeatures.size();
 	FaceFeatureNode *pNode = new FaceFeatureNode(iID, this);
 	m_pScene->addItem(pNode);
 	m_lFaceFeatures.append(pNode);
@@ -350,7 +350,7 @@ void f3::FaceWidget::removeFaceFeature(FaceFeatureNode* pNode)
 	delete pNode;
 
 	// And adjust the IDs of the remaining features
-	int iID = 1;
+	int iID = 0;
 	foreach(FaceFeatureNode *pNode, m_lFaceFeatures)
 		pNode->setID(iID++);
 }

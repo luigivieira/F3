@@ -343,7 +343,7 @@ void f3::MainWindow::on_tabCloseRequested(int iTabIndex)
 void f3::MainWindow::on_tabChanged(int iTabIndex)
 {
 	Q_UNUSED(iTabIndex);
-	updateUI(true); // In case the current tab is changed, force the update of the view model
+	updateUI();
 }
 
 // +-----------------------------------------------------------
@@ -556,7 +556,7 @@ void f3::MainWindow::onChildUIUpdated(const QString sImageName, const EmotionLab
 }
 
 // +-----------------------------------------------------------
-void f3::MainWindow::updateUI(const bool bCompleteUpdate)
+void f3::MainWindow::updateUI()
 {
 	// Setup the control variables
 	ChildWindow *pChild = (ChildWindow*) ui->tabWidget->currentWidget();

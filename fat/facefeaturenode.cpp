@@ -169,6 +169,12 @@ void f3::FaceFeatureNode::hoverLeaveEvent(QGraphicsSceneHoverEvent *pEvent)
 }
 
 // +-----------------------------------------------------------
+int f3::FaceFeatureNode::getID() const
+{
+	return m_iID;
+}
+
+// +-----------------------------------------------------------
 void f3::FaceFeatureNode::setID(int iID)
 {
 	m_iID = iID;

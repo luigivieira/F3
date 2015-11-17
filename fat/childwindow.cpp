@@ -239,6 +239,7 @@ void f3::ChildWindow::updateFeaturesInDataset()
 			continue;
 		}
 		pNode = lsNodes.at(i);
+		vFeats[i]->setID(pNode->getID());
 		vFeats[i]->x = pNode->x();
 		vFeats[i]->y = pNode->y();
 	}
@@ -313,7 +314,7 @@ void f3::ChildWindow::setContextMenu(QMenu *pMenu)
 void f3::ChildWindow::addFeature(const QPoint &oPos)
 {
 	FaceFeatureNode *pNode = m_pFaceWidget->addFaceFeature(oPos, true);
-	m_pFaceDatasetModel->addFeature(pNode->x(), pNode->y());
+	m_pFaceDatasetModel->addFeature(pNode->getID(), pNode->x(), pNode->y());
 	onDataChanged();
 }
 
@@ -324,11 +325,15 @@ void f3::ChildWindow::removeSelectedFeatures()
 	QList<FaceFeatureNode*> lsFeats = m_pFaceWidget->getSelectedFeatures();
 	foreach(FaceFeatureNode *pNode, lsFeats)
 	{
+		m_pFaceDatasetModel->removeFeature(pNode->getID());
 		m_pFaceWidget->removeFaceFeature(pNode);
 		bUpdated = true;
 	}
 	if(bUpdated)
+	{
+		updateFeaturesInDataset();
 		onDataChanged();
+	}
 }
 
 // +-----------------------------------------------------------

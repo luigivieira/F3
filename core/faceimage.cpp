@@ -157,9 +157,9 @@ Mat f3::FaceImage::mat() const
 }
 
 // +-----------------------------------------------------------
-f3::FaceFeature* f3::FaceImage::addFeature(float x, float y)
+f3::FaceFeature* f3::FaceImage::addFeature(int iID, float x, float y)
 {
-	FaceFeature *pFeat = new FaceFeature(x, y);
+	FaceFeature *pFeat = new FaceFeature(iID, x, y);
 	m_vFeatures.push_back(pFeat);
 	return pFeat;
 }

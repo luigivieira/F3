@@ -122,10 +122,11 @@ namespace f3
 		/**
 		 * Adds a new feature to the face dataset. A new feature is added to all
 		 * face images in the dataset in the same coordinates.
+		 * @param iID Integer with the identifier of the face feature.
 		 * @param x Float with the x coordinate for the face features.
 		 * @param y Float with the y coordinate for the face features.
 		 */
-		void addFeature(float x = 0.0f, float y = 0.0f);
+		void addFeature(int iID, float x = 0.0f, float y = 0.0f);
 
 		/**
 		 * Removes the feature of given index in all face images.

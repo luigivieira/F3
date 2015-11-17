@@ -217,11 +217,11 @@ void f3::FaceDataset::setNumFeatures(int iNumFeats)
 }
 
 // +-----------------------------------------------------------
-void f3::FaceDataset::addFeature(float x, float y)
+void f3::FaceDataset::addFeature(int iID, float x, float y)
 {
 	FaceFeature *pFeat;
 	foreach(FaceImage *pSample, m_vSamples)
-		pFeat = pSample->addFeature(x, y);
+		pFeat = pSample->addFeature(iID, x, y);
 	m_iNumFeatures++;
 }
 

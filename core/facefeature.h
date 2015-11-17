@@ -42,10 +42,23 @@ namespace f3
 
 		/**
 		 * Class constructor.
+		 * @param iID Integer with the feature identifier.
 		 * @param x Float with the x coordinate of the face feature.
 		 * @param y Float with the y coordinate of the face feature.
 		 */
-		FaceFeature(float x, float y);
+		FaceFeature(int iID, float x, float y);
+
+		/**
+		 * Getter of the feature ID.
+		 * @return Integer with the ID of the feature.
+		 */
+		int getID() const;
+
+		/**
+		 * Setter of the feature ID.
+		 * @param iID Integer with the new ID for the feature.
+		 */
+		void setID(int iID);
 
 		/**
 		 * Loads (unserializes) the face feature data from the given xml element.
@@ -62,6 +75,9 @@ namespace f3
         void saveToXML(QDomElement &oParent) const;
 
 	private:
+
+		/** Identifier of the face feature. */
+		int m_iID;
 
     };
 }

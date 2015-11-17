@@ -207,9 +207,9 @@ bool f3::FaceDatasetModel::removeImages(const QList<int> &lImageIndexes)
 }
 
 // +-----------------------------------------------------------
-void f3::FaceDatasetModel::addFeature(float x, float y)
+void f3::FaceDatasetModel::addFeature(int iID, float x, float y)
 {
-	m_pFaceDataset->addFeature(x, y);
+	m_pFaceDataset->addFeature(iID, x, y);
 }
 
 // +-----------------------------------------------------------

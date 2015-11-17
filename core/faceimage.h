@@ -75,11 +75,12 @@ namespace f3
 
 		/**
 		 * Adds a new face feature to the face image.
+		 * @param iID Integer with the ID of the face feature.
 		 * @param x Float with the x coordinate of the face feature.
 		 * @param y Float with the y coordinate of the face feature.
 		 * @return Instance of a FaceFeature with the new feature created.
 		 */
-		FaceFeature *addFeature(float x = 0.0f, float y = 0.0f);
+		FaceFeature *addFeature(int iID, float x = 0.0f, float y = 0.0f);
 
 		/**
 		 * Gets the face feature at the given index.

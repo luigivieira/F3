@@ -25,12 +25,26 @@
 f3::FaceFeature::FaceFeature():
 	cv::Point2f()
 {
+	setID(-1);
 }
 
 // +-----------------------------------------------------------
-f3::FaceFeature::FaceFeature(float x, float y):
+f3::FaceFeature::FaceFeature(int iID, float x, float y):
 	cv::Point2f(x, y)
 {
+	setID(iID);
+}
+
+// +-----------------------------------------------------------
+int f3::FaceFeature::getID() const
+{
+	return m_iID;
+}
+
+// +-----------------------------------------------------------
+void f3::FaceFeature::setID(int iID)
+{
+	m_iID = iID;
 }
 
 // +-----------------------------------------------------------
@@ -40,6 +54,13 @@ bool f3::FaceFeature::loadFromXML(const QDomElement &oElement, QString &sMsgErro
 	if(oElement.tagName() != "Feature")
 	{
 		sMsgError = QString(QApplication::translate("FaceFeature", "nome de nó inválido [%1] - era esperado o nome de nó '%2'").arg(oElement.tagName(), "Feature"));
+		return false;
+	}
+
+	QString sID = oElement.attribute("id");
+	if(sID == "")
+	{
+		sMsgError = QString(QApplication::translate("FaceFeature", "o atributo '%1' não existe ou tem valor inválido").arg("id"));
 		return false;
 	}
 
@@ -57,6 +78,7 @@ bool f3::FaceFeature::loadFromXML(const QDomElement &oElement, QString &sMsgErro
 		return false;
 	}
 
+	m_iID = sID.toInt();
 	x = sValueX.toFloat();
 	y = sValueY.toFloat();
 	
@@ -69,6 +91,7 @@ void f3::FaceFeature::saveToXML(QDomElement &oParent) const
 	QDomElement oFeature = oParent.ownerDocument().createElement("Feature");
 	oParent.appendChild(oFeature);
 
+	oFeature.setAttribute("id", m_iID);
 	oFeature.setAttribute("x", x);
 	oFeature.setAttribute("y", y);
 }

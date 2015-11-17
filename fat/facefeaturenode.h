@@ -74,6 +74,11 @@ namespace f3
 		QRectF boundingRect() const Q_DECL_OVERRIDE;
 
 		/**
+		 * Gets the identifier of the feature node.
+		 */
+		int getID() const;
+
+		/**
 		 * Updates the identifier of the feature node.
 		 * @param iID Integer with the new identifier for the feature node.
 		 */
