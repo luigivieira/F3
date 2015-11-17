@@ -620,12 +620,13 @@ void f3::MainWindow::updateUI(const bool bCompleteUpdate)
 	//ui->radioUndefined->setChecked(true);
 	//ui->radioUndefined->blockSignals(false);
 
-	return;
-
 	// Display of face features
-	/*pChild->setDisplayFaceFeatures(ui->actionShowFeatures->isChecked());
-	pChild->setDisplayConnections(ui->actionShowFeatures->isChecked() && ui->actionShowConnections->isChecked());
-	pChild->setDisplayFeatureIDs(ui->actionShowFeatures->isChecked() && ui->actionShowFeatureIDs->isChecked());*/
+	if(bFileOpened)
+	{
+		pChild->setDisplayFaceFeatures(ui->actionShowFeatures->isChecked());
+		pChild->setDisplayConnections(ui->actionShowFeatures->isChecked() && ui->actionShowConnections->isChecked());
+		pChild->setDisplayFeatureIDs(ui->actionShowFeatures->isChecked() && ui->actionShowFeatureIDs->isChecked());
+	}
 
 }
 

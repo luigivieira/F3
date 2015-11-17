@@ -217,7 +217,11 @@ void f3::ChildWindow::refreshFeaturesInWidget()
 	vector<FaceFeature*> vFeats = m_pFaceDatasetModel->getFeatures(m_iCurrentImage);
 	QList<FaceFeatureNode*> lsNodes = m_pFaceWidget->getFaceFeatures(m_pFaceDatasetModel->numFeatures());
 	for(int i = 0; i < (int) vFeats.size(); i++)
+	{
+		lsNodes[i]->setData(0, true); // Indication to avoid emitting position change event
 		lsNodes[i]->setPos(vFeats[i]->x, vFeats[i]->y);
+		lsNodes[i]->setData(0, false);
+	}
 }
 
 // +-----------------------------------------------------------

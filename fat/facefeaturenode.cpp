@@ -142,7 +142,8 @@ QVariant f3::FaceFeatureNode::itemChange(GraphicsItemChange eChange, const QVari
 			sText = QApplication::translate("FaceFeatureNode", "Nó: %1 Posição: (%2, %3)").arg(m_iID).arg(QString::number(pos().x(), 'f', 2)).arg(QString::number(pos().y(), 'f', 2));
 			F3Application::instance()->showStatusMessage(sText, 0);
 
-			m_pFaceWidget->faceFeatureMoved(this);
+			if(!data(0).toBool()) // This flag is used in ChildWindow::refreshFeaturesInWidget
+				m_pFaceWidget->faceFeatureMoved(this);
 			break;
 	
 		default:
