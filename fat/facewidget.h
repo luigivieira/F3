@@ -236,6 +236,12 @@ namespace f3
 	#endif
 
 		/**
+		 * Captures the press of the mouse button to notify changes in the face feature editor.
+		 * @param pEvent Instance of the QMouseEvent with the event data.
+		 */
+		void mousePressEvent(QMouseEvent* pEvent);
+
+		/**
 		 * Captures the release of the mouse button to notify changes in the face feature editor.
 		 * @param pEvent Instance of the QMouseEvent with the event data.
 		 */

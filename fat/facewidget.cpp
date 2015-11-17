@@ -145,6 +145,45 @@ void f3::FaceWidget::wheelEvent(QWheelEvent *pEvent)
 #endif
 
 // +-----------------------------------------------------------
+void f3::FaceWidget::mousePressEvent(QMouseEvent* pEvent)
+{
+	QPointF oPos = pEvent->pos();
+	oPos = mapToScene(pEvent->pos());
+	QTransform oTrf;
+	QGraphicsItem* pItem = scene()->itemAt(oPos, oTrf);
+	if (pItem && pItem->isEnabled() && (pItem->flags() & QGraphicsItem::ItemIsSelectable) &&
+		(pEvent->modifiers() & Qt::ShiftModifier))
+	{
+		int iFirst, iLast;
+		QList<FaceFeatureNode*> lsSelected = getSelectedFeatures();
+		if(!lsSelected.size())
+			iFirst = 0;
+		else
+		{
+			iFirst = lsSelected.first()->getID();
+			foreach(FaceFeatureNode *pNode, lsSelected)
+				if(pNode->getID() < iFirst)
+					iFirst = pNode->getID();
+		}
+
+		iLast = ((FaceFeatureNode*) pItem)->getID();
+
+		if(iFirst != iLast)
+		{
+			QList<FaceFeatureNode*> lsFeats = getFaceFeatures();
+			foreach(FaceFeatureNode* pFeat, lsFeats)
+				pFeat->setSelected(false);
+
+			for(int i = qMin(iFirst, iLast); i <= qMax(iFirst, iLast); i++)
+				lsFeats[i]->setSelected(true);
+		}
+		pEvent->accept();
+	}
+	else
+		QGraphicsView::mousePressEvent((QMouseEvent*) pEvent);
+}
+
+// +-----------------------------------------------------------
 void f3::FaceWidget::mouseReleaseEvent(QMouseEvent *pEvent)
 {
 	if(m_bFeaturesMoved)
